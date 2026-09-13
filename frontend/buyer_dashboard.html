@@ -1,0 +1,3072 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buyer Dashboard — Agri Link</title>
+    <meta name="description" content="Agri Link Agricultural Produce Buyer Dashboard — source fresh crops direct from verified farmers, track orders, manage payments and chats.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css" rel="stylesheet">
+    <!-- Dashboard Role Badge CSS -->
+    <link rel="stylesheet" href="css/role-badge.css">
+    <style>
+        :root {
+            --primary-green: #2E7D32;
+            --primary-dark: #1B5E20;
+            --dark-green: #0A2A12;
+            --light-green-accent: #E8F5E9;
+            --accent-mint: #A5D6A7;
+            --accent-yellow: #FFB300;
+            --accent-orange: #F57C00;
+            --light-bg: #F8F9FA;
+            --card-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+            --card-shadow-hover: 0 8px 24px rgba(46, 125, 50, 0.14);
+        }
+        body {
+            background-color: var(--light-bg);
+            font-family: 'Inter', sans-serif;
+            color: #2D3748;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        /* SIDEBAR */
+        .sidebar {
+            width: 270px;
+            background-color: var(--dark-green);
+            height: 100vh;
+            overflow-y: auto;
+            color: white;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding: 24px 16px;
+            z-index: 100;
+            box-shadow: 4px 0 16px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+        }
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            padding-left: 8px;
+        }
+        .sidebar-brand img {
+            height: 44px;
+            background: white;
+            padding: 4px;
+            border-radius: 10px;
+        }
+        .sidebar-role-badge {
+            display: inline-block;
+            background: #FFB300;
+            color: #1A202C;
+            font-weight: 700;
+            font-size: 0.73rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            padding: 3px 10px;
+            border-radius: 12px;
+            margin-top: 4px;
+            box-shadow: 0 2px 6px rgba(255, 179, 0, 0.35);
+        }
+        .nav-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            flex-grow: 1;
+        }
+        .nav-item-db { margin-bottom: 3px; }
+        .nav-link-db {
+            color: #C8E6C9;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 16px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.93rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .nav-link-db i {
+            font-size: 1.15rem;
+            width: 22px;
+            text-align: center;
+        }
+        .nav-link-db:hover {
+            background-color: rgba(46, 125, 50, 0.28);
+            color: white;
+            transform: translateX(3px);
+        }
+        .nav-link-db.active {
+            background-color: var(--primary-green);
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(46, 125, 50, 0.35);
+        }
+        .sidebar-badge {
+            font-size: 0.72rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-left: auto;
+        }
+
+        /* MAIN CONTENT AREA */
+        .main-content {
+            margin-left: 270px;
+            padding: 28px 36px;
+            min-height: 100vh;
+        }
+        @media (max-width: 991px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            .sidebar.mobile-open {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 16px;
+            }
+        }
+
+        /* TOP BAR & WEATHER */
+        .topbar-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .weather-card {
+            background: white;
+            border-radius: 16px;
+            padding: 12px 20px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(0,0,0,0.04);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        /* KPI STAT CARDS */
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 22px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(0,0,0,0.03);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            height: 100%;
+        }
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--card-shadow-hover);
+        }
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        /* CROP CARDS */
+        .crop-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid #EAEAEA;
+            box-shadow: var(--card-shadow);
+            transition: all 0.25s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            position: relative;
+        }
+        .crop-card:hover {
+            border-color: var(--primary-green);
+            transform: translateY(-4px);
+            box-shadow: var(--card-shadow-hover);
+        }
+        .crop-img-wrapper {
+            position: relative;
+            height: 175px;
+            overflow: hidden;
+            background: #E8F5E9;
+        }
+        .crop-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.35s ease;
+        }
+        .crop-card:hover .crop-img-wrapper img {
+            transform: scale(1.05);
+        }
+        .crop-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(10, 42, 18, 0.85);
+            backdrop-filter: blur(4px);
+            color: white;
+            font-size: 0.72rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+        .wishlist-btn-card {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: white;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #718096;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            transition: all 0.2s ease;
+            cursor: pointer;
+            z-index: 2;
+        }
+        .wishlist-btn-card:hover {
+            color: #E53E3E;
+            transform: scale(1.1);
+        }
+        .wishlist-btn-card.active {
+            color: #E53E3E;
+            background: #FFF5F5;
+        }
+        .crop-price-tag {
+            background: #E8F5E9;
+            color: var(--primary-green);
+            font-weight: 700;
+            font-size: 1.18rem;
+            padding: 4px 10px;
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        /* TIMELINE STEPPER FOR ORDER TRACKING */
+        .order-stepper {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin: 28px 0;
+        }
+        .order-stepper::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 30px;
+            right: 30px;
+            height: 4px;
+            background: #E2E8F0;
+            z-index: 1;
+        }
+        .order-stepper-progress {
+            position: absolute;
+            top: 20px;
+            left: 30px;
+            height: 4px;
+            background: var(--primary-green);
+            z-index: 2;
+            transition: width 0.4s ease;
+        }
+        .step-node {
+            position: relative;
+            z-index: 3;
+            text-align: center;
+            width: 120px;
+        }
+        .step-circle {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: white;
+            border: 3px solid #CBD5E0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-weight: 700;
+            font-size: 1rem;
+            color: #718096;
+            transition: all 0.25s ease;
+        }
+        .step-node.completed .step-circle {
+            background: var(--primary-green);
+            border-color: var(--primary-green);
+            color: white;
+        }
+        .step-node.active .step-circle {
+            border-color: var(--primary-green);
+            color: var(--primary-green);
+            box-shadow: 0 0 0 4px rgba(46, 125, 50, 0.2);
+        }
+        .step-title {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #4A5568;
+            margin-bottom: 2px;
+        }
+        .step-time {
+            font-size: 0.72rem;
+            color: #A0AEC0;
+        }
+
+        /* CHAT UI */
+        .chat-container {
+            display: flex;
+            height: calc(100vh - 200px);
+            min-height: 520px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid #E2E8F0;
+            overflow: hidden;
+        }
+        .chat-sidebar {
+            width: 320px;
+            min-width: 320px;
+            background: #FAFAFA;
+            border-right: 1px solid #E2E8F0;
+            display: flex;
+            flex-direction: column;
+        }
+        .chat-contact-list {
+            overflow-y: auto;
+            flex: 1;
+        }
+        .chat-contact-item {
+            padding: 14px 18px;
+            cursor: pointer;
+            border-bottom: 1px solid #EDF2F7;
+            transition: all 0.15s ease;
+        }
+        .chat-contact-item:hover, .chat-contact-item.active {
+            background: #E8F5E9;
+            border-left: 4px solid var(--primary-green);
+        }
+        .chat-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: white;
+        }
+        .chat-messages-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+            background: #F8FAF9;
+        }
+
+        /* DASHBOARD PANELS */
+        .dashboard-panel { display: none; }
+        .dashboard-panel.active { display: block; animation: fadeIn 0.2s ease-in-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* TABLE STYLES */
+        .table-custom th {
+            font-weight: 600;
+            color: #4A5568;
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-top: none;
+            background: #F7FAFC;
+        }
+        .table-custom td {
+            vertical-align: middle;
+            font-size: 0.9rem;
+        }
+        
+        /* STAR RATING */
+        .star-rating i {
+            color: #FFB300;
+            font-size: 1.1rem;
+        }
+        .interactive-star {
+            font-size: 1.8rem;
+            color: #E2E8F0;
+            cursor: pointer;
+            transition: color 0.15s ease;
+        }
+        .interactive-star.active, .interactive-star:hover {
+            color: #FFB300;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ==========================================
+         SIDEBAR NAVIGATION (13 ITEMS)
+         ========================================== -->
+    <div class="sidebar" id="buyerSidebar">
+        <div class="sidebar-brand">
+            <img src="images/logo.png" alt="Agri Link Logo">
+            <div>
+                <span class="fw-bold fs-5 d-block text-white lh-1">Agri Link</span>
+                <dashboard-role-badge role="buyer">
+                    <span class="sidebar-role-badge sidebar-role-badge--buyer" role="status" aria-label="BUYER DASHBOARD">
+                        <span class="role-badge-icon" aria-hidden="true">🛒</span>
+                        <span class="role-badge-text">BUYER DASHBOARD</span>
+                    </span>
+                </dashboard-role-badge>
+            </div>
+        </div>
+
+        <ul class="nav-menu">
+            <li class="nav-item-db">
+                <a class="nav-link-db active" data-target="overview">
+                    <i class="bi bi-grid-fill"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item-db">
+                <a class="nav-link-db" data-target="marketplace">
+                    <i class="bi bi-shop"></i>
+                    <span>Browse Marketplace</span>
+                </a>
+            </li>
+            <li class="nav-item-db">
+                <a class="nav-link-db" data-target="orders">
+                    <i class="bi bi-bag-check-fill"></i>
+                    <span>My Orders</span>
+                    <span class="badge bg-success sidebar-badge" id="badge-orders-count">0</span>
+                </a>
+            </li>
+            <li class="nav-item-db">
+                <a class="nav-link-db" data-target="wishlist">
+                    <i class="bi bi-heart-fill text-danger"></i>
+                    <span>Wishlist</span>
+                    <span class="badge bg-warning text-dark sidebar-badge" id="badge-wishlist-count">0</span>
+                </a>
+            </li>
+            <li class="nav-item-db">
+                <a class="nav-link-db" data-target="tracking">
+                    <i class="bi bi-geo-alt-fill"></i>
+                    <span>Order Tracking</span>
+                </a>
+            </li>
+            <li class="nav-item-db">
+                <a class="nav-link-db" data-target="payments">
+                    <i class="bi bi-credit-card-fill"></i>
+                    <span>Payments</span>
+                </a>
+            </li>
+            <li class="nav-item-db">
+                <a class="nav-link-db" data-target="reviews">
+                    <i class="bi bi-star-fill text-warning"></i>
+                    <span>Reviews</span>
+                </a>
+            </li>
+            <li class="nav-item-db">
+                <a class="nav-link-db" data-target="chat">
+                    <i class="bi bi-chat-dots-fill"></i>
+                    <span>Chat with Farmers</span>
+                </a>
+            </li>
+            <li class="nav-item-db">
+                <a class="nav-link-db" data-target="notifications">
+                    <i class="bi bi-bell-fill"></i>
+                    <span>Notifications</span>
+                    <span class="badge bg-danger sidebar-badge" id="badge-notif-count">0</span>
+                </a>
+            </li>
+            <li class="nav-item-db">
+                <a class="nav-link-db" data-target="profile">
+                    <i class="bi bi-person-bounding-box"></i>
+                    <span>Profile</span>
+                </a>
+            </li>
+            <li class="nav-item-db">
+                <a class="nav-link-db" data-target="settings">
+                    <i class="bi bi-gear-fill"></i>
+                    <span>Settings</span>
+                </a>
+            </li>
+            <li class="nav-item-db">
+                <a class="nav-link-db" data-target="help">
+                    <i class="bi bi-question-circle-fill"></i>
+                    <span>Help & Support</span>
+                </a>
+            </li>
+            <li class="nav-item-db mt-3 pt-2 border-top border-secondary">
+                <a href="javascript:void(0)" id="buyer-logout-btn" class="nav-link-db text-danger">
+                    <i class="bi bi-box-arrow-left"></i>
+                    <span>Logout</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- ==========================================
+         MAIN DASHBOARD WORKSPACE
+         ========================================== -->
+    <div class="main-content">
+        <!-- TOP ROW BAR -->
+        <div class="topbar-container">
+            <div>
+                <button class="btn btn-outline-success d-lg-none me-2 rounded-circle" id="sidebarToggleBtn">
+                    <i class="bi bi-list"></i>
+                </button>
+                <h2 class="fw-bold mb-1 text-dark" id="buyer-welcome-heading">Welcome back, Buyer 👋</h2>
+                <p class="text-muted mb-0 small" id="panel-welcome-subtitle">Here is your verified farm food sourcing summary.</p>
+            </div>
+
+            <div class="d-flex align-items-center gap-3">
+                <button class="btn btn-success rounded-pill px-3 py-2 fw-semibold d-none d-md-flex align-items-center gap-2 select-tab-trigger" data-target="marketplace">
+                    <i class="bi bi-shop"></i> Source Crops Now
+                </button>
+
+                <div class="weather-card">
+                    <div class="fs-2 text-warning" id="weather-icon"><i class="bi bi-sun-fill"></i></div>
+                    <div>
+                        <h5 class="fw-bold mb-0" id="weather-temp">29°C</h5>
+                        <small class="text-muted" id="weather-desc">Sunny, Chennai</small>
+                    </div>
+                    <div class="border-start ps-3 ms-2 text-end d-none d-sm-block">
+                        <p class="fw-bold mb-0 small" id="live-date">12 May 2026</p>
+                        <small class="text-muted" id="live-time">10:45 AM</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================
+             PANEL 1: DASHBOARD (OVERVIEW)
+             ========================================== -->
+        <div id="panel-overview" class="dashboard-panel active">
+            <!-- 4 KEY KPI CARDS -->
+            <div class="row g-4 mb-4">
+                <div class="col-sm-6 col-xl-3">
+                    <div class="stat-card">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="text-muted small fw-semibold">Active Orders</span>
+                            <div class="stat-icon bg-success-subtle text-success">
+                                <i class="bi bi-bag-check-fill"></i>
+                            </div>
+                        </div>
+                        <h2 class="fw-bold mb-1" id="stat-active-orders">0</h2>
+                        <span class="badge bg-success-subtle text-success">Live Logistics</span>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-xl-3">
+                    <div class="stat-card">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="text-muted small fw-semibold">Total Sourced</span>
+                            <div class="stat-icon bg-primary-subtle text-primary">
+                                <i class="bi bi-truck"></i>
+                            </div>
+                        </div>
+                        <h2 class="fw-bold mb-1" id="stat-total-sourced">0 kg</h2>
+                        <span class="badge bg-primary-subtle text-primary">Delivered Volume</span>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-xl-3">
+                    <div class="stat-card">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="text-muted small fw-semibold">Total Payments</span>
+                            <div class="stat-icon bg-warning-subtle text-warning-emphasis">
+                                <i class="bi bi-currency-rupee"></i>
+                            </div>
+                        </div>
+                        <h2 class="fw-bold mb-1" id="stat-total-payments">₹ 0</h2>
+                        <span class="badge bg-warning-subtle text-warning-emphasis">Escrow Protected</span>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-xl-3">
+                    <div class="stat-card">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="text-muted small fw-semibold">Live Marketplace Crops</span>
+                            <div class="stat-icon bg-info-subtle text-info">
+                                <i class="bi bi-shop-window"></i>
+                            </div>
+                        </div>
+                        <h2 class="fw-bold mb-1" id="stat-available-crops">0</h2>
+                        <span class="badge bg-info-subtle text-info">Direct From Farms</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QUICK ACTION SHORTCUTS -->
+            <div class="row g-3 mb-4">
+                <div class="col-md-3 col-6">
+                    <button class="btn btn-outline-success w-100 py-3 rounded-4 fw-semibold text-start d-flex align-items-center gap-3 bg-white shadow-sm select-tab-trigger" data-target="marketplace">
+                        <i class="bi bi-search fs-3 text-success"></i>
+                        <div>
+                            <div class="text-dark fw-bold">Browse Catalog</div>
+                            <small class="text-muted">Explore regional crops</small>
+                        </div>
+                    </button>
+                </div>
+                <div class="col-md-3 col-6">
+                    <button class="btn btn-outline-success w-100 py-3 rounded-4 fw-semibold text-start d-flex align-items-center gap-3 bg-white shadow-sm select-tab-trigger" data-target="tracking">
+                        <i class="bi bi-geo-alt-fill fs-3 text-primary"></i>
+                        <div>
+                            <div class="text-dark fw-bold">Track Shipment</div>
+                            <small class="text-muted">Live dispatch tracker</small>
+                        </div>
+                    </button>
+                </div>
+                <div class="col-md-3 col-6">
+                    <button class="btn btn-outline-success w-100 py-3 rounded-4 fw-semibold text-start d-flex align-items-center gap-3 bg-white shadow-sm select-tab-trigger" data-target="wishlist">
+                        <i class="bi bi-heart-fill fs-3 text-danger"></i>
+                        <div>
+                            <div class="text-dark fw-bold">Saved Wishlist</div>
+                            <small class="text-muted">Quick order favorites</small>
+                        </div>
+                    </button>
+                </div>
+                <div class="col-md-3 col-6">
+                    <button class="btn btn-outline-success w-100 py-3 rounded-4 fw-semibold text-start d-flex align-items-center gap-3 bg-white shadow-sm select-tab-trigger" data-target="chat">
+                        <i class="bi bi-chat-dots-fill fs-3 text-warning"></i>
+                        <div>
+                            <div class="text-dark fw-bold">Farmer Chat</div>
+                            <small class="text-muted">Negotiate & inquire</small>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- TWO COLUMN SECTION: RECENT ORDERS & MARKETPLACE HIGHLIGHTS -->
+            <div class="row g-4">
+                <!-- Recent Orders -->
+                <div class="col-lg-7">
+                    <div class="bg-white rounded-4 shadow-sm p-4 border border-light h-100">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="fw-bold text-dark mb-0">
+                                <i class="bi bi-clock-history text-success me-2"></i>Recent Sourcing Orders
+                            </h5>
+                            <a href="javascript:void(0)" class="text-success small fw-semibold text-decoration-none select-tab-trigger" data-target="orders">View All Orders &rarr;</a>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-custom table-hover align-middle mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Order ID</th>
+                                        <th>Crop</th>
+                                        <th>Farmer</th>
+                                        <th>Quantity</th>
+                                        <th>Amount</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="dashboard-recent-orders-body">
+                                    <tr>
+                                        <td colspan="7" class="text-center py-4 text-muted">
+                                            <span class="spinner-border spinner-border-sm text-success me-2"></span>Loading orders...
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Marketplace Highlights -->
+                <div class="col-lg-5">
+                    <div class="bg-white rounded-4 shadow-sm p-4 border border-light h-100">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="fw-bold text-dark mb-0">
+                                <i class="bi bi-stars text-warning me-2"></i>Fresh Farm Arrivals
+                            </h5>
+                            <a href="javascript:void(0)" class="text-success small fw-semibold text-decoration-none select-tab-trigger" data-target="marketplace">Marketplace &rarr;</a>
+                        </div>
+                        <div class="d-flex flex-column gap-3" id="dashboard-crop-highlights">
+                            <div class="text-center py-4 text-muted">
+                                <span class="spinner-border spinner-border-sm text-success me-2"></span>Loading fresh crops...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================
+             PANEL 2: BROWSE MARKETPLACE
+             ========================================== -->
+        <div id="panel-marketplace" class="dashboard-panel">
+            <!-- Search & Filters Header -->
+            <div class="bg-white rounded-4 shadow-sm p-4 mb-4 border border-light">
+                <div class="row g-3 align-items-center">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0 rounded-start-pill text-muted">
+                                <i class="bi bi-search"></i>
+                            </span>
+                            <input type="text" id="marketplace-search-input" class="form-control bg-light border-start-0 rounded-end-pill" placeholder="Search crops (e.g. Paddy, Banana, Onion)...">
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <select id="marketplace-location-filter" class="form-select rounded-pill bg-light">
+                            <option value="">All Farm Locations</option>
+                            <option value="Coimbatore">Coimbatore, TN</option>
+                            <option value="Tiruppur">Tiruppur, TN</option>
+                            <option value="Salem">Salem, TN</option>
+                            <option value="Erode">Erode, TN</option>
+                            <option value="Namakkal">Namakkal, TN</option>
+                            <option value="Pollachi">Pollachi, TN</option>
+                            <option value="Dindigul">Dindigul, TN</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <select id="marketplace-price-filter" class="form-select rounded-pill bg-light">
+                            <option value="">All Price Ranges</option>
+                            <option value="0-30">Under ₹30 / unit</option>
+                            <option value="30-50">₹30 to ₹50 / unit</option>
+                            <option value="50-200">Above ₹50 / unit</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-2 col-md-6">
+                        <button class="btn btn-success w-100 rounded-pill fw-semibold" id="marketplace-filter-btn">
+                            <i class="bi bi-funnel-fill me-1"></i> Apply Filter
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Crops Catalog Grid -->
+            <div class="row g-4" id="marketplace-crops-grid">
+                <div class="col-12 text-center py-5">
+                    <span class="spinner-border text-success" role="status"></span>
+                    <p class="text-muted mt-2">Fetching fresh harvest listings from registered farmers...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================
+             PANEL 3: MY ORDERS
+             ========================================== -->
+        <div id="panel-orders" class="dashboard-panel">
+            <div class="bg-white rounded-4 shadow-sm p-4 border border-light mb-4">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+                    <div>
+                        <h4 class="fw-bold mb-1">My Sourcing Orders</h4>
+                        <p class="text-muted small mb-0">Track status, download invoices and manage farm deliveries.</p>
+                    </div>
+                    <!-- Order Filter Tabs -->
+                    <div class="btn-group" role="group" id="orders-filter-group">
+                        <button type="button" class="btn btn-sm btn-outline-success active" data-status="all">All</button>
+                        <button type="button" class="btn btn-sm btn-outline-success" data-status="PENDING">Pending</button>
+                        <button type="button" class="btn btn-sm btn-outline-success" data-status="CONFIRMED">Confirmed</button>
+                        <button type="button" class="btn btn-sm btn-outline-success" data-status="SHIPPED">In Transit</button>
+                        <button type="button" class="btn btn-sm btn-outline-success" data-status="DELIVERED">Delivered</button>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-custom table-hover align-middle mb-0">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Crop & Variety</th>
+                                <th>Farmer Contact</th>
+                                <th>Quantity</th>
+                                <th>Total Price</th>
+                                <th>Status</th>
+                                <th>Date Placed</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orders-table-body">
+                            <tr>
+                                <td colspan="8" class="text-center py-5 text-muted">
+                                    <span class="spinner-border text-success spinner-border-sm me-2"></span>Loading your orders...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================
+             PANEL 4: WISHLIST
+             ========================================== -->
+        <div id="panel-wishlist" class="dashboard-panel">
+            <div class="bg-white rounded-4 shadow-sm p-4 border border-light mb-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h4 class="fw-bold mb-1"><i class="bi bi-heart-fill text-danger me-2"></i>My Saved Wishlist</h4>
+                        <p class="text-muted small mb-0">Quickly place bulk orders for your bookmarked crops.</p>
+                    </div>
+                    <button class="btn btn-sm btn-outline-success rounded-pill px-3 select-tab-trigger" data-target="marketplace">
+                        <i class="bi bi-plus-circle me-1"></i> Browse More Crops
+                    </button>
+                </div>
+
+                <div class="row g-4" id="wishlist-crops-grid">
+                    <div class="col-12 text-center py-5 text-muted">
+                        <span class="spinner-border text-success spinner-border-sm me-2"></span>Loading saved wishlist...
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================
+             PANEL 5: ORDER TRACKING
+             ========================================== -->
+        <div id="panel-tracking" class="dashboard-panel">
+            <div class="bg-white rounded-4 shadow-sm p-4 border border-light mb-4">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4 pb-3 border-bottom">
+                    <div>
+                        <h4 class="fw-bold mb-1"><i class="bi bi-geo-alt-fill text-primary me-2"></i>Live Shipment Tracking</h4>
+                        <p class="text-muted small mb-0">Real-time status updates from farm dispatch to warehouse delivery.</p>
+                    </div>
+                    <div>
+                        <select id="tracking-order-select" class="form-select rounded-pill">
+                            <option value="">Select an active order to track...</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="tracking-details-wrapper">
+                    <!-- Stepper Bar -->
+                    <div class="order-stepper" id="tracking-stepper">
+                        <div class="order-stepper-progress" style="width: 50%;"></div>
+                        <div class="step-node completed">
+                            <div class="step-circle"><i class="bi bi-check-lg"></i></div>
+                            <div class="step-title">Order Placed</div>
+                            <div class="step-time">Confirmed</div>
+                        </div>
+                        <div class="step-node completed">
+                            <div class="step-circle"><i class="bi bi-check-lg"></i></div>
+                            <div class="step-title">Farmer Verified</div>
+                            <div class="step-time">Harvest Ready</div>
+                        </div>
+                        <div class="step-node active">
+                            <div class="step-circle"><i class="bi bi-truck"></i></div>
+                            <div class="step-title">In Transit</div>
+                            <div class="step-time">On Route</div>
+                        </div>
+                        <div class="step-node">
+                            <div class="step-circle"><i class="bi bi-geo"></i></div>
+                            <div class="step-title">Out for Delivery</div>
+                            <div class="step-time">Local Hub</div>
+                        </div>
+                        <div class="step-node">
+                            <div class="step-circle"><i class="bi bi-house-check"></i></div>
+                            <div class="step-title">Delivered</div>
+                            <div class="step-time">Pending</div>
+                        </div>
+                    </div>
+
+                    <!-- Tracking Card Meta -->
+                    <div class="row g-4 mt-2">
+                        <div class="col-md-6">
+                            <div class="p-3 bg-light rounded-4 border">
+                                <h6 class="fw-bold text-dark mb-3"><i class="bi bi-box-seam text-success me-2"></i>Consignment Details</h6>
+                                <div class="d-flex justify-content-between mb-2 small">
+                                    <span class="text-muted">Crop:</span>
+                                    <strong id="tracking-crop-name">—</strong>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2 small">
+                                    <span class="text-muted">Volume / Units:</span>
+                                    <strong id="tracking-quantity">—</strong>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2 small">
+                                    <span class="text-muted">Consignment Amount:</span>
+                                    <strong id="tracking-amount" class="text-success">—</strong>
+                                </div>
+                                <div class="d-flex justify-content-between small">
+                                    <span class="text-muted">Estimated Arrival:</span>
+                                    <strong class="text-primary">Within 24-48 Hours</strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="p-3 bg-light rounded-4 border">
+                                <h6 class="fw-bold text-dark mb-3"><i class="bi bi-person-badge text-success me-2"></i>Farmer Dispatcher</h6>
+                                <div class="d-flex justify-content-between mb-2 small">
+                                    <span class="text-muted">Farmer:</span>
+                                    <strong id="tracking-farmer-name">—</strong>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2 small">
+                                    <span class="text-muted">Farm Origin:</span>
+                                    <strong id="tracking-farmer-loc">—</strong>
+                                </div>
+                                <div class="d-flex justify-content-between mb-3 small">
+                                    <span class="text-muted">Contact Support:</span>
+                                    <strong id="tracking-farmer-phone">+91 98421 99881</strong>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <a href="tel:9842199881" class="btn btn-sm btn-outline-success flex-grow-1 rounded-pill" id="tracking-call-farmer-btn">
+                                        <i class="bi bi-telephone-fill me-1"></i> Call Farmer
+                                    </a>
+                                    <button class="btn btn-sm btn-success flex-grow-1 rounded-pill select-tab-trigger" data-target="chat">
+                                        <i class="bi bi-chat-dots-fill me-1"></i> Open Chat
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================
+             PANEL 6: PAYMENTS (ESCROW LEDGER)
+             ========================================== -->
+        <div id="panel-payments" class="dashboard-panel">
+            <div class="row g-4 mb-4">
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <span class="text-muted small">Total Sourcing Expenditure</span>
+                        <h3 class="fw-bold text-dark mt-2 mb-1" id="payment-total-spend">₹ 0</h3>
+                        <span class="badge bg-success-subtle text-success">Verified Transactions</span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <span class="text-muted small">Active in Escrow</span>
+                        <h3 class="fw-bold text-warning-emphasis mt-2 mb-1" id="payment-in-escrow">₹ 0</h3>
+                        <span class="badge bg-warning-subtle text-warning-emphasis">Protected Pending Delivery</span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <span class="text-muted small">Discharged to Farmers</span>
+                        <h3 class="fw-bold text-primary mt-2 mb-1" id="payment-released">₹ 0</h3>
+                        <span class="badge bg-primary-subtle text-primary">Completed Orders</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-4 shadow-sm p-4 border border-light">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h5 class="fw-bold mb-0"><i class="bi bi-shield-check text-success me-2"></i>Agri Link Escrow Ledger</h5>
+                    <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill small">
+                        <i class="bi bi-lock-fill me-1"></i>100% Escrow Protection Active
+                    </span>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-custom table-hover align-middle mb-0">
+                        <thead>
+                            <tr>
+                                <th>Transaction Ref</th>
+                                <th>Order Ref</th>
+                                <th>Crop Detail</th>
+                                <th>Payee Farmer</th>
+                                <th>Amount</th>
+                                <th>Payment Method</th>
+                                <th>Escrow Status</th>
+                                <th>Receipt</th>
+                            </tr>
+                        </thead>
+                        <tbody id="payments-ledger-body">
+                            <tr>
+                                <td colspan="8" class="text-center py-4 text-muted">
+                                    <span class="spinner-border spinner-border-sm text-success me-2"></span>Loading ledger transactions...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================
+             PANEL 7: REVIEWS & FEEDBACK
+             ========================================== -->
+        <div id="panel-reviews" class="dashboard-panel">
+            <div class="bg-white rounded-4 shadow-sm p-4 border border-light mb-4">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4 pb-3 border-bottom">
+                    <div>
+                        <h4 class="fw-bold mb-1"><i class="bi bi-star-fill text-warning me-2"></i>Farmer Produce Feedback</h4>
+                        <p class="text-muted small mb-0">Rate the quality of crops delivered and leave feedback for verified producers.</p>
+                    </div>
+                    <button class="btn btn-success rounded-pill px-4 fw-semibold" data-bs-toggle="modal" data-bs-target="#writeReviewModal">
+                        <i class="bi bi-pencil-square me-1"></i> Write a Review
+                    </button>
+                </div>
+
+                <div class="row g-4" id="reviews-list-container">
+                    <div class="col-12 text-center py-5 text-muted">
+                        <span class="spinner-border text-success spinner-border-sm me-2"></span>Loading reviews...
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================
+             PANEL 8: CHAT WITH FARMERS
+             ========================================== -->
+        <div id="panel-chat" class="dashboard-panel">
+            <div class="chat-container">
+                <!-- Farmer Contact List Sidebar -->
+                <div class="chat-sidebar">
+                    <div class="p-3 border-bottom bg-white">
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-search"></i></span>
+                            <input type="text" id="chat-search-farmer" class="form-control bg-light border-start-0" placeholder="Search farmers...">
+                        </div>
+                    </div>
+                    <div class="chat-contact-list" id="chat-farmer-list">
+                        <div class="text-center py-4 text-muted small">
+                            <span class="spinner-border spinner-border-sm text-success me-2"></span>Loading farmer conversations...
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Chat Messages Area -->
+                <div class="chat-main">
+                    <!-- Chat Header -->
+                    <div class="p-3 border-bottom d-flex justify-content-between align-items-center bg-white" id="chat-header">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center fw-bold" style="width: 42px; height: 42px;" id="chat-recipient-avatar">
+                                👨‍🌾
+                            </div>
+                            <div>
+                                <h6 class="fw-bold mb-0" id="chat-recipient-name">Select a farmer</h6>
+                                <small class="text-muted" id="chat-recipient-meta">Click a contact on the left to start negotiating</small>
+                            </div>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-outline-success btn-sm rounded-pill" id="chat-call-btn">
+                                <i class="bi bi-telephone-fill me-1"></i> Call
+                            </button>
+                            <button class="btn btn-outline-primary btn-sm rounded-pill" id="chat-ai-assistant-btn">
+                                <i class="bi bi-robot me-1"></i> AI Assistant
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Messages Log -->
+                    <div class="chat-messages-area" id="chat-messages-body">
+                        <div class="text-center text-muted py-5">
+                            <i class="bi bi-chat-dots fs-1 text-muted opacity-50 d-block mb-2"></i>
+                            Select a farmer contact on the left to review chat history and discuss bulk crop pricing.
+                        </div>
+                    </div>
+
+                    <!-- Send Message Input -->
+                    <form id="chat-send-form" class="p-3 bg-white border-top">
+                        <div class="input-group">
+                            <input type="text" id="chat-message-input" class="form-control border rounded-start-pill p-3" placeholder="Type crop negotiation or inquiry..." required>
+                            <button type="submit" class="btn btn-success rounded-end-pill px-4 fw-semibold" id="chat-submit-btn">
+                                <i class="bi bi-send-fill me-1"></i> Send
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================
+             PANEL 9: NOTIFICATIONS
+             ========================================== -->
+        <div id="panel-notifications" class="dashboard-panel">
+            <div class="bg-white rounded-4 shadow-sm p-4 border border-light mb-4">
+                <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
+                    <div>
+                        <h4 class="fw-bold mb-1"><i class="bi bi-bell-fill text-success me-2"></i>Notification Inbox</h4>
+                        <p class="text-muted small mb-0">System updates, order statuses, and price alerts.</p>
+                    </div>
+                    <button class="btn btn-sm btn-outline-success rounded-pill px-3" id="mark-all-read-btn">
+                        <i class="bi bi-check2-all me-1"></i> Mark All as Read
+                    </button>
+                </div>
+
+                <div class="d-flex flex-column gap-3" id="notifications-list-wrapper">
+                    <div class="text-center py-5 text-muted">
+                        <span class="spinner-border text-success spinner-border-sm me-2"></span>Loading notifications...
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================
+             PANEL 10: BUYER PROFILE
+             ========================================== -->
+        <div id="panel-profile" class="dashboard-panel">
+            <div class="bg-white rounded-4 shadow-sm p-4 border border-light mb-4">
+                <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
+                    <div>
+                        <h4 class="fw-bold mb-1"><i class="bi bi-person-badge text-success me-2"></i>Buyer Profile & Verification</h4>
+                        <p class="text-muted small mb-0">Manage business details, delivery hubs and wholesale credentials.</p>
+                    </div>
+                    <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-semibold" id="profile-verified-tag">
+                        <i class="bi bi-patch-check-fill me-1"></i>Verified Sourcing Partner
+                    </span>
+                </div>
+
+                <div id="profile-alert" class="alert alert-success d-none py-2 px-3 small rounded-3 mb-3"></div>
+
+                <form id="buyer-profile-form">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold text-muted">Authorized Representative Name</label>
+                            <input type="text" id="prof-name" class="form-control rounded-3 p-2" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold text-muted">Registered Phone Number</label>
+                            <input type="text" id="prof-phone" class="form-control bg-light rounded-3 p-2" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold text-muted">Official Email Address</label>
+                            <input type="email" id="prof-email" class="form-control rounded-3 p-2">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold text-muted">Company / Enterprise Name</label>
+                            <input type="text" id="prof-company" class="form-control rounded-3 p-2" placeholder="e.g. Agro Supermarket Ltd.">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold text-muted">Business Trade Category</label>
+                            <select id="prof-business-type" class="form-select rounded-3 p-2">
+                                <option value="Wholesale Trader">Wholesale Produce Trader</option>
+                                <option value="Supermarket Retailer">Supermarket / Retail Chain</option>
+                                <option value="Food Processing Mill">Food Processing Mill</option>
+                                <option value="Agricultural Exporter">Agricultural Exporter</option>
+                                <option value="Institutional Buyer">Institutional / Hospitality Buyer</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold text-muted">Primary Receiving District</label>
+                            <input type="text" id="prof-district" class="form-control rounded-3 p-2" placeholder="e.g. Coimbatore">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold text-muted">Receiving State</label>
+                            <input type="text" id="prof-state" class="form-control rounded-3 p-2" placeholder="e.g. Tamil Nadu">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold text-muted">Default Delivery Hub Address</label>
+                            <input type="text" id="prof-address" class="form-control rounded-3 p-2" placeholder="e.g. 14 Market Road, Mandi Complex">
+                        </div>
+                    </div>
+
+                    <button type="submit" id="save-profile-btn" class="btn btn-success px-5 py-2 mt-4 rounded-pill fw-semibold">
+                        <i class="bi bi-check-circle me-1"></i> Save Profile Details
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- ==========================================
+             PANEL 11: SETTINGS
+             ========================================== -->
+        <div id="panel-settings" class="dashboard-panel">
+            <div class="bg-white rounded-4 shadow-sm p-4 border border-light mb-4">
+                <h4 class="fw-bold mb-3"><i class="bi bi-gear-fill text-success me-2"></i>Platform Settings</h4>
+                
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <h6 class="fw-bold text-dark mb-3">Notification Preferences</h6>
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="set-sms-alerts" checked>
+                            <label class="form-check-label small" for="set-sms-alerts">Instant SMS notifications on shipment dispatch</label>
+                        </div>
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="set-email-alerts" checked>
+                            <label class="form-check-label small" for="set-email-alerts">Email invoice receipts upon order completion</label>
+                        </div>
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="set-price-drop" checked>
+                            <label class="form-check-label small" for="set-price-drop">Alerts when bookmarked crops decrease in price</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <h6 class="fw-bold text-dark mb-3">Interface Language & Region</h6>
+                        <div class="mb-3">
+                            <label class="form-label small text-muted">Primary Language</label>
+                            <select class="form-select rounded-3">
+                                <option selected>English (India)</option>
+                                <option>தமிழ் (Tamil)</option>
+                                <option>हिन्दी (Hindi)</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small text-muted">Preferred Measurement Unit</label>
+                            <select class="form-select rounded-3">
+                                <option selected>Kilograms (kg) & Quintals</option>
+                                <option>Metric Tonnes (MT)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="button" class="btn btn-outline-success rounded-pill px-4 mt-3" onclick="alert('Settings preferences updated.')">
+                    Save Preferences
+                </button>
+            </div>
+        </div>
+
+        <!-- ==========================================
+             PANEL 12: HELP & SUPPORT
+             ========================================== -->
+        <div id="panel-help" class="dashboard-panel">
+            <div class="bg-white rounded-4 shadow-sm p-4 border border-light mb-4">
+                <h4 class="fw-bold mb-1"><i class="bi bi-question-circle-fill text-success me-2"></i>Buyer Help Desk & FAQ</h4>
+                <p class="text-muted small mb-4">Find answers to common sourcing questions or reach out directly to operations.</p>
+
+                <div class="accordion mb-4" id="faqAccordion">
+                    <div class="accordion-item rounded-3 mb-2 border">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button rounded-3" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                How does Agri Link Buyer Escrow Protection work?
+                            </button>
+                        </h2>
+                        <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body text-muted small">
+                                When you place a crop purchase order, your payment is held safely in the Agri Link digital escrow reserve. Funds are only released to the farmer after you inspect and accept the delivered produce.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item rounded-3 mb-2 border">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed rounded-3" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                What if the delivered crop quality does not match the catalog description?
+                            </button>
+                        </h2>
+                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body text-muted small">
+                                Buyers have a 12-hour inspection window post-arrival. If the quality grade deviates significantly from the listed specifications, you can raise an immediate dispute in the Orders tab for full escrow refund.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item rounded-3 border">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed rounded-3" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                Can I negotiate custom bulk pricing with farmers?
+                            </button>
+                        </h2>
+                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body text-muted small">
+                                Yes! Use the "Chat with Farmers" tab to message any verified farmer directly, propose purchase quantities, request sample testing, or agree on custom contract pricing.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Helpline Box -->
+                <div class="p-3 bg-success-subtle border border-success-subtle rounded-4 d-flex justify-content-between align-items-center flex-wrap gap-2">
+                    <div>
+                        <h6 class="fw-bold text-success mb-1">Direct Agri Link Buyer Helpline</h6>
+                        <p class="text-muted small mb-0">Operational 7 AM – 9 PM IST, Monday to Saturday</p>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <a href="tel:18002008899" class="btn btn-success rounded-pill px-3 btn-sm">
+                            <i class="bi bi-telephone-fill me-1"></i> 1800-200-8899
+                        </a>
+                        <a href="mailto:buyer-support@agrilink.in" class="btn btn-outline-success rounded-pill px-3 btn-sm">
+                            <i class="bi bi-envelope-fill me-1"></i> Email Support
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ==========================================
+         MODAL 1: PLACE CROP ORDER
+         ========================================== -->
+    <div class="modal fade" id="placeOrderModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 border-0 p-3 shadow-lg">
+                <div class="modal-header border-0 pb-1">
+                    <h5 class="fw-bold mb-0 text-dark"><i class="bi bi-bag-check-fill text-success me-2"></i>Place Crop Purchase Order</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="order-modal-alert" class="alert alert-danger d-none py-2 px-3 small rounded-3 mb-3"></div>
+
+                    <!-- Selected Crop Summary -->
+                    <div class="d-flex align-items-center gap-3 p-3 bg-light rounded-4 mb-3 border">
+                        <img src="" id="modal-order-img" class="rounded-3 shadow-sm" style="width: 60px; height: 60px; object-fit: cover;">
+                        <div>
+                            <h6 class="fw-bold mb-1" id="modal-order-crop-name">Crop Name</h6>
+                            <p class="text-muted small mb-0">Farmer: <span id="modal-order-farmer-name" class="fw-semibold text-dark">—</span></p>
+                            <span class="text-success fw-bold small">₹<span id="modal-order-unit-price">0</span> / <span id="modal-order-unit">kg</span></span>
+                        </div>
+                    </div>
+
+                    <form id="submit-order-form">
+                        <input type="hidden" id="modal-order-product-id">
+
+                        <div class="mb-3">
+                            <label class="form-label small fw-semibold text-muted">Purchase Quantity (<span id="modal-order-unit-label">kg</span>)</label>
+                            <input type="number" id="modal-order-quantity" class="form-control rounded-3 p-2 fw-bold" min="1" step="any" required>
+                            <small class="text-muted mt-1 d-block">Available in farm stock: <strong id="modal-order-stock-max" class="text-dark">0</strong></small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label small fw-semibold text-muted">Delivery Destination Address</label>
+                            <textarea id="modal-order-address" class="form-control rounded-3 p-2 small" rows="2" placeholder="Enter receiving hub / godown address..." required></textarea>
+                        </div>
+
+                        <!-- Price Breakdown Card -->
+                        <div class="p-3 bg-success-subtle rounded-3 border border-success-subtle mb-3 small">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="text-muted">Crop Subtotal:</span>
+                                <strong id="modal-order-subtotal">₹ 0</strong>
+                            </div>
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="text-muted">Escrow Platform Fee (1.5%):</span>
+                                <strong id="modal-order-fee">₹ 0</strong>
+                            </div>
+                            <hr class="my-2 border-success-subtle">
+                            <div class="d-flex justify-content-between fs-6">
+                                <span class="fw-bold text-dark">Total Amount:</span>
+                                <strong class="text-success fs-5 fw-bold" id="modal-order-total">₹ 0</strong>
+                            </div>
+                        </div>
+
+                        <button type="submit" id="modal-order-submit-btn" class="btn btn-success w-100 py-3 rounded-pill fw-semibold shadow-sm">
+                            <i class="bi bi-shield-check me-1"></i> Confirm & Lock in Escrow
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================
+         MODAL 2: CROP DETAILS MODAL
+         ========================================== -->
+    <div class="modal fade" id="cropDetailsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content rounded-4 border-0 overflow-hidden shadow-lg">
+                <div class="row g-0">
+                    <div class="col-md-5 bg-light">
+                        <img src="" id="detail-crop-img" class="w-100 h-100" style="object-fit: cover; min-height: 280px;">
+                    </div>
+                    <div class="col-md-7 p-4">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <div>
+                                <span class="badge bg-success-subtle text-success mb-2 px-3 py-1 rounded-pill fw-bold" id="detail-crop-badge">Verified Harvest</span>
+                                <h4 class="fw-bold text-dark mb-1" id="detail-crop-name">Crop Name</h4>
+                            </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <span class="crop-price-tag" id="detail-crop-price">₹ 0 / kg</span>
+                            <span class="text-muted small"><i class="bi bi-boxes me-1"></i><span id="detail-crop-stock">0 kg</span> available</span>
+                        </div>
+
+                        <p class="text-muted small mb-3" id="detail-crop-desc" style="line-height: 1.6;">Description here</p>
+
+                        <div class="p-3 bg-light rounded-3 mb-3 small">
+                            <div class="row g-2">
+                                <div class="col-6">
+                                    <span class="text-muted d-block">Farmer:</span>
+                                    <strong id="detail-crop-farmer" class="text-dark">—</strong>
+                                </div>
+                                <div class="col-6">
+                                    <span class="text-muted d-block">Origin Location:</span>
+                                    <strong id="detail-crop-loc" class="text-dark">—</strong>
+                                </div>
+                                <div class="col-6">
+                                    <span class="text-muted d-block">Harvest Date:</span>
+                                    <strong id="detail-crop-harvest" class="text-dark">—</strong>
+                                </div>
+                                <div class="col-6">
+                                    <span class="text-muted d-block">Quality Rating:</span>
+                                    <strong class="text-warning"><i class="bi bi-star-fill me-1"></i>4.9 / 5.0</strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button type="button" class="btn btn-success flex-grow-1 rounded-pill fw-semibold py-2" id="detail-buy-now-btn">
+                                <i class="bi bi-bag-check-fill me-1"></i> Order This Crop
+                            </button>
+                            <button type="button" class="btn btn-outline-success rounded-pill px-3" id="detail-chat-farmer-btn">
+                                <i class="bi bi-chat-dots-fill"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================
+         MODAL 3: WRITE REVIEW MODAL
+         ========================================== -->
+    <div class="modal fade" id="writeReviewModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 border-0 p-3 shadow-lg">
+                <div class="modal-header border-0 pb-1">
+                    <h5 class="fw-bold mb-0 text-dark"><i class="bi bi-star-fill text-warning me-2"></i>Rate Farmer & Produce</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="write-review-form">
+                        <div class="mb-3">
+                            <label class="form-label small fw-semibold text-muted">Select Farmer / Order</label>
+                            <select id="review-farmer-select" class="form-select rounded-3 p-2" required>
+                                <option value="">Choose farmer...</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3 text-center">
+                            <label class="form-label small fw-semibold text-muted d-block">Star Rating</label>
+                            <div class="d-flex justify-content-center gap-2" id="star-selector">
+                                <i class="bi bi-star-fill interactive-star active" data-rating="1"></i>
+                                <i class="bi bi-star-fill interactive-star active" data-rating="2"></i>
+                                <i class="bi bi-star-fill interactive-star active" data-rating="3"></i>
+                                <i class="bi bi-star-fill interactive-star active" data-rating="4"></i>
+                                <i class="bi bi-star-fill interactive-star active" data-rating="5"></i>
+                            </div>
+                            <input type="hidden" id="review-rating-value" value="5">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label small fw-semibold text-muted">Detailed Produce Feedback</label>
+                            <textarea id="review-comment-input" class="form-control rounded-3 p-2 small" rows="3" placeholder="Share comments about harvest freshness, weight accuracy, packaging and delivery..." required></textarea>
+                        </div>
+
+                        <button type="submit" id="submit-review-btn" class="btn btn-success w-100 py-2 rounded-pill fw-semibold">
+                            Submit Verified Review
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================
+         MODAL 4: TRANSACTION RECEIPT MODAL
+         ========================================== -->
+    <div class="modal fade" id="receiptModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 border-0 p-4 shadow-lg">
+                <div class="text-center pb-3 border-bottom">
+                    <img src="images/logo.png" alt="Agri Link" style="height: 48px;" class="mb-2">
+                    <h5 class="fw-bold text-dark mb-0">Official Sourcing Receipt</h5>
+                    <small class="text-muted">Agri Link Escrow Ledger Guarantee</small>
+                </div>
+                <div class="py-3 small" id="receipt-modal-content">
+                    <!-- Dynamic receipt items -->
+                </div>
+                <div class="pt-2 text-center border-top">
+                    <button type="button" class="btn btn-outline-success btn-sm rounded-pill px-4" onclick="window.print()">
+                        <i class="bi bi-printer-fill me-1"></i> Print Receipt
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-sm rounded-pill px-3 ms-2" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- ==========================================
+         BUYER DASHBOARD CLIENT CONTROLLER
+         ========================================== -->
+    <script>
+        // === 1. AUTH GUARD & SESSION VALIDATION ===
+        (function checkAuth() {
+            const token = localStorage.getItem('token');
+            const userRole = localStorage.getItem('userRole');
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+
+            if (!token || !isLoggedIn) {
+                window.location.href = 'login.html?role=buyer';
+                return;
+            }
+            if (userRole && userRole !== 'buyer') {
+                if (userRole === 'admin') {
+                    window.location.href = '/admin/';
+                } else {
+                    window.location.href = userRole + '_dashboard.html';
+                }
+                return;
+            }
+        })();
+
+        // API Helpers
+        function getAuthHeaders() {
+            const token = localStorage.getItem('token');
+            return {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${token}`
+            };
+        }
+
+        // Global State Cache
+        let cachedCrops = [];
+        let cachedOrders = [];
+        let cachedBookmarks = [];
+        let activeTrackingOrder = null;
+        let activeChatRecipientId = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initSidebarNavigation();
+            initLiveDateTime();
+            loadLiveWeather();
+            initLogout();
+
+            // Load all initial data from Django backend
+            loadBuyerDashboardSummary();
+            loadMarketplaceCrops();
+            loadBuyerOrders();
+            loadWishlistBookmarks();
+            loadFarmerReviews();
+            loadNotifications();
+            loadBuyerProfile();
+            initStarRatingPicker();
+            initOrderPlacementHandler();
+            initChatSystem();
+        });
+
+        // === 2. NAVIGATION & TAB SWITCHING ===
+        function initSidebarNavigation() {
+            const menuLinks = document.querySelectorAll('.nav-link-db');
+            const panels = document.querySelectorAll('.dashboard-panel');
+            const welcomeSubtitle = document.getElementById('panel-welcome-subtitle');
+
+            const tabSubtitles = {
+                'overview': "Here is your verified farm food sourcing summary.",
+                'marketplace': "Purchase fresh crops directly from verified regional farmers.",
+                'orders': "Track pending dispatches, active deliveries and orders log.",
+                'wishlist': "View and manage your saved crop bookmarks.",
+                'tracking': "Live shipment logistics and delivery transit tracker.",
+                'payments': "Review secure payment escrow transactions and ledger balances.",
+                'reviews': "Review feedback reports and submit ratings for farmers.",
+                'chat': "Talk directly to farmers regarding bulk crop orders.",
+                'notifications': "Agri Link notifications and delivery dispatch inbox.",
+                'profile': "Configure shipping addresses and buyer enterprise parameters.",
+                'settings': "Manage platform alerts and account preferences.",
+                'help': "Open support desk query tickets and review buyer FAQs."
+            };
+
+            window.switchPanel = function(target) {
+                menuLinks.forEach(l => l.classList.remove('active'));
+                panels.forEach(p => p.classList.remove('active'));
+
+                const matchingLink = document.querySelector(`.nav-link-db[data-target="${target}"]`);
+                if (matchingLink) matchingLink.classList.add('active');
+
+                const matchingPanel = document.getElementById(`panel-${target}`);
+                if (matchingPanel) matchingPanel.classList.add('active');
+
+                if (welcomeSubtitle && tabSubtitles[target]) {
+                    welcomeSubtitle.innerText = tabSubtitles[target];
+                }
+
+                // Mobile sidebar auto-close
+                const sidebar = document.getElementById('buyerSidebar');
+                if (sidebar && sidebar.classList.contains('mobile-open')) {
+                    sidebar.classList.remove('mobile-open');
+                }
+
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            };
+
+            menuLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    const target = link.getAttribute('data-target');
+                    if (target) switchPanel(target);
+                });
+            });
+
+            document.body.addEventListener('click', (e) => {
+                const trigger = e.target.closest('.select-tab-trigger');
+                if (trigger) {
+                    const target = trigger.getAttribute('data-target');
+                    if (target) switchPanel(target);
+                }
+            });
+
+            // Mobile toggle
+            const toggleBtn = document.getElementById('sidebarToggleBtn');
+            const sidebar = document.getElementById('buyerSidebar');
+            if (toggleBtn && sidebar) {
+                toggleBtn.addEventListener('click', () => {
+                    sidebar.classList.toggle('mobile-open');
+                });
+            }
+        }
+
+        // === 3. LOGOUT HANDLER ===
+        function initLogout() {
+            const logoutBtn = document.getElementById('buyer-logout-btn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', async (e) => {
+                    e.preventDefault();
+                    const token = localStorage.getItem('token');
+                    if (token) {
+                        try {
+                            await fetch('/api/v1/accounts/logout/', {
+                                method: 'POST',
+                                headers: { 'Authorization': `Token ${token}` }
+                            });
+                        } catch (err) {
+                            console.warn("Logout error:", err);
+                        }
+                    }
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('isLoggedIn');
+                    localStorage.removeItem('userRole');
+                    localStorage.removeItem('userName');
+                    localStorage.removeItem('userMobile');
+                    localStorage.removeItem('userId');
+                    window.location.href = 'login.html?role=buyer';
+                });
+            }
+        }
+
+        // === 4. LIVE DATE & TIME & WEATHER ===
+        function initLiveDateTime() {
+            function updateClock() {
+                const now = new Date();
+                const dateEl = document.getElementById('live-date');
+                const timeEl = document.getElementById('live-time');
+                if (dateEl) dateEl.textContent = now.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+                if (timeEl) timeEl.textContent = now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+            }
+            updateClock();
+            setInterval(updateClock, 30000);
+        }
+
+        async function loadLiveWeather() {
+            try {
+                const resp = await fetch('/api/v1/weather/current/?lat=11.01&lng=76.95');
+                const resData = await resp.json();
+                if (resp.ok && resData.success && resData.data) {
+                    const w = resData.data;
+                    const tempEl = document.getElementById('weather-temp');
+                    const descEl = document.getElementById('weather-desc');
+                    const iconEl = document.getElementById('weather-icon');
+                    if (tempEl) tempEl.textContent = `${Math.round(w.temperature)}°C`;
+                    if (descEl) descEl.textContent = `${w.weather}, ${w.location || 'Coimbatore'}`;
+                }
+            } catch (e) {
+                console.warn("Weather load notice:", e);
+            }
+        }
+
+        // === 5. BACKEND DATA: DASHBOARD SUMMARY ===
+        async function loadBuyerDashboardSummary() {
+            try {
+                const resp = await fetch('/api/v1/buyer/dashboard/', {
+                    headers: getAuthHeaders()
+                });
+                const resData = await resp.json();
+
+                if (resp.ok && resData.success && resData.data) {
+                    const d = resData.data;
+
+                    // Update greeting name
+                    const savedName = localStorage.getItem('userName') || (d.profile && d.profile.name) || 'Produce Buyer';
+                    const welcomeHeading = document.getElementById('buyer-welcome-heading');
+                    if (welcomeHeading) welcomeHeading.innerHTML = `Welcome back, ${savedName} 👋`;
+
+                    // Update Stat KPI Cards
+                    const activeOrdersEl = document.getElementById('stat-active-orders');
+                    const totalSourcedEl = document.getElementById('stat-total-sourced');
+                    const totalPaymentsEl = document.getElementById('stat-total-payments');
+                    const availableCropsEl = document.getElementById('stat-available-crops');
+
+                    if (activeOrdersEl) activeOrdersEl.textContent = d.active_orders || 0;
+                    if (totalSourcedEl) totalSourcedEl.textContent = `${d.total_sourced ? d.total_sourced.toLocaleString('en-IN') : 0} kg`;
+                    if (totalPaymentsEl) totalPaymentsEl.textContent = `₹ ${d.total_payments ? d.total_payments.toLocaleString('en-IN') : 0}`;
+                    if (availableCropsEl) availableCropsEl.textContent = d.available_crops_count || 0;
+
+                    // Update badges in sidebar
+                    const orderBadge = document.getElementById('badge-orders-count');
+                    const wishBadge = document.getElementById('badge-wishlist-count');
+                    const notifBadge = document.getElementById('badge-notif-count');
+                    if (orderBadge) orderBadge.textContent = d.total_orders || 0;
+                    if (wishBadge) wishBadge.textContent = d.bookmarks_count || 0;
+                    if (notifBadge) notifBadge.textContent = d.unread_notifications || 0;
+
+                    // Payments ledger summary
+                    const payTotalSpend = document.getElementById('payment-total-spend');
+                    const payInEscrow = document.getElementById('payment-in-escrow');
+                    const payReleased = document.getElementById('payment-released');
+                    if (payTotalSpend) payTotalSpend.textContent = `₹ ${(d.total_payments || 0).toLocaleString('en-IN')}`;
+                    if (payInEscrow) payInEscrow.textContent = `₹ ${(d.active_orders * 5000 || 0).toLocaleString('en-IN')}`;
+                    if (payReleased) payReleased.textContent = `₹ ${(Math.max(0, (d.total_payments || 0) - (d.active_orders * 5000 || 0))).toLocaleString('en-IN')}`;
+
+                    // Render Recent Orders in Dashboard
+                    renderDashboardRecentOrders(d.recent_orders || []);
+
+                    // Render Recent Crops Highlights in Dashboard
+                    renderDashboardCropHighlights(d.recent_crops || []);
+                }
+            } catch (err) {
+                console.error("Dashboard summary load error:", err);
+            }
+        }
+
+        function renderDashboardRecentOrders(orders) {
+            const tbody = document.getElementById('dashboard-recent-orders-body');
+            if (!tbody) return;
+
+            if (!orders || orders.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="text-center py-4 text-muted">
+                            <i class="bi bi-cart-x fs-4 d-block mb-1"></i>
+                            No sourcing orders placed yet. <a href="javascript:void(0)" class="text-success fw-bold select-tab-trigger" data-target="marketplace">Browse Crops</a>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            let html = '';
+            orders.slice(0, 5).forEach(o => {
+                const prod = o.product || {};
+                const farmerName = (prod.farmer && prod.farmer.name) || 'Farmer Partner';
+                const statusBadge = getStatusBadge(o.status);
+
+                html += `
+                    <tr>
+                        <td><strong class="text-dark">#ORD-${o.id}</strong></td>
+                        <td>
+                            <div class="fw-semibold text-dark">${prod.crop_name || 'Crop Item'}</div>
+                            <small class="text-muted">${prod.location || 'Tamil Nadu'}</small>
+                        </td>
+                        <td>${farmerName}</td>
+                        <td>${o.quantity} ${prod.unit || 'kg'}</td>
+                        <td><strong class="text-success">₹${Number(o.total_price).toLocaleString('en-IN')}</strong></td>
+                        <td>${statusBadge}</td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-success rounded-pill px-3 select-tab-trigger" data-target="tracking" onclick="selectOrderForTracking('${o.id}')">
+                                Track
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
+        }
+
+        function renderDashboardCropHighlights(crops) {
+            const container = document.getElementById('dashboard-crop-highlights');
+            if (!container) return;
+
+            if (!crops || crops.length === 0) {
+                container.innerHTML = `<p class="text-muted small text-center py-3">No marketplace listings available.</p>`;
+                return;
+            }
+
+            let html = '';
+            crops.slice(0, 3).forEach(c => {
+                const img = c.first_image || 'images/logo.png';
+                const farmerName = (c.farmer && c.farmer.name) || 'Verified Farmer';
+
+                html += `
+                    <div class="p-3 bg-light rounded-4 border d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center gap-3">
+                            <img src="${img}" style="width: 52px; height: 52px; object-fit: cover;" class="rounded-3 shadow-sm" onerror="this.src='images/logo.png'">
+                            <div>
+                                <h6 class="fw-bold text-dark mb-0">${c.crop_name}</h6>
+                                <small class="text-muted d-block">${c.location} • ${farmerName}</small>
+                                <span class="text-success fw-bold small">₹${c.price} / ${c.unit}</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-success btn-sm rounded-pill px-3 fw-semibold" onclick="openPlaceOrderModal('${c.id}')">
+                            Buy Now
+                        </button>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        // === 6. BACKEND DATA: MARKETPLACE CROPS ===
+        async function loadMarketplaceCrops() {
+            const grid = document.getElementById('marketplace-crops-grid');
+            if (!grid) return;
+
+            try {
+                const searchVal = document.getElementById('marketplace-search-input')?.value.trim() || '';
+                const locVal = document.getElementById('marketplace-location-filter')?.value || '';
+                const priceVal = document.getElementById('marketplace-price-filter')?.value || '';
+
+                let url = '/api/v1/marketplace/?page_size=30';
+                if (searchVal) url += `&search=${encodeURIComponent(searchVal)}`;
+                if (locVal) url += `&location=${encodeURIComponent(locVal)}`;
+                if (priceVal) {
+                    const [min, max] = priceVal.split('-');
+                    if (min) url += `&min_price=${min}`;
+                    if (max) url += `&max_price=${max}`;
+                }
+
+                const resp = await fetch(url, { headers: getAuthHeaders() });
+                const resData = await resp.json();
+
+                if (resp.ok && resData.success && resData.data) {
+                    cachedCrops = resData.data.results || [];
+                    renderMarketplaceCrops(cachedCrops);
+                } else {
+                    grid.innerHTML = `<div class="col-12 text-center py-5 text-danger">Failed to load marketplace crops.</div>`;
+                }
+            } catch (err) {
+                console.error("Marketplace fetch error:", err);
+                grid.innerHTML = `<div class="col-12 text-center py-5 text-danger">Network error connecting to marketplace catalog.</div>`;
+            }
+        }
+
+        function renderMarketplaceCrops(crops) {
+            const grid = document.getElementById('marketplace-crops-grid');
+            if (!grid) return;
+
+            if (!crops || crops.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-12 text-center py-5">
+                        <i class="bi bi-cart-x fs-1 text-muted d-block mb-3"></i>
+                        <h5 class="fw-bold text-dark">No Matching Crops Found</h5>
+                        <p class="text-muted small">Try modifying search keywords or clearing location filters.</p>
+                        <button class="btn btn-outline-success btn-sm rounded-pill px-4" onclick="document.getElementById('marketplace-search-input').value=''; document.getElementById('marketplace-location-filter').value=''; document.getElementById('marketplace-price-filter').value=''; loadMarketplaceCrops();">
+                            Reset Filters
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+            crops.forEach(crop => {
+                const img = crop.first_image || (crop.images && crop.images[0] && crop.images[0].image_url) || 'images/logo.png';
+                const farmerName = (crop.farmer && crop.farmer.name) || 'Verified Producer';
+                const isBookmarked = cachedBookmarks.some(b => b.product && b.product.id == crop.id);
+
+                html += `
+                    <div class="col-md-6 col-xl-3 col-sm-6">
+                        <div class="crop-card">
+                            <div class="crop-img-wrapper">
+                                <span class="crop-badge"><i class="bi bi-patch-check-fill text-warning me-1"></i>Field Picked</span>
+                                <button class="wishlist-btn-card ${isBookmarked ? 'active' : ''}" onclick="toggleWishlist('${crop.id}', this)" title="Add to Wishlist">
+                                    <i class="bi ${isBookmarked ? 'bi-heart-fill' : 'bi-heart'}"></i>
+                                </button>
+                                <img src="${img}" alt="${crop.crop_name}" onerror="this.src='images/logo.png'">
+                            </div>
+
+                            <div class="p-3 d-flex flex-column flex-grow-1">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <h6 class="fw-bold text-dark mb-0 text-truncate" title="${crop.crop_name}">${crop.crop_name}</h6>
+                                </div>
+
+                                <div class="d-flex align-items-baseline gap-2 mb-2">
+                                    <span class="crop-price-tag">₹${crop.price}</span>
+                                    <small class="text-muted">/ ${crop.unit || 'kg'}</small>
+                                </div>
+
+                                <div class="small text-muted mb-3 flex-grow-1">
+                                    <div class="mb-1 text-truncate"><i class="bi bi-geo-alt-fill text-success me-1"></i>${crop.location || 'Tamil Nadu'}</div>
+                                    <div class="mb-1"><i class="bi bi-person-fill text-primary me-1"></i>${farmerName}</div>
+                                    <div><i class="bi bi-boxes text-muted me-1"></i><strong class="text-dark">${Number(crop.quantity).toLocaleString('en-IN')} ${crop.unit}</strong> in stock</div>
+                                </div>
+
+                                <div class="d-flex gap-2 pt-2 border-top">
+                                    <button class="btn btn-outline-success btn-sm flex-grow-1 rounded-pill fw-semibold" onclick="openCropDetailsModal('${crop.id}')">
+                                        Details
+                                    </button>
+                                    <button class="btn btn-success btn-sm flex-grow-1 rounded-pill fw-semibold" onclick="openPlaceOrderModal('${crop.id}')">
+                                        Order Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            grid.innerHTML = html;
+        }
+
+        // Filter button
+        const filterBtn = document.getElementById('marketplace-filter-btn');
+        if (filterBtn) {
+            filterBtn.addEventListener('click', () => loadMarketplaceCrops());
+        }
+        const searchInput = document.getElementById('marketplace-search-input');
+        if (searchInput) {
+            searchInput.addEventListener('keyup', (e) => {
+                if (e.key === 'Enter') loadMarketplaceCrops();
+            });
+        }
+
+        // === 7. BACKEND DATA: MY ORDERS ===
+        async function loadBuyerOrders() {
+            const tbody = document.getElementById('orders-table-body');
+            const ledgerBody = document.getElementById('payments-ledger-body');
+            if (!tbody) return;
+
+            try {
+                const resp = await fetch('/api/v1/marketplace/orders/?role=buyer', {
+                    headers: getAuthHeaders()
+                });
+                const resData = await resp.json();
+
+                if (resp.ok && resData.success && resData.data) {
+                    cachedOrders = resData.data.results || [];
+                    renderOrdersTable(cachedOrders);
+                    renderPaymentsLedger(cachedOrders);
+                    populateTrackingOrderSelect(cachedOrders);
+                    populateReviewFarmerSelect(cachedOrders);
+                } else {
+                    tbody.innerHTML = `<tr><td colspan="8" class="text-center py-4 text-danger">Failed to load orders.</td></tr>`;
+                }
+            } catch (err) {
+                console.error("Orders fetch error:", err);
+                tbody.innerHTML = `<tr><td colspan="8" class="text-center py-4 text-danger">Network error connecting to orders ledger.</td></tr>`;
+            }
+        }
+
+        function renderOrdersTable(orders, filterStatus = 'all') {
+            const tbody = document.getElementById('orders-table-body');
+            if (!tbody) return;
+
+            let filtered = orders;
+            if (filterStatus && filterStatus !== 'all') {
+                filtered = orders.filter(o => o.status === filterStatus);
+            }
+
+            if (!filtered || filtered.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="8" class="text-center py-5 text-muted">
+                            <i class="bi bi-inbox fs-2 text-muted d-block mb-2"></i>
+                            No ${filterStatus === 'all' ? '' : filterStatus.toLowerCase()} orders found.
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            let html = '';
+            filtered.forEach(o => {
+                const prod = o.product || {};
+                const farmerName = (prod.farmer && prod.farmer.name) || 'Farmer Partner';
+                const farmerPhone = (prod.farmer && prod.farmer.phone) || '+91 98421 99881';
+                const dateStr = o.created_at ? new Date(o.created_at).toLocaleDateString('en-IN') : 'Recent';
+                const statusBadge = getStatusBadge(o.status);
+
+                html += `
+                    <tr>
+                        <td><strong class="text-dark">#ORD-${o.id}</strong></td>
+                        <td>
+                            <div class="fw-semibold text-dark">${prod.crop_name || 'Crop'}</div>
+                            <small class="text-muted">₹${prod.price || 0}/${prod.unit || 'kg'} • ${prod.location || 'Farm'}</small>
+                        </td>
+                        <td>
+                            <div class="fw-semibold">${farmerName}</div>
+                            <small class="text-muted">${farmerPhone}</small>
+                        </td>
+                        <td><strong>${o.quantity}</strong> ${prod.unit || 'kg'}</td>
+                        <td><strong class="text-success fs-6">₹${Number(o.total_price).toLocaleString('en-IN')}</strong></td>
+                        <td>${statusBadge}</td>
+                        <td class="small text-muted">${dateStr}</td>
+                        <td>
+                            <div class="btn-group btn-group-sm">
+                                <button class="btn btn-outline-success select-tab-trigger" data-target="tracking" onclick="selectOrderForTracking('${o.id}')">
+                                    <i class="bi bi-geo-alt-fill me-1"></i>Track
+                                </button>
+                                ${o.status === 'PENDING' ? `
+                                    <button class="btn btn-outline-danger" onclick="cancelOrder('${o.id}')">
+                                        Cancel
+                                    </button>
+                                ` : ''}
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
+        }
+
+        // Status filter tabs for orders
+        const orderFilterGroup = document.getElementById('orders-filter-group');
+        if (orderFilterGroup) {
+            orderFilterGroup.querySelectorAll('button').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    orderFilterGroup.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    const status = btn.getAttribute('data-status');
+                    renderOrdersTable(cachedOrders, status);
+                });
+            });
+        }
+
+        function getStatusBadge(status) {
+            switch (status) {
+                case 'PENDING':
+                    return '<span class="badge bg-warning-subtle text-warning-emphasis px-2 py-1 rounded-pill">Pending Farmer Review</span>';
+                case 'CONFIRMED':
+                    return '<span class="badge bg-info-subtle text-info px-2 py-1 rounded-pill">Confirmed & Harvested</span>';
+                case 'SHIPPED':
+                    return '<span class="badge bg-primary-subtle text-primary px-2 py-1 rounded-pill">In Transit / Dispatched</span>';
+                case 'DELIVERED':
+                    return '<span class="badge bg-success-subtle text-success px-2 py-1 rounded-pill"><i class="bi bi-check-circle-fill me-1"></i>Delivered</span>';
+                case 'CANCELLED':
+                    return '<span class="badge bg-danger-subtle text-danger px-2 py-1 rounded-pill">Cancelled</span>';
+                default:
+                    return `<span class="badge bg-secondary px-2 py-1 rounded-pill">${status}</span>`;
+            }
+        }
+
+        // Cancel order handler
+        window.cancelOrder = async function(orderId) {
+            if (!confirm(`Are you sure you want to cancel order #ORD-${orderId}? Available funds will be unlocked in your escrow ledger.`)) return;
+
+            try {
+                const resp = await fetch(`/api/v1/marketplace/orders/${orderId}/action/`, {
+                    method: 'POST',
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify({ action: 'cancel' })
+                });
+                const resData = await resp.json();
+                if (resp.ok && resData.success) {
+                    alert("Order cancelled successfully. Escrow funds refunded.");
+                    loadBuyerOrders();
+                    loadBuyerDashboardSummary();
+                } else {
+                    alert(resData.error || "Failed to cancel order.");
+                }
+            } catch (err) {
+                alert("Network error cancelling order.");
+            }
+        };
+
+        // === 8. BACKEND DATA: WISHLIST BOOKMARKS ===
+        async function loadWishlistBookmarks() {
+            const grid = document.getElementById('wishlist-crops-grid');
+            if (!grid) return;
+
+            try {
+                const resp = await fetch('/api/v1/marketplace/bookmarks/', {
+                    headers: getAuthHeaders()
+                });
+                const resData = await resp.json();
+
+                if (resp.ok && resData.success && resData.data) {
+                    cachedBookmarks = resData.data.results || [];
+                    renderWishlistGrid(cachedBookmarks);
+
+                    const badge = document.getElementById('badge-wishlist-count');
+                    if (badge) badge.textContent = cachedBookmarks.length;
+                } else {
+                    grid.innerHTML = `<div class="col-12 text-center py-4 text-danger">Failed to load wishlist.</div>`;
+                }
+            } catch (err) {
+                console.error("Wishlist error:", err);
+                grid.innerHTML = `<div class="col-12 text-center py-4 text-danger">Network error connecting to wishlist.</div>`;
+            }
+        }
+
+        function renderWishlistGrid(bookmarks) {
+            const grid = document.getElementById('wishlist-crops-grid');
+            if (!grid) return;
+
+            if (!bookmarks || bookmarks.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-12 text-center py-5">
+                        <i class="bi bi-heart fs-1 text-muted d-block mb-3"></i>
+                        <h5 class="fw-bold text-dark">Your Wishlist is Empty</h5>
+                        <p class="text-muted small">Save fresh harvest crops while browsing to order in bulk anytime.</p>
+                        <button class="btn btn-success btn-sm rounded-pill px-4 select-tab-trigger" data-target="marketplace">
+                            Discover Marketplace Crops
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+            bookmarks.forEach(bm => {
+                const crop = bm.product || {};
+                const img = crop.first_image || 'images/logo.png';
+                const farmerName = (crop.farmer && crop.farmer.name) || 'Farmer Partner';
+
+                html += `
+                    <div class="col-md-6 col-xl-4">
+                        <div class="p-3 bg-light rounded-4 border d-flex gap-3 align-items-center">
+                            <img src="${img}" style="width: 75px; height: 75px; object-fit: cover;" class="rounded-3 shadow-sm" onerror="this.src='images/logo.png'">
+                            <div class="flex-grow-1">
+                                <h6 class="fw-bold text-dark mb-1">${crop.crop_name || 'Crop'}</h6>
+                                <div class="text-success fw-bold small mb-1">₹${crop.price} / ${crop.unit || 'kg'}</div>
+                                <small class="text-muted d-block mb-2">${crop.location} • ${farmerName}</small>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-success btn-sm rounded-pill px-3 fw-semibold" onclick="openPlaceOrderModal('${crop.id}')">
+                                        Order
+                                    </button>
+                                    <button class="btn btn-outline-danger btn-sm rounded-pill px-2" onclick="toggleWishlist('${crop.id}')" title="Remove">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            grid.innerHTML = html;
+        }
+
+        // Toggle Wishlist Add / Remove
+        window.toggleWishlist = async function(productId, btnElement) {
+            try {
+                const resp = await fetch('/api/v1/marketplace/bookmarks/', {
+                    method: 'POST',
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify({ product_id: productId })
+                });
+                const resData = await resp.json();
+
+                if (resp.ok && resData.success) {
+                    if (btnElement) {
+                        btnElement.classList.toggle('active');
+                        const icon = btnElement.querySelector('i');
+                        if (icon) {
+                            icon.classList.toggle('bi-heart');
+                            icon.classList.toggle('bi-heart-fill');
+                        }
+                    }
+                    loadWishlistBookmarks();
+                    loadBuyerDashboardSummary();
+                } else {
+                    alert(resData.error || "Failed to update wishlist.");
+                }
+            } catch (err) {
+                console.error("Wishlist toggle error:", err);
+            }
+        };
+
+        // === 9. ORDER TRACKING LOGIC ===
+        function populateTrackingOrderSelect(orders) {
+            const select = document.getElementById('tracking-order-select');
+            if (!select) return;
+
+            select.innerHTML = `<option value="">Select an active order to track...</option>`;
+            orders.forEach(o => {
+                const prod = o.product || {};
+                const opt = document.createElement('option');
+                opt.value = o.id;
+                opt.textContent = `#ORD-${o.id}: ${prod.crop_name || 'Crop'} (${o.status})`;
+                select.appendChild(opt);
+            });
+
+            if (orders.length > 0) {
+                select.value = orders[0].id;
+                selectOrderForTracking(orders[0].id);
+            }
+
+            select.addEventListener('change', () => {
+                if (select.value) selectOrderForTracking(select.value);
+            });
+        }
+
+        window.selectOrderForTracking = function(orderId) {
+            const order = cachedOrders.find(o => o.id == orderId);
+            if (!order) return;
+
+            activeTrackingOrder = order;
+            const prod = order.product || {};
+            const farmer = prod.farmer || {};
+
+            const cropNameEl = document.getElementById('tracking-crop-name');
+            const qtyEl = document.getElementById('tracking-quantity');
+            const amtEl = document.getElementById('tracking-amount');
+            const farmerNameEl = document.getElementById('tracking-farmer-name');
+            const farmerLocEl = document.getElementById('tracking-farmer-loc');
+            const farmerPhoneEl = document.getElementById('tracking-farmer-phone');
+            const callBtn = document.getElementById('tracking-call-farmer-btn');
+
+            if (cropNameEl) cropNameEl.textContent = prod.crop_name || 'Produce Item';
+            if (qtyEl) qtyEl.textContent = `${order.quantity} ${prod.unit || 'kg'}`;
+            if (amtEl) amtEl.textContent = `₹ ${Number(order.total_price).toLocaleString('en-IN')}`;
+            if (farmerNameEl) farmerNameEl.textContent = farmer.name || 'Farmer Partner';
+            if (farmerLocEl) farmerLocEl.textContent = prod.location || 'Tamil Nadu';
+            if (farmerPhoneEl) farmerPhoneEl.textContent = farmer.phone || '+91 98421 99881';
+            if (callBtn && farmer.phone) callBtn.href = `tel:${farmer.phone.replace(/[^0-9+]/g, '')}`;
+
+            // Update Progress Stepper
+            const stepper = document.getElementById('tracking-stepper');
+            if (stepper) {
+                const nodes = stepper.querySelectorAll('.step-node');
+                const progressLine = stepper.querySelector('.order-stepper-progress');
+
+                let stepIndex = 1;
+                if (order.status === 'PENDING') stepIndex = 1;
+                else if (order.status === 'CONFIRMED') stepIndex = 2;
+                else if (order.status === 'SHIPPED') stepIndex = 3;
+                else if (order.status === 'DELIVERED') stepIndex = 5;
+                else if (order.status === 'CANCELLED') stepIndex = 0;
+
+                nodes.forEach((node, idx) => {
+                    node.className = 'step-node';
+                    if (idx + 1 < stepIndex) node.classList.add('completed');
+                    else if (idx + 1 === stepIndex) node.classList.add('active');
+                });
+
+                const pct = Math.max(0, Math.min(100, (stepIndex - 1) * 25));
+                if (progressLine) progressLine.style.width = `${pct}%`;
+            }
+        };
+
+        // === 10. PAYMENTS LEDGER & RECEIPTS ===
+        function renderPaymentsLedger(orders) {
+            const tbody = document.getElementById('payments-ledger-body');
+            if (!tbody) return;
+
+            if (!orders || orders.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="8" class="text-center py-4 text-muted">No financial escrow ledger entries recorded yet.</td></tr>`;
+                return;
+            }
+
+            let html = '';
+            orders.forEach(o => {
+                const prod = o.product || {};
+                const farmerName = (prod.farmer && prod.farmer.name) || 'Farmer Partner';
+                const dateStr = o.created_at ? new Date(o.created_at).toLocaleDateString('en-IN') : 'Recent';
+
+                let escrowBadge = '<span class="badge bg-warning-subtle text-warning-emphasis">Escrow Locked</span>';
+                if (o.status === 'DELIVERED') escrowBadge = '<span class="badge bg-success-subtle text-success">Released to Farmer</span>';
+                else if (o.status === 'CANCELLED') escrowBadge = '<span class="badge bg-danger-subtle text-danger">Refunded to Buyer</span>';
+
+                html += `
+                    <tr>
+                        <td><strong class="text-dark">TXN-AG-${1000 + Number(o.id)}</strong></td>
+                        <td>#ORD-${o.id}</td>
+                        <td>
+                            <span class="fw-semibold">${prod.crop_name || 'Crop'}</span>
+                            <small class="text-muted d-block">${o.quantity} ${prod.unit || 'kg'}</small>
+                        </td>
+                        <td>${farmerName}</td>
+                        <td><strong class="text-success fs-6">₹${Number(o.total_price).toLocaleString('en-IN')}</strong></td>
+                        <td><span class="badge bg-light text-dark border">Agri Escrow (UPI/Net)</span></td>
+                        <td>${escrowBadge}</td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-secondary rounded-pill px-3" onclick="openReceiptModal('${o.id}')">
+                                <i class="bi bi-receipt me-1"></i> Receipt
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
+        }
+
+        window.openReceiptModal = function(orderId) {
+            const order = cachedOrders.find(o => o.id == orderId);
+            if (!order) return;
+
+            const prod = order.product || {};
+            const farmer = prod.farmer || {};
+            const content = document.getElementById('receipt-modal-content');
+            if (!content) return;
+
+            content.innerHTML = `
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="text-muted">Transaction Reference:</span>
+                    <strong>TXN-AG-${1000 + Number(order.id)}</strong>
+                </div>
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="text-muted">Order ID:</span>
+                    <strong>#ORD-${order.id}</strong>
+                </div>
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="text-muted">Date & Time:</span>
+                    <span>${new Date(order.created_at || Date.now()).toLocaleString('en-IN')}</span>
+                </div>
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="text-muted">Farmer Supplier:</span>
+                    <strong>${farmer.name || 'Farmer Partner'} (${prod.location || 'Tamil Nadu'})</strong>
+                </div>
+                <hr class="my-2">
+                <div class="d-flex justify-content-between mb-1">
+                    <span>${prod.crop_name} (${order.quantity} ${prod.unit})</span>
+                    <strong>₹${Number(order.total_price).toLocaleString('en-IN')}</strong>
+                </div>
+                <div class="d-flex justify-content-between mb-1 text-muted">
+                    <span>Platform Escrow Protocol:</span>
+                    <span>Verified</span>
+                </div>
+                <hr class="my-2">
+                <div class="d-flex justify-content-between fs-6">
+                    <strong class="text-dark">Total Amount Settled:</strong>
+                    <strong class="text-success fs-5">₹${Number(order.total_price).toLocaleString('en-IN')}</strong>
+                </div>
+            `;
+
+            const modalEl = document.getElementById('receiptModal');
+            if (modalEl) new bootstrap.Modal(modalEl).show();
+        };
+
+        // === 11. REVIEWS SYSTEM ===
+        async function loadFarmerReviews() {
+            const container = document.getElementById('reviews-list-container');
+            if (!container) return;
+
+            try {
+                const resp = await fetch('/api/v1/buyer/reviews/', { headers: getAuthHeaders() });
+                const resData = await resp.json();
+
+                if (resp.ok && resData.success && resData.data) {
+                    renderReviewsList(resData.data);
+                } else {
+                    container.innerHTML = `<div class="col-12 text-center py-4 text-muted">No reviews recorded yet.</div>`;
+                }
+            } catch (err) {
+                console.error("Reviews load error:", err);
+            }
+        }
+
+        function renderReviewsList(reviews) {
+            const container = document.getElementById('reviews-list-container');
+            if (!container) return;
+
+            if (!reviews || reviews.length === 0) {
+                container.innerHTML = `
+                    <div class="col-12 text-center py-5 text-muted">
+                        <i class="bi bi-star fs-1 text-muted d-block mb-2"></i>
+                        No produce feedback submitted yet. Rate completed orders to boost farmer reliability scores!
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+            reviews.forEach(r => {
+                const stars = Array(r.rating).fill('<i class="bi bi-star-fill text-warning"></i>').join('');
+                const dateStr = r.created_at ? new Date(r.created_at).toLocaleDateString('en-IN') : 'Recent';
+
+                html += `
+                    <div class="col-md-6">
+                        <div class="p-3 bg-light rounded-4 border h-100">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <div>
+                                    <h6 class="fw-bold text-dark mb-0">${r.reviewee_name || 'Farmer Partner'}</h6>
+                                    <small class="text-muted">Reviewed on ${dateStr}</small>
+                                </div>
+                                <div class="star-rating">${stars}</div>
+                            </div>
+                            <p class="text-muted small mb-0 mt-2">"${r.comment || 'Quality produce as described.'}"</p>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function populateReviewFarmerSelect(orders) {
+            const select = document.getElementById('review-farmer-select');
+            if (!select) return;
+
+            const seenFarmers = new Set();
+            select.innerHTML = `<option value="">Choose farmer...</option>`;
+
+            orders.forEach(o => {
+                const prod = o.product || {};
+                const farmer = prod.farmer || {};
+                if (farmer.id && !seenFarmers.has(farmer.id)) {
+                    seenFarmers.add(farmer.id);
+                    const opt = document.createElement('option');
+                    opt.value = farmer.id;
+                    opt.textContent = `${farmer.name || 'Farmer'} — #${o.id} (${prod.crop_name})`;
+                    select.appendChild(opt);
+                }
+            });
+        }
+
+        function initStarRatingPicker() {
+            const stars = document.querySelectorAll('#star-selector .interactive-star');
+            const ratingInput = document.getElementById('review-rating-value');
+
+            stars.forEach(star => {
+                star.addEventListener('click', () => {
+                    const rating = parseInt(star.getAttribute('data-rating'));
+                    if (ratingInput) ratingInput.value = rating;
+
+                    stars.forEach((s, idx) => {
+                        if (idx < rating) {
+                            s.classList.add('active');
+                        } else {
+                            s.classList.remove('active');
+                        }
+                    });
+                });
+            });
+
+            const reviewForm = document.getElementById('write-review-form');
+            if (reviewForm) {
+                reviewForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const farmerId = document.getElementById('review-farmer-select').value;
+                    const rating = document.getElementById('review-rating-value').value;
+                    const comment = document.getElementById('review-comment-input').value.trim();
+                    const btn = document.getElementById('submit-review-btn');
+
+                    if (!farmerId) {
+                        alert("Please select a farmer.");
+                        return;
+                    }
+
+                    btn.disabled = true;
+                    btn.innerHTML = `<span class="spinner-border spinner-border-sm me-1"></span> Submitting...`;
+
+                    try {
+                        const resp = await fetch('/api/v1/buyer/reviews/', {
+                            method: 'POST',
+                            headers: getAuthHeaders(),
+                            body: JSON.stringify({
+                                farmer_id: farmerId,
+                                rating: rating,
+                                comment: comment
+                            })
+                        });
+                        const resData = await resp.json();
+
+                        if (resp.ok && resData.success) {
+                            alert("Thank you! Your feedback has been published.");
+                            const modal = bootstrap.Modal.getInstance(document.getElementById('writeReviewModal'));
+                            if (modal) modal.hide();
+                            reviewForm.reset();
+                            loadFarmerReviews();
+                        } else {
+                            alert(resData.error || "Failed to submit review.");
+                        }
+                    } catch (err) {
+                        alert("Network error submitting review.");
+                    } finally {
+                        btn.disabled = false;
+                        btn.innerHTML = `Submit Verified Review`;
+                    }
+                });
+            }
+        }
+
+        // === 12. CHAT WITH FARMERS & AI ASSISTANT ===
+        let isAiChatActive = false;
+        let activeChatRoomId = null;
+
+        async function initChatSystem() {
+            loadChatFarmerContacts();
+
+            const sendForm = document.getElementById('chat-send-form');
+            if (sendForm) {
+                sendForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const input = document.getElementById('chat-message-input');
+                    const text = input.value.trim();
+                    if (!text) return;
+
+                    input.value = '';
+                    appendChatMessage(text, true);
+
+                    if (isAiChatActive) {
+                        handleAiAssistantQuery(text);
+                    } else if (activeChatRoomId) {
+                        try {
+                            await fetch(`/api/v1/chat/rooms/${activeChatRoomId}/messages/`, {
+                                method: 'POST',
+                                headers: getAuthHeaders(),
+                                body: JSON.stringify({ text: text })
+                            });
+                            loadRoomMessages(activeChatRoomId);
+                        } catch (err) {
+                            console.error("Send message error:", err);
+                        }
+                    } else if (activeChatRecipientId) {
+                        handleFarmerChatMessage(activeChatRecipientId, text);
+                    } else {
+                        alert("Please select a farmer contact from the left sidebar.");
+                    }
+                });
+            }
+
+            const aiBtn = document.getElementById('chat-ai-assistant-btn');
+            if (aiBtn) {
+                aiBtn.addEventListener('click', () => {
+                    isAiChatActive = !isAiChatActive;
+                    if (isAiChatActive) {
+                        aiBtn.className = 'btn btn-primary btn-sm rounded-pill';
+                        aiBtn.innerHTML = '<i class="bi bi-robot me-1"></i> AI Active';
+                        document.getElementById('chat-recipient-avatar').textContent = '🤖';
+                        document.getElementById('chat-recipient-name').textContent = 'Agri Link Sourcing AI';
+                        document.getElementById('chat-recipient-meta').textContent = 'AI Advisor for crop prices, logistics & crop availability';
+                        const area = document.getElementById('chat-messages-body');
+                        area.innerHTML = `
+                            <div class="d-flex align-items-start gap-2 mb-3">
+                                <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; font-size: 14px;">
+                                    <i class="bi bi-robot"></i>
+                                </div>
+                                <div class="bg-white p-3 rounded-4 shadow-sm border small" style="max-width: 75%;">
+                                    <p class="mb-0">Hello! I am your AI Sourcing Advisor. Ask me anything about regional crop prices, harvest timelines, or delivery logistics!</p>
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        aiBtn.className = 'btn btn-outline-primary btn-sm rounded-pill';
+                        aiBtn.innerHTML = '<i class="bi bi-robot me-1"></i> AI Assistant';
+                        loadChatFarmerContacts();
+                    }
+                });
+            }
+        }
+
+        async function loadChatFarmerContacts() {
+            const list = document.getElementById('chat-farmer-list');
+            if (!list) return;
+
+            try {
+                const resp = await fetch('/api/v1/chat/rooms/', { headers: getAuthHeaders() });
+                const resData = await resp.json();
+
+                let rooms = [];
+                if (resp.ok && resData.success && resData.data) {
+                    rooms = resData.data;
+                }
+
+                // If no rooms yet, populate from farmers in cached crops
+                if (rooms.length === 0 && cachedCrops.length > 0) {
+                    const uniqueFarmers = [];
+                    const seen = new Set();
+                    cachedCrops.forEach(c => {
+                        if (c.farmer && !seen.has(c.farmer.id)) {
+                            seen.add(c.farmer.id);
+                            uniqueFarmers.push(c.farmer);
+                        }
+                    });
+
+                    let html = '';
+                    uniqueFarmers.forEach(f => {
+                        html += `
+                            <div class="chat-contact-item" onclick="openDirectFarmerChat('${f.id}', '${f.name || 'Farmer'}', '${f.phone || ''}')">
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="bg-success-subtle text-success rounded-circle d-flex align-items-center justify-content-center fw-bold" style="width: 38px; height: 38px;">
+                                        👨‍🌾
+                                    </div>
+                                    <div class="flex-grow-1 text-truncate">
+                                        <h6 class="fw-bold mb-0 text-dark small">${f.name || 'Farmer'}</h6>
+                                        <small class="text-muted d-block text-truncate">Click to chat</small>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    list.innerHTML = html;
+                    return;
+                }
+
+                let html = '';
+                rooms.forEach(r => {
+                    const otherUser = r.recipient || r.other_user || {};
+                    html += `
+                        <div class="chat-contact-item" onclick="openRoomChat('${r.id}', '${otherUser.name || 'Farmer Partner'}', '${otherUser.phone || ''}', '${otherUser.id || ''}')">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="bg-success-subtle text-success rounded-circle d-flex align-items-center justify-content-center fw-bold" style="width: 38px; height: 38px;">
+                                    👨‍🌾
+                                </div>
+                                <div class="flex-grow-1 text-truncate">
+                                    <h6 class="fw-bold mb-0 text-dark small">${otherUser.name || 'Farmer Partner'}</h6>
+                                    <small class="text-muted d-block text-truncate">${r.last_message?.text || (typeof r.last_message === 'string' ? r.last_message : 'Active conversation')}</small>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                list.innerHTML = html || `<p class="text-muted small text-center p-3">No conversations started yet.</p>`;
+            } catch (err) {
+                console.error("Chat contacts error:", err);
+            }
+        }
+
+        window.openDirectFarmerChat = async function(farmerId, farmerName, farmerPhone) {
+            isAiChatActive = false;
+            activeChatRecipientId = farmerId;
+
+            document.getElementById('chat-recipient-avatar').textContent = '👨‍🌾';
+            document.getElementById('chat-recipient-name').textContent = farmerName;
+            document.getElementById('chat-recipient-meta').textContent = `${farmerPhone || 'Verified Producer'} • Online`;
+            
+            const callBtn = document.getElementById('chat-call-btn');
+            if (callBtn && farmerPhone) callBtn.onclick = () => window.location.href = `tel:${farmerPhone.replace(/[^0-9+]/g, '')}`;
+
+            // Open chat room via backend POST /api/v1/chat/rooms/
+            try {
+                const resp = await fetch('/api/v1/chat/rooms/', {
+                    method: 'POST',
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify({ recipient_id: farmerId })
+                });
+                const resData = await resp.json();
+                if (resp.ok && resData.success && resData.data) {
+                    activeChatRoomId = resData.data.id;
+                    loadRoomMessages(resData.data.id);
+                }
+            } catch (e) {
+                console.warn("Direct chat room open error:", e);
+            }
+        };
+
+        window.openRoomChat = function(roomId, recipientName, recipientPhone, recipientId) {
+            isAiChatActive = false;
+            activeChatRoomId = roomId;
+            activeChatRecipientId = recipientId;
+
+            document.getElementById('chat-recipient-avatar').textContent = '👨‍🌾';
+            document.getElementById('chat-recipient-name').textContent = recipientName;
+            document.getElementById('chat-recipient-meta').textContent = `${recipientPhone || 'Farmer'} • Online`;
+            
+            loadRoomMessages(roomId);
+        };
+
+        async function loadRoomMessages(roomId) {
+            const area = document.getElementById('chat-messages-body');
+            if (!area) return;
+
+            try {
+                const resp = await fetch(`/api/v1/chat/rooms/${roomId}/messages/`, {
+                    headers: getAuthHeaders()
+                });
+                const resData = await resp.json();
+
+                if (resp.ok && resData.success && resData.data) {
+                    const msgs = resData.data.results || [];
+                    if (msgs.length === 0) {
+                        area.innerHTML = `
+                            <div class="text-center text-muted py-5">
+                                <p class="mb-0">Conversation started! Send a message below to discuss crop volume, price, and delivery logistics.</p>
+                            </div>
+                        `;
+                        return;
+                    }
+                    let html = '';
+                    const myId = localStorage.getItem('userId');
+                    msgs.forEach(m => {
+                        const isMe = m.sender == myId || m.is_me;
+                        const msgText = m.text || m.content || '';
+                        html += `
+                            <div class="d-flex align-items-start gap-2 mb-3 ${isMe ? 'justify-content-end' : ''}">
+                                ${!isMe ? '<div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; font-size: 14px;">👨‍🌾</div>' : ''}
+                                <div class="${isMe ? 'bg-success text-white' : 'bg-white text-dark'} p-3 rounded-4 shadow-sm border small" style="max-width: 75%;">
+                                    <p class="mb-0">${escapeHtml(msgText)}</p>
+                                </div>
+                                ${isMe ? '<div class="bg-secondary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; font-size: 14px;"><i class="bi bi-person-fill"></i></div>' : ''}
+                            </div>
+                        `;
+                    });
+                    area.innerHTML = html;
+                    area.scrollTop = area.scrollHeight;
+                }
+            } catch (err) {
+                console.error("Load messages error:", err);
+            }
+        }
+
+        async function handleFarmerChatMessage(farmerId, text) {
+            try {
+                // Ensure room exists
+                const rResp = await fetch('/api/v1/chat/rooms/', {
+                    method: 'POST',
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify({ recipient_id: farmerId })
+                });
+                const rData = await rResp.json();
+                if (rResp.ok && rData.success && rData.data) {
+                    const roomId = rData.data.id;
+                    activeChatRoomId = roomId;
+                    await fetch(`/api/v1/chat/rooms/${roomId}/messages/`, {
+                        method: 'POST',
+                        headers: getAuthHeaders(),
+                        body: JSON.stringify({ text: text })
+                    });
+                    loadRoomMessages(roomId);
+                }
+            } catch (err) {
+                console.error("Send message error:", err);
+            }
+        }
+
+        async function handleAiAssistantQuery(message) {
+            const area = document.getElementById('chat-messages-body');
+            const thinkingId = 'thinking-' + Date.now();
+            area.insertAdjacentHTML('beforeend', `
+                <div class="d-flex align-items-start gap-2 mb-3" id="${thinkingId}">
+                    <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; font-size: 14px;">
+                        <i class="bi bi-robot"></i>
+                    </div>
+                    <div class="bg-white p-3 rounded-4 shadow-sm border small text-muted">
+                        <span class="spinner-grow spinner-grow-sm text-success" role="status"></span> Agri Link Bot is analyzing...
+                    </div>
+                </div>
+            `);
+            area.scrollTop = area.scrollHeight;
+
+            try {
+                const resp = await fetch('/api/v1/ai/chatbot/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: message })
+                });
+                const resData = await resp.json();
+                document.getElementById(thinkingId)?.remove();
+
+                let reply = "I couldn't process that query. Please ask about crop availability or regional mandi prices.";
+                if (resp.ok && resData.success && resData.data && resData.data.reply) {
+                    reply = resData.data.reply;
+                } else if (resData.message) {
+                    reply = resData.message;
+                }
+
+                area.insertAdjacentHTML('beforeend', `
+                    <div class="d-flex align-items-start gap-2 mb-3">
+                        <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; font-size: 14px;">
+                            <i class="bi bi-robot"></i>
+                        </div>
+                        <div class="bg-white p-3 rounded-4 shadow-sm border small" style="max-width: 75%;">
+                            <p class="mb-0">${escapeHtml(reply).replace(/\n/g, '<br>')}</p>
+                        </div>
+                    </div>
+                `);
+                area.scrollTop = area.scrollHeight;
+            } catch (e) {
+                document.getElementById(thinkingId)?.remove();
+            }
+        }
+
+        function appendChatMessage(text, isMe) {
+            const area = document.getElementById('chat-messages-body');
+            if (!area) return;
+            const msgHtml = `
+                <div class="d-flex align-items-start gap-2 mb-3 ${isMe ? 'justify-content-end' : ''}">
+                    ${!isMe ? '<div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; font-size: 14px;">👨‍🌾</div>' : ''}
+                    <div class="${isMe ? 'bg-success text-white' : 'bg-white text-dark'} p-3 rounded-4 shadow-sm border small" style="max-width: 75%;">
+                        <p class="mb-0">${escapeHtml(text)}</p>
+                    </div>
+                    ${isMe ? '<div class="bg-secondary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; font-size: 14px;"><i class="bi bi-person-fill"></i></div>' : ''}
+                </div>
+            `;
+            area.insertAdjacentHTML('beforeend', msgHtml);
+            area.scrollTop = area.scrollHeight;
+        }
+
+        // === 13. BACKEND DATA: NOTIFICATIONS ===
+        async function loadNotifications() {
+            const wrapper = document.getElementById('notifications-list-wrapper');
+            if (!wrapper) return;
+
+            try {
+                const resp = await fetch('/api/v1/notifications/', { headers: getAuthHeaders() });
+                const resData = await resp.json();
+
+                if (resp.ok && resData.success && resData.data) {
+                    const notifs = resData.data.results || [];
+                    if (notifs.length === 0) {
+                        wrapper.innerHTML = `<div class="text-center py-5 text-muted"><i class="bi bi-bell-slash fs-2 d-block mb-2"></i>No notifications in your inbox.</div>`;
+                        return;
+                    }
+
+                    let html = '';
+                    notifs.forEach(n => {
+                        html += `
+                            <div class="p-3 bg-light rounded-4 border d-flex justify-content-between align-items-center ${n.is_read ? 'opacity-75' : ''}">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="bg-success-subtle text-success rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                        <i class="bi bi-bell-fill"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="fw-bold mb-1 text-dark">${n.title || 'Agri Link Update'}</h6>
+                                        <p class="text-muted small mb-0">${n.message || ''}</p>
+                                        <small class="text-muted" style="font-size: 11px;">${new Date(n.created_at).toLocaleString('en-IN')}</small>
+                                    </div>
+                                </div>
+                                ${!n.is_read ? `
+                                    <button class="btn btn-sm btn-outline-success rounded-pill px-3" onclick="markNotificationRead('${n.id}')">
+                                        Mark Read
+                                    </button>
+                                ` : '<span class="badge bg-secondary-subtle text-secondary small">Read</span>'}
+                            </div>
+                        `;
+                    });
+                    wrapper.innerHTML = html;
+                }
+            } catch (err) {
+                console.error("Notifications error:", err);
+            }
+
+            const markAllBtn = document.getElementById('mark-all-read-btn');
+            if (markAllBtn) {
+                markAllBtn.addEventListener('click', async () => {
+                    await fetch('/api/v1/notifications/read-all/', { method: 'POST', headers: getAuthHeaders() });
+                    loadNotifications();
+                    loadBuyerDashboardSummary();
+                });
+            }
+        }
+
+        window.markNotificationRead = async function(notifId) {
+            await fetch(`/api/v1/notifications/${notifId}/read/`, { method: 'POST', headers: getAuthHeaders() });
+            loadNotifications();
+            loadBuyerDashboardSummary();
+        };
+
+        // === 14. BUYER PROFILE LOAD & UPDATE ===
+        async function loadBuyerProfile() {
+            try {
+                const resp = await fetch('/api/v1/buyer/profile/', { headers: getAuthHeaders() });
+                const resData = await resp.json();
+
+                if (resp.ok && resData.success && resData.data) {
+                    const p = resData.data;
+                    const nameInput = document.getElementById('prof-name');
+                    const phoneInput = document.getElementById('prof-phone');
+                    const emailInput = document.getElementById('prof-email');
+                    const companyInput = document.getElementById('prof-company');
+                    const typeSelect = document.getElementById('prof-business-type');
+                    const districtInput = document.getElementById('prof-district');
+                    const stateInput = document.getElementById('prof-state');
+                    const addressInput = document.getElementById('prof-address');
+
+                    if (nameInput) nameInput.value = p.name || localStorage.getItem('userName') || '';
+                    if (phoneInput) phoneInput.value = p.phone || localStorage.getItem('userMobile') || '';
+                    if (emailInput) emailInput.value = p.email || '';
+                    if (companyInput) companyInput.value = p.company_name || '';
+                    if (typeSelect && p.business_type) typeSelect.value = p.business_type;
+                    if (districtInput) districtInput.value = p.district || '';
+                    if (stateInput) stateInput.value = p.state || '';
+                    if (addressInput) addressInput.value = p.delivery_address || '';
+                }
+            } catch (err) {
+                console.error("Profile load error:", err);
+            }
+
+            const profForm = document.getElementById('buyer-profile-form');
+            if (profForm) {
+                profForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const btn = document.getElementById('save-profile-btn');
+                    btn.disabled = true;
+                    btn.innerHTML = `<span class="spinner-border spinner-border-sm me-1"></span> Saving...`;
+
+                    const payload = {
+                        name: document.getElementById('prof-name').value.trim(),
+                        email: document.getElementById('prof-email').value.trim(),
+                        company_name: document.getElementById('prof-company').value.trim(),
+                        business_type: document.getElementById('prof-business-type').value,
+                        district: document.getElementById('prof-district').value.trim(),
+                        state: document.getElementById('prof-state').value.trim(),
+                        delivery_address: document.getElementById('prof-address').value.trim()
+                    };
+
+                    try {
+                        const resp = await fetch('/api/v1/buyer/profile/', {
+                            method: 'PUT',
+                            headers: getAuthHeaders(),
+                            body: JSON.stringify(payload)
+                        });
+                        const resData = await resp.json();
+
+                        const alertBox = document.getElementById('profile-alert');
+                        if (resp.ok && resData.success) {
+                            localStorage.setItem('userName', payload.name);
+                            document.getElementById('buyer-welcome-heading').innerHTML = `Welcome back, ${payload.name} 👋`;
+                            if (alertBox) {
+                                alertBox.className = 'alert alert-success py-2 px-3 small rounded-3 mb-3';
+                                alertBox.textContent = "Profile details saved successfully!";
+                                alertBox.classList.remove('d-none');
+                                setTimeout(() => alertBox.classList.add('d-none'), 3000);
+                            }
+                        } else {
+                            if (alertBox) {
+                                alertBox.className = 'alert alert-danger py-2 px-3 small rounded-3 mb-3';
+                                alertBox.textContent = resData.error || "Failed to update profile.";
+                                alertBox.classList.remove('d-none');
+                            }
+                        }
+                    } catch (err) {
+                        alert("Network error updating profile.");
+                    } finally {
+                        btn.disabled = false;
+                        btn.innerHTML = `<i class="bi bi-check-circle me-1"></i> Save Profile Details`;
+                    }
+                });
+            }
+        }
+
+        // === 15. PLACE ORDER WORKFLOW ===
+        let currentOrderCrop = null;
+
+        window.openPlaceOrderModal = function(productId) {
+            const crop = cachedCrops.find(c => c.id == productId);
+            if (!crop) return;
+
+            currentOrderCrop = crop;
+            document.getElementById('modal-order-product-id').value = crop.id;
+            document.getElementById('modal-order-crop-name').textContent = crop.crop_name;
+            document.getElementById('modal-order-farmer-name').textContent = (crop.farmer && crop.farmer.name) || 'Farmer Partner';
+            document.getElementById('modal-order-unit-price').textContent = crop.price;
+            document.getElementById('modal-order-unit').textContent = crop.unit || 'kg';
+            document.getElementById('modal-order-unit-label').textContent = crop.unit || 'kg';
+            document.getElementById('modal-order-stock-max').textContent = `${crop.quantity} ${crop.unit || 'kg'}`;
+            
+            const imgEl = document.getElementById('modal-order-img');
+            if (imgEl) imgEl.src = crop.first_image || (crop.images && crop.images[0] && crop.images[0].image_url) || 'images/logo.png';
+
+            const qtyInput = document.getElementById('modal-order-quantity');
+            qtyInput.value = Math.min(100, crop.quantity);
+            qtyInput.max = crop.quantity;
+
+            calculateOrderTotal();
+
+            const modal = new bootstrap.Modal(document.getElementById('placeOrderModal'));
+            modal.show();
+        };
+
+        function calculateOrderTotal() {
+            if (!currentOrderCrop) return;
+            const qty = parseFloat(document.getElementById('modal-order-quantity').value) || 0;
+            const price = parseFloat(currentOrderCrop.price) || 0;
+            const subtotal = qty * price;
+            const fee = subtotal * 0.015;
+            const total = subtotal + fee;
+
+            document.getElementById('modal-order-subtotal').textContent = `₹ ${subtotal.toLocaleString('en-IN', { maximumFractionDigits: 2 })}`;
+            document.getElementById('modal-order-fee').textContent = `₹ ${fee.toLocaleString('en-IN', { maximumFractionDigits: 2 })}`;
+            document.getElementById('modal-order-total').textContent = `₹ ${total.toLocaleString('en-IN', { maximumFractionDigits: 2 })}`;
+        }
+
+        document.getElementById('modal-order-quantity')?.addEventListener('input', calculateOrderTotal);
+
+        function initOrderPlacementHandler() {
+            const form = document.getElementById('submit-order-form');
+            if (!form) return;
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const productId = document.getElementById('modal-order-product-id').value;
+                const quantity = parseFloat(document.getElementById('modal-order-quantity').value);
+                const address = document.getElementById('modal-order-address').value.trim();
+                const btn = document.getElementById('modal-order-submit-btn');
+                const alertBox = document.getElementById('order-modal-alert');
+
+                if (!quantity || quantity <= 0) {
+                    alertBox.textContent = "Please enter a valid purchase quantity.";
+                    alertBox.classList.remove('d-none');
+                    return;
+                }
+
+                btn.disabled = true;
+                btn.innerHTML = `<span class="spinner-border spinner-border-sm me-2"></span> Locking Escrow & Placing Order...`;
+
+                try {
+                    const resp = await fetch(`/api/v1/marketplace/${productId}/order/`, {
+                        method: 'POST',
+                        headers: getAuthHeaders(),
+                        body: JSON.stringify({
+                            quantity: quantity,
+                            delivery_address: address
+                        })
+                    });
+                    const resData = await resp.json();
+
+                    if (resp.ok && resData.success && resData.data) {
+                        const modal = bootstrap.Modal.getInstance(document.getElementById('placeOrderModal'));
+                        if (modal) modal.hide();
+                        form.reset();
+
+                        alert(`Order Placed Successfully! Order #ORD-${resData.data.id} has been dispatched for farmer confirmation.`);
+                        
+                        // Refresh all views
+                        loadBuyerDashboardSummary();
+                        loadMarketplaceCrops();
+                        loadBuyerOrders();
+                        switchPanel('orders');
+                    } else {
+                        alertBox.textContent = resData.error || "Failed to place order. Please try again.";
+                        alertBox.classList.remove('d-none');
+                    }
+                } catch (err) {
+                    alertBox.textContent = "Network error communicating with order server.";
+                    alertBox.classList.remove('d-none');
+                } finally {
+                    btn.disabled = false;
+                    btn.innerHTML = `<i class="bi bi-shield-check me-1"></i> Confirm & Lock in Escrow`;
+                }
+            });
+        }
+
+        // === 16. CROP DETAILS MODAL ===
+        window.openCropDetailsModal = function(productId) {
+            const crop = cachedCrops.find(c => c.id == productId);
+            if (!crop) return;
+
+            document.getElementById('detail-crop-name').textContent = crop.crop_name;
+            document.getElementById('detail-crop-price').textContent = `₹${crop.price} / ${crop.unit || 'kg'}`;
+            document.getElementById('detail-crop-stock').textContent = `${Number(crop.quantity).toLocaleString('en-IN')} ${crop.unit || 'kg'}`;
+            document.getElementById('detail-crop-desc').textContent = crop.description || 'Premium natural harvest cultivated under verified agricultural standards.';
+            document.getElementById('detail-crop-farmer').textContent = (crop.farmer && crop.farmer.name) || 'Farmer Partner';
+            document.getElementById('detail-crop-loc').textContent = crop.location || 'Tamil Nadu';
+            document.getElementById('detail-crop-harvest').textContent = crop.harvest_date ? new Date(crop.harvest_date).toLocaleDateString('en-IN') : 'Recent';
+
+            const imgEl = document.getElementById('detail-crop-img');
+            if (imgEl) imgEl.src = crop.first_image || (crop.images && crop.images[0] && crop.images[0].image_url) || 'images/logo.png';
+
+            document.getElementById('detail-buy-now-btn').onclick = () => {
+                const detModal = bootstrap.Modal.getInstance(document.getElementById('cropDetailsModal'));
+                if (detModal) detModal.hide();
+                openPlaceOrderModal(crop.id);
+            };
+
+            document.getElementById('detail-chat-farmer-btn').onclick = () => {
+                const detModal = bootstrap.Modal.getInstance(document.getElementById('cropDetailsModal'));
+                if (detModal) detModal.hide();
+                switchPanel('chat');
+                if (crop.farmer && crop.farmer.id) {
+                    openDirectFarmerChat(crop.farmer.id, crop.farmer.name, crop.farmer.phone);
+                }
+            };
+
+            const modal = new bootstrap.Modal(document.getElementById('cropDetailsModal'));
+            modal.show();
+        };
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+    </script>
+    <!-- Dashboard Role Badge Web Component -->
+    <script src="js/role-badge.js"></script>
+</body>
+
+</html>

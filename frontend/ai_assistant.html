@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Assistant — Agri Link</title>
+    <link rel="icon" type="image/png" href="images/logo.png">
+
+    <!-- Google Fonts & Bootstrap Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    <!-- Dedicated AI Assistant Styling -->
+    <link rel="stylesheet" href="components/ai-assistant/ai_assistant.css">
+
+    <style>
+        :root {
+            --primary: #1B5E20;
+            --primary-hover: #144A18;
+            --primary-light: #E8F5E9;
+            --primary-border: #C8E6C9;
+            --sidebar-width: 250px;
+            --bg-page: #F4F7F4;
+            --card-border: #E2ECE3;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-page);
+            color: #1F2937;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: var(--sidebar-width);
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: linear-gradient(180deg, #092e15 0%, #134e26 100%);
+            color: white;
+            z-index: 1040;
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.08);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-brand {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-brand img {
+            height: 38px;
+            background: white;
+            padding: 4px;
+            border-radius: 8px;
+        }
+
+        .nav-menu {
+            list-style: none;
+            padding: 16px 12px;
+            margin: 0;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        .nav-item-db {
+            margin-bottom: 4px;
+        }
+
+        .nav-link-db {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 16px;
+            color: rgba(255, 255, 255, 0.78);
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .nav-link-db:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .nav-link-db.active {
+            color: white;
+            background: #2E7D32;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .nav-link-db i {
+            font-size: 1.1rem;
+        }
+
+        /* MAIN CONTENT */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 24px 30px;
+            min-height: 100vh;
+            transition: margin-left 0.3s ease;
+        }
+
+        /* MOBILE RESPONSIVENESS */
+        .mobile-topbar {
+            display: none;
+            background: #092e15;
+            color: white;
+            padding: 14px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1030;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        @media (max-width: 991.98px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .sidebar.show {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 16px;
+            }
+            .mobile-topbar {
+                display: flex;
+            }
+            .sidebar-overlay {
+                display: none;
+                position: fixed;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 1035;
+            }
+            .sidebar-overlay.show {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- MOBILE TOPBAR -->
+    <div class="mobile-topbar">
+        <a href="farmer_dashboard.html" class="d-flex align-items-center gap-2 text-white text-decoration-none">
+            <img src="images/logo.png" alt="Agri Link" style="height: 32px; background: white; padding: 2px; border-radius: 6px;">
+            <span class="fw-bold">Agri Link</span>
+        </a>
+        <button class="btn btn-link text-white p-0 fs-2 border-0" id="sidebar-toggle-btn" aria-label="Toggle Navigation">
+            <i class="bi bi-list"></i>
+        </button>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar" id="sidebar-menu">
+        <div class="sidebar-brand justify-content-between">
+            <div class="d-flex align-items-center gap-2">
+                <img src="images/logo.png" alt="Agri Link Logo">
+                <div>
+                    <span class="fw-bold fs-5 d-block text-white lh-1">Agri Link</span>
+                    <span class="badge bg-success-subtle text-success mt-1" style="font-size: 0.65rem;">FARMER DASHBOARD</span>
+                </div>
+            </div>
+            <button class="btn btn-link text-white-50 p-0 fs-4 d-lg-none border-0" id="sidebar-close-btn" aria-label="Close Sidebar">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
+
+        <ul class="nav-menu">
+            <li class="nav-item-db"><a href="farmer_dashboard.html#overview" class="nav-link-db"><i class="bi bi-grid-fill"></i> Dashboard</a></li>
+            <li class="nav-item-db"><a href="farmer_dashboard.html#crop-recommendation" class="nav-link-db"><i class="bi bi-sprout"></i> Crop Recommendation</a></li>
+            <li class="nav-item-db"><a href="farmer_dashboard.html#disease-detection" class="nav-link-db"><i class="bi bi-search-heart"></i> Disease Detection</a></li>
+            <li class="nav-item-db"><a href="farmer_dashboard.html#labour-hiring" class="nav-link-db"><i class="bi bi-people-fill"></i> Labour Hiring</a></li>
+            <li class="nav-item-db"><a href="farmer_dashboard.html#equipment-rental" class="nav-link-db"><i class="bi bi-truck"></i> Equipment Rental</a></li>
+            <li class="nav-item-db"><a href="farmer_dashboard.html#marketplace" class="nav-link-db"><i class="bi bi-cart-fill"></i> Marketplace</a></li>
+            <li class="nav-item-db"><a href="farmer_dashboard.html#bookings" class="nav-link-db"><i class="bi bi-calendar-check"></i> My Bookings</a></li>
+            <li class="nav-item-db"><a href="farmer_dashboard.html#sales" class="nav-link-db"><i class="bi bi-graph-up-arrow"></i> My Sales</a></li>
+            <li class="nav-item-db"><a href="farmer_dashboard.html#weather" class="nav-link-db"><i class="bi bi-cloud-sun-fill"></i> Weather & Alerts</a></li>
+            <li class="nav-item-db"><a href="ai_assistant.html" class="nav-link-db active"><i class="bi bi-chat-dots-fill"></i> AI Assistant</a></li>
+            <li class="nav-item-db"><a href="farmer_dashboard.html#settings" class="nav-link-db"><i class="bi bi-gear-fill"></i> Settings</a></li>
+            <li class="nav-item-db"><a href="farmer_dashboard.html#help" class="nav-link-db"><i class="bi bi-question-circle-fill"></i> Help & Support</a></li>
+            <li class="nav-item-db mt-4"><a href="index.html" class="nav-link-db text-danger"><i class="bi bi-box-arrow-left"></i> Logout</a></li>
+        </ul>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <!-- 1. PAGE HEADER -->
+        <header class="ai-assistant-page-header">
+            <!-- Left: small leaf/plant icon + title + subtitle -->
+            <div class="ai-header-left">
+                <div class="ai-header-icon-box" title="Agri Link AI Agronomist">
+                    <i class="bi bi-sprout"></i>
+                </div>
+                <div>
+                    <h1 class="ai-header-title">AI Assistant</h1>
+                    <p class="ai-header-subtitle">Get expert farming advice, crop guidance and solutions to your agricultural problems.</p>
+                </div>
+            </div>
+
+            <!-- Right: Weather widget + User avatar -->
+            <div class="ai-header-right">
+                <!-- Compact Weather Widget -->
+                <div class="ai-compact-weather" id="ai-header-weather">
+                    <div class="ai-weather-icon-wrap" id="ai-weather-icon">
+                        <i class="bi bi-sun-fill"></i>
+                    </div>
+                    <div>
+                        <div class="ai-weather-temp-cond" id="ai-weather-temp">28°C · Sunny</div>
+                        <div class="ai-weather-location" id="ai-weather-loc">Coimbatore, Tamil Nadu</div>
+                    </div>
+                </div>
+
+                <!-- Far Right: Logged-in User Profile -->
+                <div class="ai-compact-user" id="ai-header-user">
+                    <img src="images/logo.png" alt="Farmer Avatar" class="ai-user-avatar-img" id="ai-user-avatar">
+                    <div>
+                        <div class="ai-user-name" id="ai-user-name">Ravi Kumar</div>
+                        <span class="ai-user-role-badge" id="ai-user-role">Farmer</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- 2. MAIN CHAT PANEL (Two-Column Layout Inside Single Outer Card) -->
+        <div class="ai-module-outer-card">
+            <div class="ai-columns-wrapper">
+
+                <!-- LEFT COLUMN (~35% width): Fixed-size Friendly Farmer-Robot Mascot -->
+                <div class="ai-mascot-card">
+                    <div class="ai-mascot-img-wrap">
+                        <!-- Mascot Illustration -->
+                        <img src="images/farmer_ai_robot.jpg" alt="AgriLink Friendly Farmer Robot" class="ai-mascot-img" id="ai-robot-mascot">
+
+                        <!-- Hand-Drawn "Happy Farming!" Callout -->
+                        <div class="ai-happy-farming-callout" title="Happy Farming from Agri Link AI!">
+                            <span>Happy Farming!</span>
+                            <span style="font-size: 1.2rem;">🌾</span>
+                        </div>
+
+                        <!-- Online Status Pill -->
+                        <div class="ai-online-status-pill">
+                            <span class="ai-pulse-dot"></span>
+                            <span>Online</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT COLUMN (~65% width): Chat UI with distinct border/background -->
+                <div class="ai-chat-card">
+
+                    <!-- 3a. Header Row: Bot avatar + Title + Online status on one line, subtitle below it, topic badges, and Clear Chat top-right -->
+                    <div class="ai-chat-header-row">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="ai-msg-avatar-bot" style="width: 40px; height: 40px; font-size: 1.15rem;">
+                                <i class="bi bi-robot"></i>
+                            </div>
+                            <div class="ai-chat-header-info">
+                                <div class="d-flex align-items-center gap-2 flex-wrap">
+                                    <h3 class="ai-chat-card-title">AI Farming Assistant</h3>
+                                    <span class="ai-online-status-badge">
+                                        <span class="ai-pulse-dot"></span>
+                                        <span>Online</span>
+                                    </span>
+                                </div>
+                                <p class="ai-chat-card-subtitle">Get expert farming advice, crop guidance and solutions to your agricultural problems.</p>
+                                <!-- Merged Topic Badges (point 4) -->
+                                <div class="ai-topic-badges-row">
+                                    <span class="ai-topic-badge"><i class="bi bi-flower1 me-1 text-success"></i>Crops</span>
+                                    <span class="ai-topic-badge"><i class="bi bi-bug me-1 text-danger"></i>Pests</span>
+                                    <span class="ai-topic-badge"><i class="bi bi-cloud-sun me-1 text-warning"></i>Weather</span>
+                                    <span class="ai-topic-badge"><i class="bi bi-file-earmark-ruled me-1 text-primary"></i>Schemes</span>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="ai-clear-chat-btn" id="ai-clear-chat-btn" title="Clear chat history and start fresh">
+                            <i class="bi bi-trash3-fill"></i>
+                            <span>Clear Chat</span>
+                        </button>
+                    </div>
+
+                    <!-- 3b. Scrollable Message List Area -->
+                    <div class="ai-chat-messages-scroll" id="ai-chat-messages">
+                        <!-- Populated dynamically by ai_assistant.js -->
+                    </div>
+
+                    <!-- 3c. Fixed Input Bar at bottom of chat card only -->
+                    <div class="ai-chat-input-footer">
+                        <!-- Attachment file preview chip -->
+                        <div id="ai-attachment-badge" class="d-none mb-2">
+                            <span class="ai-attachment-badge">
+                                <i class="bi bi-paperclip"></i>
+                                <span id="ai-attached-filename">sample.jpg</span>
+                                <span class="btn-remove-file" id="ai-remove-file-btn" title="Remove attachment">&times;</span>
+                            </span>
+                        </div>
+
+                        <form id="ai-chat-form">
+                            <input type="file" id="ai-chat-file-input" class="d-none" accept="image/*,.pdf,.doc,.docx">
+                            <div class="ai-chat-input-bar">
+                                <!-- Attachment / Paperclip button -->
+                                <button type="button" class="ai-chat-attach-btn" id="ai-chat-attach-btn" title="Attach file or photo (optional)">
+                                    <i class="bi bi-paperclip fs-5"></i>
+                                </button>
+
+                                <!-- Text Input -->
+                                <textarea id="ai-chat-input" class="ai-chat-textarea" placeholder="Type your message here..." rows="1" required></textarea>
+
+                                <!-- Circular Green Send Button with Paper-Plane Icon -->
+                                <button type="submit" class="ai-send-btn-circle" id="ai-chat-send-btn" title="Send Message">
+                                    <i class="bi bi-send-fill"></i>
+                                </button>
+                            </div>
+                            <div class="ai-chat-input-meta">
+                                <span class="ai-input-hint">Press <kbd class="bg-light text-dark border">Enter</kbd> to send, <kbd class="bg-light text-dark border">Shift+Enter</kbd> for newline.</span>
+                                <span class="ai-powered-by"><i class="bi bi-shield-check text-success me-1"></i>Powered by Gemini Agronomy AI</span>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Mobile Sidebar Toggling -->
+    <script>
+        const toggleBtn = document.getElementById('sidebar-toggle-btn');
+        const closeBtn = document.getElementById('sidebar-close-btn');
+        const sidebar = document.getElementById('sidebar-menu');
+        const overlay = document.getElementById('sidebar-overlay');
+
+        if (toggleBtn && sidebar && overlay) {
+            toggleBtn.addEventListener('click', () => {
+                sidebar.classList.add('show');
+                overlay.classList.add('show');
+            });
+        }
+
+        if (closeBtn && sidebar && overlay) {
+            closeBtn.addEventListener('click', () => {
+                sidebar.classList.remove('show');
+                overlay.classList.remove('show');
+            });
+            overlay.addEventListener('click', () => {
+                sidebar.classList.remove('show');
+                overlay.classList.remove('show');
+            });
+        }
+    </script>
+
+    <!-- AI Assistant Component Logic -->
+    <script src="components/ai-assistant/ai_assistant.js"></script>
+
+</body>
+</html>

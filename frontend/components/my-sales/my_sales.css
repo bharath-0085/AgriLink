@@ -1,0 +1,711 @@
+/* ==========================================================================
+   Agri Link — My Sales Module Styles
+   Component: /components/my-sales/my_sales.css
+   Theme: Green (#1b5e20 family), white cards, clean rounded design
+   ========================================================================== */
+
+/* --- Container & Vertical Stack --- */
+.sales-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.sales-card {
+    background: #ffffff;
+    border: 1px solid #e2ece3;
+    border-radius: 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    padding: 28px 32px;
+    box-sizing: border-box;
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.sales-card:hover {
+    border-color: #d1e7dd;
+    box-shadow: 0 6px 24px rgba(46, 125, 50, 0.06);
+}
+
+.sales-card-header {
+    margin-bottom: 22px;
+}
+
+.sales-card-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #14532d;
+    margin: 0 0 4px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sales-card-subtitle {
+    font-size: 0.88rem;
+    color: #64748b;
+    margin: 0;
+}
+
+/* ==========================================================================
+   1. Sales Summary Stat Cards
+   ========================================================================== */
+.sales-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-top: 18px;
+}
+
+.sales-stat-item {
+    background: #f8faf8;
+    border: 1.5px solid #e8efe8;
+    border-radius: 18px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    min-width: 0;
+}
+
+.sales-stat-item:hover {
+    background: #ffffff;
+    border-color: #2e7d32;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(46, 125, 50, 0.08);
+}
+
+.stat-item-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.stat-item-label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.stat-icon-wrap {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+}
+
+.icon-revenue {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.icon-orders {
+    background: #e0f2fe;
+    color: #0284c7;
+}
+
+.icon-pending {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+.icon-topcrop {
+    background: #f3e8ff;
+    color: #9333ea;
+}
+
+.stat-item-value {
+    font-size: 1.65rem;
+    font-weight: 800;
+    color: #1e293b;
+    margin: 0 0 6px 0;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+    word-break: break-word;
+}
+
+.stat-item-footer {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.78rem;
+    color: #64748b;
+}
+
+.stat-trend-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    padding: 2px 7px;
+    border-radius: 12px;
+    font-size: 0.72rem;
+    font-weight: 700;
+}
+
+.trend-up {
+    background: #dcfce7;
+    color: #16a34a;
+}
+
+.trend-down {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.trend-neutral {
+    background: #f1f5f9;
+    color: #64748b;
+}
+
+/* ==========================================================================
+   2. Revenue Overview Chart Card
+   ========================================================================== */
+.chart-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.sales-time-tabs {
+    display: inline-flex;
+    background: #f1f5f9;
+    padding: 4px;
+    border-radius: 14px;
+    gap: 4px;
+}
+
+.time-tab-btn {
+    border: none;
+    background: transparent;
+    padding: 6px 14px;
+    border-radius: 10px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.time-tab-btn.active {
+    background: #2e7d32;
+    color: #ffffff;
+    box-shadow: 0 2px 8px rgba(46, 125, 50, 0.25);
+}
+
+.time-tab-btn:hover:not(.active) {
+    color: #1e293b;
+    background: rgba(255, 255, 255, 0.6);
+}
+
+.chart-canvas-container {
+    position: relative;
+    width: 100%;
+    height: 320px;
+}
+
+/* ==========================================================================
+   3. Crop-Wise Sales Breakdown
+   ========================================================================== */
+.crop-breakdown-grid {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 36px;
+    align-items: center;
+}
+
+.donut-canvas-container {
+    position: relative;
+    width: 100%;
+    max-width: 280px;
+    height: 280px;
+    margin: 0 auto;
+}
+
+.crop-progress-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.crop-progress-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.crop-progress-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.86rem;
+}
+
+.crop-name-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.crop-color-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.crop-amount-stat {
+    font-weight: 700;
+    color: #334155;
+    font-size: 0.84rem;
+}
+
+.crop-pct-share {
+    color: #64748b;
+    font-weight: 500;
+    font-size: 0.8rem;
+    margin-left: 6px;
+}
+
+.crop-progress-bar-bg {
+    width: 100%;
+    height: 8px;
+    background: #eef2ef;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.crop-progress-fill {
+    height: 100%;
+    border-radius: 10px;
+    transition: width 0.6s ease;
+}
+
+/* ==========================================================================
+   4. Transaction History Table & Toolbar
+   ========================================================================== */
+.table-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.sales-export-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-export-sales {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 16px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1.5px solid #d1e7dd;
+    background: #ffffff;
+    color: #1b5e20;
+    transition: all 0.2s ease;
+}
+
+.btn-export-sales:hover {
+    background: #e8f5e9;
+    border-color: #2e7d32;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(46, 125, 50, 0.12);
+}
+
+.btn-export-sales.btn-export-csv {
+    background: #1b5e20;
+    color: #ffffff;
+    border-color: #1b5e20;
+}
+
+.btn-export-sales.btn-export-csv:hover {
+    background: #14532d;
+    border-color: #14532d;
+}
+
+/* Toolbar Filters */
+.sales-table-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 14px 18px;
+    background: #f8faf8;
+    border: 1px solid #e8efe8;
+    border-radius: 16px;
+    margin-bottom: 18px;
+}
+
+.sales-search-box {
+    position: relative;
+    flex: 1 1 240px;
+    min-width: 200px;
+}
+
+.sales-search-box i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    font-size: 0.9rem;
+}
+
+.sales-search-input {
+    width: 100%;
+    padding: 8px 12px 8px 34px;
+    border: 1.5px solid #dce4dd;
+    border-radius: 10px;
+    background: #ffffff;
+    font-size: 0.86rem;
+    color: #1e293b;
+    outline: none;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+.sales-search-input:focus {
+    border-color: #2e7d32;
+    box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.12);
+}
+
+.sales-filter-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.sales-filter-select {
+    padding: 8px 14px;
+    border: 1.5px solid #dce4dd;
+    border-radius: 10px;
+    background: #ffffff;
+    font-size: 0.84rem;
+    color: #334155;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.sales-filter-select:focus {
+    border-color: #2e7d32;
+}
+
+/* Table */
+.sales-table-wrap {
+    overflow-x: auto;
+    border-radius: 14px;
+    border: 1px solid #e8efe8;
+    background: #ffffff;
+}
+
+.sales-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.86rem;
+    text-align: left;
+}
+
+.sales-table th {
+    background: #f8faf8;
+    color: #475569;
+    font-weight: 600;
+    padding: 12px 16px;
+    border-bottom: 1.5px solid #e2ece3;
+    white-space: nowrap;
+}
+
+.sales-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid #f1f5f9;
+    color: #1e293b;
+    vertical-align: middle;
+}
+
+.sales-table tbody tr:hover {
+    background-color: #fbfdfb;
+}
+
+.order-id-pill {
+    font-family: monospace;
+    font-weight: 700;
+    color: #1b5e20;
+    background: #e8f5e9;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    display: inline-block;
+}
+
+/* Payment Status Badges */
+.badge-status-paid {
+    background: #dcfce7;
+    color: #16a34a;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.74rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.badge-status-pending {
+    background: #fef3c7;
+    color: #d97706;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.74rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.badge-status-failed {
+    background: #fee2e2;
+    color: #dc2626;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.74rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.btn-view-sale {
+    background: #ffffff;
+    border: 1px solid #d1e7dd;
+    color: #1b5e20;
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 16px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.2s ease;
+}
+
+.btn-view-sale:hover {
+    background: #e8f5e9;
+    border-color: #2e7d32;
+    color: #14532d;
+}
+
+/* Pagination */
+.sales-pagination-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 16px 4px 0 4px;
+}
+
+.sales-pagination-info {
+    font-size: 0.82rem;
+    color: #64748b;
+}
+
+.sales-pagination-btns {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-page-nav {
+    border: 1px solid #dce4dd;
+    background: #ffffff;
+    color: #334155;
+    padding: 5px 12px;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-page-nav:hover:not(:disabled) {
+    background: #e8f5e9;
+    border-color: #2e7d32;
+    color: #1b5e20;
+}
+
+.btn-page-nav:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.page-indicator {
+    padding: 5px 12px;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    background: #2e7d32;
+    color: #ffffff;
+}
+
+/* Empty State */
+.sales-empty-state {
+    text-align: center;
+    padding: 42px 20px;
+    color: #64748b;
+}
+
+.sales-empty-icon {
+    font-size: 2.5rem;
+    color: #cbd5e1;
+    margin-bottom: 8px;
+}
+
+.sales-empty-state h6 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #334155;
+    margin: 0 0 4px 0;
+}
+
+.sales-empty-state p {
+    font-size: 0.82rem;
+    color: #94a3b8;
+    margin: 0;
+}
+
+/* ==========================================================================
+   Toast Notification for Sales
+   ========================================================================== */
+.sales-toast {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 16px 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    border-left: 5px solid #2e7d32;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    z-index: 9999;
+    transform: translateY(120px);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    max-width: 400px;
+}
+
+.sales-toast.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.sales-toast-icon {
+    font-size: 1.4rem;
+    color: #2e7d32;
+    flex-shrink: 0;
+}
+
+.sales-toast-body {
+    flex-grow: 1;
+}
+
+.sales-toast-title {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 2px;
+}
+
+.sales-toast-msg {
+    font-size: 0.8rem;
+    color: #64748b;
+}
+
+.sales-toast-close {
+    background: none;
+    border: none;
+    color: #94a3b8;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+}
+
+/* ==========================================================================
+   Responsive Breakpoints
+   ========================================================================== */
+@media (max-width: 1199.98px) {
+    .sales-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .crop-breakdown-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .sales-card {
+        padding: 20px 18px;
+        border-radius: 18px;
+    }
+
+    .sales-stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .chart-header-row,
+    .table-header-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .sales-table-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .sales-search-box {
+        width: 100%;
+    }
+
+    .sales-filter-group {
+        width: 100%;
+    }
+
+    .sales-filter-select {
+        flex: 1;
+    }
+
+    .chart-canvas-container {
+        height: 250px;
+    }
+}

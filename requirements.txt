@@ -1,0 +1,17 @@
+django>=5.1,<5.3
+djangorestframework
+django-cors-headers
+django-mongodb-backend
+pymongo[srv]
+firebase-admin
+PyJWT
+cloudinary
+tensorflow
+scikit-learn
+joblib
+numpy
+google-genai
+Pillow
+python-decouple
+requests
+python-dateutil

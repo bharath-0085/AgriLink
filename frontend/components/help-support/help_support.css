@@ -1,0 +1,760 @@
+/* ==========================================================================
+   Agri Link — Help & Support Module Styles
+   Component: /components/help-support/help_support.css
+   Theme: Green (#1b5e20 family), white cards, clean rounded design
+   ========================================================================== */
+
+/* --- Container & Vertical Stack --- */
+.help-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.help-card {
+    background: #ffffff;
+    border: 1px solid #e2ece3;
+    border-radius: 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    padding: 28px 32px;
+    box-sizing: border-box;
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.help-card:hover {
+    border-color: #d1e7dd;
+    box-shadow: 0 6px 24px rgba(46, 125, 50, 0.06);
+}
+
+.help-card-header {
+    margin-bottom: 22px;
+}
+
+.help-card-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #14532d;
+    margin: 0 0 4px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.help-card-subtitle {
+    font-size: 0.88rem;
+    color: #64748b;
+    margin: 0;
+}
+
+/* ==========================================================================
+   1. Quick Contact Options (Help Desk Support)
+   ========================================================================== */
+.quick-contact-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.contact-channel-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 22px 18px;
+    border-radius: 18px;
+    background: #f8faf8;
+    border: 1.5px solid #e8efe8;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.contact-channel-card:hover {
+    background: #ffffff;
+    border-color: #2e7d32;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(46, 125, 50, 0.12);
+    color: inherit;
+}
+
+.channel-icon-wrap {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.45rem;
+    margin-bottom: 12px;
+    transition: transform 0.2s ease;
+}
+
+.contact-channel-card:hover .channel-icon-wrap {
+    transform: scale(1.08);
+}
+
+/* Color accents for contact channels */
+.channel-phone .channel-icon-wrap {
+    background: #e0f2fe;
+    color: #0284c7;
+}
+
+.channel-whatsapp .channel-icon-wrap {
+    background: #dcfce7;
+    color: #16a34a;
+}
+
+.channel-email .channel-icon-wrap {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+.channel-chat .channel-icon-wrap {
+    background: #ede9fe;
+    color: #7c3aed;
+}
+
+.channel-name {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0 0 4px 0;
+}
+
+.channel-detail {
+    font-size: 0.82rem;
+    color: #64748b;
+    margin: 0 0 12px 0;
+    font-weight: 500;
+}
+
+.channel-action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 20px;
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    color: #374151;
+    transition: all 0.2s ease;
+}
+
+.contact-channel-card:hover .channel-action-btn {
+    background: #1b5e20;
+    border-color: #1b5e20;
+    color: #ffffff;
+}
+
+/* Support Hours Banner */
+.support-hours-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 14px;
+    font-size: 0.84rem;
+    color: #166534;
+}
+
+.support-hours-banner i {
+    font-size: 1.05rem;
+}
+
+.support-hours-badge {
+    background: #16a34a;
+    color: #ffffff;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+}
+
+/* ==========================================================================
+   2. Raise a Support Ticket Form
+   ========================================================================== */
+.ticket-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px 24px;
+}
+
+.ticket-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.ticket-form-group.col-span-2 {
+    grid-column: span 2;
+}
+
+.help-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #334155;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.help-label i {
+    font-size: 0.95rem;
+}
+
+.help-input,
+.help-select,
+.help-textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid #dce4dd;
+    border-radius: 12px;
+    background: #ffffff;
+    font-size: 0.9rem;
+    color: #1f2937;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+    font-family: inherit;
+}
+
+.help-input:focus,
+.help-select:focus,
+.help-textarea:focus {
+    outline: none;
+    border-color: #2e7d32;
+    box-shadow: 0 0 0 3.5px rgba(46, 125, 50, 0.12);
+}
+
+.help-textarea {
+    min-height: 105px;
+    resize: vertical;
+}
+
+/* Attachment Upload Box */
+.attachment-upload-box {
+    border: 1.5px dashed #cbd5e1;
+    border-radius: 12px;
+    padding: 16px 20px;
+    background: #f8fafc;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.attachment-upload-box:hover {
+    border-color: #2e7d32;
+    background: #f0fdf4;
+}
+
+.attachment-upload-box i {
+    font-size: 1.5rem;
+    color: #64748b;
+    transition: color 0.2s;
+}
+
+.attachment-upload-box:hover i {
+    color: #2e7d32;
+}
+
+.attachment-text {
+    font-size: 0.84rem;
+    color: #475569;
+    font-weight: 500;
+    margin: 0;
+}
+
+.attachment-hint {
+    font-size: 0.74rem;
+    color: #94a3b8;
+    margin: 0;
+}
+
+.attachment-file-selected {
+    font-size: 0.82rem;
+    color: #1b5e20;
+    font-weight: 600;
+    background: #e8f5e9;
+    padding: 4px 12px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 4px;
+}
+
+.ticket-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.btn-help-submit {
+    background: #2e7d32;
+    color: #ffffff;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 28px;
+    font-size: 0.92rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 14px rgba(46, 125, 50, 0.25);
+    transition: all 0.2s ease;
+}
+
+.btn-help-submit:hover {
+    background: #1b5e20;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(46, 125, 50, 0.32);
+}
+
+/* ==========================================================================
+   3. My Tickets Table
+   ========================================================================== */
+.tickets-table-wrap {
+    overflow-x: auto;
+    border-radius: 14px;
+    border: 1px solid #e8efe8;
+    background: #ffffff;
+}
+
+.tickets-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.86rem;
+    text-align: left;
+}
+
+.tickets-table th {
+    background: #f8faf8;
+    color: #475569;
+    font-weight: 600;
+    padding: 12px 16px;
+    border-bottom: 1.5px solid #e2ece3;
+    white-space: nowrap;
+}
+
+.tickets-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid #f1f5f9;
+    color: #1e293b;
+    vertical-align: middle;
+}
+
+.tickets-table tbody tr:hover {
+    background-color: #fbfdfb;
+}
+
+.ticket-id-pill {
+    font-family: monospace;
+    font-weight: 700;
+    color: #1b5e20;
+    background: #e8f5e9;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    display: inline-block;
+}
+
+/* Status Badges */
+.badge-status-open {
+    background: #e0f2fe;
+    color: #0284c7;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.74rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.badge-status-progress {
+    background: #fef3c7;
+    color: #d97706;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.74rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.badge-status-resolved {
+    background: #dcfce7;
+    color: #16a34a;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.74rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.btn-view-ticket {
+    background: #ffffff;
+    border: 1px solid #d1e7dd;
+    color: #1b5e20;
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 16px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.2s ease;
+}
+
+.btn-view-ticket:hover {
+    background: #e8f5e9;
+    border-color: #2e7d32;
+    color: #14532d;
+}
+
+/* Empty State */
+.tickets-empty-state {
+    text-align: center;
+    padding: 38px 20px;
+    color: #64748b;
+}
+
+.tickets-empty-icon {
+    font-size: 2.4rem;
+    color: #cbd5e1;
+    margin-bottom: 8px;
+}
+
+.tickets-empty-state h6 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #334155;
+    margin: 0 0 4px 0;
+}
+
+.tickets-empty-state p {
+    font-size: 0.82rem;
+    color: #94a3b8;
+    margin: 0;
+}
+
+/* ==========================================================================
+   4. Frequently Asked Questions Accordion
+   ========================================================================== */
+.agri-faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.agri-faq-item {
+    border: 1px solid #e5ece5;
+    border-radius: 14px;
+    background: #ffffff;
+    overflow: hidden;
+    transition: all 0.2s ease;
+}
+
+.agri-faq-item.active {
+    border-color: #2e7d32;
+    box-shadow: 0 4px 14px rgba(46, 125, 50, 0.08);
+}
+
+.agri-faq-header {
+    width: 100%;
+    padding: 16px 20px;
+    background: #ffffff;
+    border: none;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    cursor: pointer;
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: #1e293b;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.agri-faq-item.active .agri-faq-header {
+    background: #f8faf8;
+    color: #14532d;
+}
+
+.agri-faq-header:hover {
+    background: #fbfdfb;
+}
+
+.agri-faq-title-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.faq-q-badge {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    background: #e8f5e9;
+    color: #1b5e20;
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.agri-faq-item.active .faq-q-badge {
+    background: #1b5e20;
+    color: #ffffff;
+}
+
+.agri-faq-chevron {
+    font-size: 0.88rem;
+    color: #94a3b8;
+    transition: transform 0.25s ease;
+}
+
+.agri-faq-item.active .agri-faq-chevron {
+    transform: rotate(180deg);
+    color: #2e7d32;
+}
+
+.agri-faq-body {
+    display: none;
+    padding: 16px 20px 18px 54px;
+    background: #f8faf8;
+    border-top: 1px solid #eef3ee;
+    font-size: 0.86rem;
+    line-height: 1.6;
+    color: #475569;
+}
+
+.agri-faq-item.active .agri-faq-body {
+    display: block;
+    animation: faqFadeIn 0.2s ease-out;
+}
+
+@keyframes faqFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==========================================================================
+   5. Guides & Resources Grid
+   ========================================================================== */
+.resources-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+
+.resource-card {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 18px;
+    background: #f8faf8;
+    border: 1.5px solid #e8efe8;
+    border-radius: 18px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.resource-card:hover {
+    background: #ffffff;
+    border-color: #2e7d32;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(46, 125, 50, 0.1);
+    color: inherit;
+}
+
+.resource-icon-wrap {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.35rem;
+    margin-bottom: 12px;
+    background: #e8f5e9;
+    color: #1b5e20;
+    transition: transform 0.2s ease;
+}
+
+.resource-card:hover .resource-icon-wrap {
+    transform: scale(1.08);
+    background: #1b5e20;
+    color: #ffffff;
+}
+
+.resource-title {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0 0 6px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.resource-title i.ext-icon {
+    font-size: 0.78rem;
+    color: #94a3b8;
+    transition: color 0.2s;
+}
+
+.resource-card:hover .resource-title i.ext-icon {
+    color: #2e7d32;
+}
+
+.resource-desc {
+    font-size: 0.8rem;
+    color: #64748b;
+    line-height: 1.45;
+    margin: 0;
+}
+
+/* ==========================================================================
+   Toast Notification for Help & Support
+   ========================================================================== */
+.help-toast {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 16px 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    border-left: 5px solid #2e7d32;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    z-index: 9999;
+    transform: translateY(120px);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    max-width: 400px;
+}
+
+.help-toast.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.help-toast.toast-error {
+    border-left-color: #ef4444;
+}
+
+.help-toast-icon {
+    font-size: 1.4rem;
+    color: #2e7d32;
+    flex-shrink: 0;
+}
+
+.help-toast.toast-error .help-toast-icon {
+    color: #ef4444;
+}
+
+.help-toast-body {
+    flex-grow: 1;
+}
+
+.help-toast-title {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 2px;
+}
+
+.help-toast-msg {
+    font-size: 0.8rem;
+    color: #64748b;
+}
+
+.help-toast-close {
+    background: none;
+    border: none;
+    color: #94a3b8;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+}
+
+/* ==========================================================================
+   Responsive Breakpoints
+   ========================================================================== */
+@media (max-width: 991.98px) {
+    .quick-contact-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .resources-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 767.98px) {
+    .help-card {
+        padding: 20px 18px;
+        border-radius: 18px;
+    }
+
+    .quick-contact-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .resources-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .ticket-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .ticket-form-group.col-span-2 {
+        grid-column: span 1;
+    }
+
+    .support-hours-banner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .agri-faq-body {
+        padding-left: 20px;
+    }
+}

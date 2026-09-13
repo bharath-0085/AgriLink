@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agri Link — One Platform for Every Farming Need</title>
+    <meta name="description"
+        content="All-in-one agriculture platform connecting Farmers, Labourers, Buyers, and Equipment Owners. Trade crops, diagnose crop diseases, and hire farm equipment.">
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- ==========================================
+         NAVIGATION BAR
+         ========================================== -->
+    <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+        <div class="container">
+            <a class="navbar-brand navbar-brand-custom" href="#home"
+                style="display: flex; align-items: center; gap: 8px;">
+                <img src="images/logo.png" alt="Agri Link Logo"
+                    style="height: 110px; width: auto; object-fit: contain; padding: 4px;">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link nav-link-custom active" href="#home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-custom" href="#about">About Us</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-custom" href="#services">Services</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-custom" href="#how-it-works">How It Works</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-custom" href="#contact">Contact</a></li>
+                </ul>
+                <div>
+                    <button class="btn btn-primary-custom px-4" data-bs-toggle="modal" data-bs-target="#loginModal">
+                        <i class="bi bi-person-fill"></i> Login / Register
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ==========================================
+         HERO SECTION WITH OVERLAYS
+         ========================================== -->
+    <section id="home" class="hero-section-new position-relative overflow-hidden">
+        <div class="container position-relative z-2">
+            <div class="row align-items-center">
+                <div class="col-lg-6 hero-text-col py-5">
+                    <span
+                        class="badge bg-success-subtle text-success fs-6 px-3 py-2 rounded-5 mb-3 border border-success-subtle">
+                        <i class="bi bi-leaf-fill"></i> SMART FARMING, BETTER TOMORROW
+                    </span>
+                    <h1 class="display-3 fw-bold text-dark mb-3 lh-sm">
+                        One Platform for <br><span class="text-success">Every Farming Need</span>
+                    </h1>
+                    <p class="lead text-muted mb-4 col-lg-11">
+                        Agri Link connects farmers, labour, equipment and buyers on a single platform. Grow better, earn
+                        better.
+                    </p>
+                    <div class="d-flex flex-wrap gap-3">
+                        <a href="#services" class="btn btn-primary-custom px-4 py-3">
+                            Explore Services <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Hero Image Column: Transparent portrait cutout of smiling farmer -->
+                <div class="col-lg-6 hero-img-col position-relative d-none d-lg-block">
+                    <img src="https://images.unsplash.com/photo-1592982537447-7440770cbfc9?q=80&w=600&auto=format&fit=crop"
+                        alt="Indian Farmer" class="img-fluid rounded-4 shadow-lg border border-3 border-white">
+                </div>
+            </div>
+        </div>
+
+        <!-- Background light gradient accent shapes -->
+        <div class="position-absolute top-0 end-0 bg-success opacity-10 rounded-circle"
+            style="width: 500px; height: 500px; transform: translate(30%, -30%); filter: blur(80px);"></div>
+    </section>
+
+    <!-- ==========================================
+         COUNTERS BAR
+         ========================================== -->
+    <section class="py-4 bg-light border-y stats-section">
+        <div class="container">
+            <div class="row text-center g-3">
+                <div class="col-6 col-md-2-4">
+                    <h3 class="fw-bold text-success mb-1">3,410</h3>
+                    <small class="text-muted">Farmers Joined</small>
+                </div>
+                <div class="col-6 col-md-2-4">
+                    <h3 class="fw-bold text-success mb-1">8,525</h3>
+                    <small class="text-muted">Crops Recommended</small>
+                </div>
+                <div class="col-6 col-md-2-4">
+                    <h3 class="fw-bold text-success mb-1">1,705</h3>
+                    <small class="text-muted">Equipments Listed</small>
+                </div>
+                <div class="col-6 col-md-2-4">
+                    <h3 class="fw-bold text-success mb-1">5,115</h3>
+                    <small class="text-muted">Deals Completed</small>
+                </div>
+                <div class="col-12 col-md-2-4">
+                    <h3 class="fw-bold text-success mb-1">98%</h3>
+                    <small class="text-muted">Farmer Satisfaction</small>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         ABOUT US SECTION
+         ========================================== -->
+    <section id="about" class="py-5 bg-white border-bottom">
+        <div class="container py-lg-4 reveal">
+            <div class="row align-items-center g-5 mb-5">
+                <div class="col-lg-6">
+                    <span
+                        class="badge bg-success-subtle text-success fs-6 px-3 py-2 rounded-5 mb-3 border border-success-subtle">
+                        <i class="bi bi-shield-check"></i> WHO WE ARE & OUR MISSION
+                    </span>
+                    <h2 class="display-5 fw-bold text-dark mb-3 lh-sm">
+                        Empowering Every Hand <br><span class="text-success">That Feeds The Nation</span>
+                    </h2>
+                    <p class="lead text-muted mb-3">
+                        Agri Link is India’s next-generation agricultural bridge connecting farmers, field labourers,
+                        equipment owners, and crop buyers into one unified, transparent digital ecosystem.
+                    </p>
+                    <p class="text-muted mb-4">
+                        For generations, Indian farmers have faced volatile commodity pricing, unexpected crop disease
+                        outbreaks, seasonal labour shortages, and expensive machinery. Agri Link eliminates these
+                        barriers through AI-powered disease diagnosis and crop recommendations, direct crop trading,
+                        on-demand machinery rentals, and direct labour hiring.
+                    </p>
+                    <div class="d-flex flex-wrap gap-3">
+                        <a href="#services" class="btn btn-primary-custom px-4 py-2">
+                            Explore Services <i class="bi bi-arrow-right"></i>
+                        </a>
+                        <a href="/about" class="btn btn-secondary-custom px-4 py-2">
+                            Read Full Story <i class="bi bi-book"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-6 text-center">
+                    <div class="position-relative">
+                        <img src="https://images.unsplash.com/photo-1595974482597-4b8da8879bc5?q=80&w=800&auto=format&fit=crop"
+                            alt="Indian Agriculture Field"
+                            class="img-fluid rounded-4 shadow-lg border border-3 border-white">
+                        <div class="position-absolute bottom-0 end-0 bg-success text-white p-3 rounded-4 shadow-lg m-3 border border-2 border-white d-none d-sm-block text-start"
+                            style="max-width: 250px;">
+                            <div class="fs-5 fw-bold mb-1"><i class="bi bi-patch-check-fill text-warning"></i> 100%
+                                Direct</div>
+                            <p class="small mb-0 text-white-50">Zero middleman cuts & fair price realization for every
+                                farmer.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Four Pillars (Who We Connect & Farmer Benefits) -->
+            <div class="text-center mb-5 mt-4">
+                <span
+                    class="badge bg-success-subtle text-success fs-6 px-3 py-2 rounded-5 mb-2 border border-success-subtle">
+                    <i class="bi bi-people-fill"></i> UNIFIED PLATFORM
+                </span>
+                <h3 class="fs-1 fw-bold">The Four Pillars of Agri Link</h3>
+                <p class="text-muted mx-auto" style="max-width: 650px;">Crafted specifically to fulfill the real-world
+                    operational needs of rural agriculture.</p>
+            </div>
+
+            <div class="row g-4 mb-5">
+                <div class="col-md-6 col-lg-3">
+                    <div class="pillar-card h-100">
+                        <div class="pillar-icon"><i class="bi bi-tree-fill"></i></div>
+                        <h4 class="fw-bold mb-2">Farmers</h4>
+                        <p class="text-muted small mb-3">Direct crop marketplace access, instant AI plant disease
+                            detection, soil-based crop recommendation, and easy machinery hire.</p>
+                        <ul class="list-unstyled small text-muted mb-0">
+                            <li class="mb-1"><i class="bi bi-check2 text-success me-1"></i> Zero middleman cuts</li>
+                            <li class="mb-1"><i class="bi bi-check2 text-success me-1"></i> Instant AI leaf diagnosis
+                            </li>
+                            <li><i class="bi bi-check2 text-success me-1"></i> Real-time weather alerts</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="pillar-card h-100">
+                        <div class="pillar-icon"><i class="bi bi-person-arms-up"></i></div>
+                        <h4 class="fw-bold mb-2">Labourers</h4>
+                        <p class="text-muted small mb-3">Transparent daily wage rates, direct booking from verified
+                            local farms, and consistent work throughout planting and harvest seasons.</p>
+                        <ul class="list-unstyled small text-muted mb-0">
+                            <li class="mb-1"><i class="bi bi-check2 text-success me-1"></i> Transparent daily wages</li>
+                            <li class="mb-1"><i class="bi bi-check2 text-success me-1"></i> Verified local employers
+                            </li>
+                            <li><i class="bi bi-check2 text-success me-1"></i> Flexible seasonal jobs</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="pillar-card h-100">
+                        <div class="pillar-icon"><i class="bi bi-cart-check-fill"></i></div>
+                        <h4 class="fw-bold mb-2">Crop Buyers</h4>
+                        <p class="text-muted small mb-3">Source fresh, high-quality agricultural produce directly from
+                            verified farmers at transparent wholesale prices.</p>
+                        <ul class="list-unstyled small text-muted mb-0">
+                            <li class="mb-1"><i class="bi bi-check2 text-success me-1"></i> Farm-fresh bulk sourcing
+                            </li>
+                            <li class="mb-1"><i class="bi bi-check2 text-success me-1"></i> Verified crop listings</li>
+                            <li><i class="bi bi-check2 text-success me-1"></i> Direct contract agreements</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="pillar-card h-100">
+                        <div class="pillar-icon"><i class="bi bi-truck"></i></div>
+                        <h4 class="fw-bold mb-2">Equipment Owners</h4>
+                        <p class="text-muted small mb-3">Monetize idle tractors, harvesters, tillers, and implements
+                            with safe, scheduled rentals to nearby verified farmers.</p>
+                        <ul class="list-unstyled small text-muted mb-0">
+                            <li class="mb-1"><i class="bi bi-check2 text-success me-1"></i> Maximize machinery ROI</li>
+                            <li class="mb-1"><i class="bi bi-check2 text-success me-1"></i> Advance booking calendar
+                            </li>
+                            <li><i class="bi bi-check2 text-success me-1"></i> Secure payment handling</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Core Values -->
+            <div class="row g-4 pt-3">
+                <div class="col-md-6 col-lg-3">
+                    <div class="value-card">
+                        <div class="value-icon"><i class="bi bi-shield-lock-fill"></i></div>
+                        <h5 class="fw-bold mb-2">Radical Transparency</h5>
+                        <p class="text-muted small mb-0">Clear prices, verified profiles, and authentic reviews. No
+                            hidden charges or exploitation.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="value-card">
+                        <div class="value-icon"><i class="bi bi-lightning-charge-fill"></i></div>
+                        <h5 class="fw-bold mb-2">AI Innovation</h5>
+                        <p class="text-muted small mb-0">Deep learning leaf diagnosis and agronomic ML models right on
+                            smartphones.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="value-card">
+                        <div class="value-icon"><i class="bi bi-heart-fill"></i></div>
+                        <h5 class="fw-bold mb-2">Community Welfare</h5>
+                        <p class="text-muted small mb-0">Elevating the dignity and financial stability of rural farm
+                            workers and smallholders.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="value-card">
+                        <div class="value-icon"><i class="bi bi-flower1"></i></div>
+                        <h5 class="fw-bold mb-2">Sustainable Farming</h5>
+                        <p class="text-muted small mb-0">Promoting responsible crop selection, soil health preservation,
+                            and eco-friendly yields.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         SERVICES HUB SECTION (ALL 5 SERVICES)
+         ========================================== -->
+    <section id="services" class="py-5 bg-light">
+        <div class="container py-lg-4 reveal">
+            <div class="text-center mb-5">
+                <span
+                    class="badge bg-success-subtle text-success fs-6 px-3 py-2 rounded-5 mb-2 border border-success-subtle">
+                    <i class="bi bi-gear-wide-connected"></i> ALL-IN-ONE AGRI SOLUTIONS
+                </span>
+                <h2 class="display-5 fw-bold text-dark">Agri Link Core Services</h2>
+                <p class="lead text-muted mx-auto col-lg-8">
+                    Explore all available agricultural services designed to protect your crops, connect local labor,
+                    hire machinery, and sell harvest directly at the best rates.
+                </p>
+                <div class="bg-success mx-auto mt-2" style="width: 80px; height: 3px;"></div>
+            </div>
+
+            <div class="row g-4 justify-content-center">
+                <!-- Service 1: Disease Detection -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="service-card-hub">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="service-icon-box mb-0"><i class="bi bi-search-heart"></i></div>
+                            <span class="badge bg-danger-subtle text-danger px-3 py-2 rounded-pill fw-semibold">AI Leaf
+                                Scan</span>
+                        </div>
+                        <h4 class="service-title">Crop Disease Detection</h4>
+                        <p class="service-desc">
+                            Upload or snap a photo of any damaged crop leaf. Our deep neural network identifies plant
+                            diseases instantly and provides proven cure and prevention recommendations.
+                        </p>
+                        <a href="#disease-detection" class="btn btn-outline-success service-btn">
+                            Scan Leaf <i class="bi bi-arrow-down"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Service 2: Labour Hiring -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="service-card-hub">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="service-icon-box mb-0"><i class="bi bi-people-fill"></i></div>
+                            <span class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill fw-semibold">Local
+                                Workforce</span>
+                        </div>
+                        <h4 class="service-title">Labour Hiring</h4>
+                        <p class="service-desc">
+                            Find and hire verified agricultural labourers for harvesting, weeding, sowing, and spraying.
+                            Enjoy transparent daily wages and direct phone coordination.
+                        </p>
+                        <a href="#labour-hiring" class="btn btn-outline-success service-btn">
+                            Hire Workers <i class="bi bi-arrow-down"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Service 3: Equipment Rental -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="service-card-hub">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="service-icon-box mb-0"><i class="bi bi-truck"></i></div>
+                            <span
+                                class="badge bg-warning-subtle text-warning-emphasis px-3 py-2 rounded-pill fw-semibold">Machinery</span>
+                        </div>
+                        <h4 class="service-title">Equipment Rental</h4>
+                        <p class="service-desc">
+                            Rent modern tractors, combine harvesters, rotavators, and sprayers from nearby farm owners
+                            at affordable hourly or daily rates without capital investment.
+                        </p>
+                        <a href="#equipment-rental" class="btn btn-outline-success service-btn">
+                            Rent Machinery <i class="bi bi-arrow-down"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Service 4: Marketplace -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="service-card-hub">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="service-icon-box mb-0"><i class="bi bi-cart-check-fill"></i></div>
+                            <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-semibold">Direct
+                                Trade</span>
+                        </div>
+                        <h4 class="service-title">Marketplace</h4>
+                        <p class="service-desc">
+                            Sell your freshly harvested crops directly to bulk buyers, food processors, and wholesalers.
+                            Enjoy zero middleman cuts, prompt settlements, and verified buyer profiles.
+                        </p>
+                        <a href="#marketplace" class="btn btn-outline-success service-btn">
+                            Browse Market <i class="bi bi-arrow-down"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Service 5: Crop Recommendation -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="service-card-hub">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="service-icon-box mb-0"><i class="bi bi-flower2"></i></div>
+                            <span class="badge bg-info-subtle text-info-emphasis px-3 py-2 rounded-pill fw-semibold">AI
+                                Agronomy</span>
+                        </div>
+                        <h4 class="service-title">Crop Recommendation</h4>
+                        <p class="service-desc">
+                            Input your local soil Nitrogen, Phosphorus, Potassium, pH, and climate parameters to receive
+                            machine learning predictions for the most profitable crops to plant.
+                        </p>
+                        <a href="#crop-recommendation" class="btn btn-outline-success service-btn">
+                            Analyze Soil <i class="bi bi-arrow-down"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         MARKETPLACE CROP PREVIEW
+         ========================================== -->
+    <section id="marketplace" class="py-5 bg-light">
+        <div class="container py-5 reveal locked-feature-wrapper">
+            <div class="locked-feature-overlay" id="overlay-marketplace">
+                <div class="lock-box text-center">
+                    <div class="fs-1 text-success mb-2"><i class="bi bi-shield-lock-fill"></i></div>
+                    <h5 class="fw-bold text-dark mb-1">Authorization Required</h5>
+                    <p class="text-muted small mb-3">Please login with your mobile number to browse direct crop
+                        listings.</p>
+                    <button class="btn btn-success btn-sm px-4 rounded-pill fw-bold" data-bs-toggle="modal"
+                        data-bs-target="#loginModal">Unlock Feature</button>
+                </div>
+            </div>
+            <div class="row mb-5 align-items-end">
+                <div class="col-lg-6">
+                    <span class="text-success fw-bold text-uppercase">Direct Sale</span>
+                    <h2 class="mt-2 fs-1">Marketplace Crop Catalog</h2>
+                </div>
+                <div class="col-lg-6">
+                    <div class="input-group shadow-sm">
+                        <span class="input-group-text bg-white border-0"><i
+                                class="bi bi-search text-success"></i></span>
+                        <input type="text" id="crop-search" class="form-control border-0"
+                            placeholder="Search crops or locations...">
+                    </div>
+                </div>
+            </div>
+            <div class="row g-4 justify-content-center" id="crop-listings">
+                <div class="col-12 text-center py-5">
+                    <div class="fs-1 text-muted mb-3"><i class="bi bi-cart-x"></i></div>
+                    <h4 class="fw-bold text-success">No Crops Listed Yet</h4>
+                    <p class="text-muted col-md-6 mx-auto">The crop catalog is currently empty. Register as a Farmer to
+                        list and sell your fresh harvest directly to buyers.</p>
+                    <button class="btn btn-primary-custom mt-3" data-bs-toggle="modal" data-bs-target="#loginModal">List
+                        Your Crop</button>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         CROP RECOMMENDATION SECTION
+         ========================================== -->
+    <section id="crop-recommendation" class="py-5 bg-light border-top">
+        <div class="container py-5 reveal">
+            <div class="text-center mb-5">
+                <span class="text-success fw-bold text-uppercase">AI Soil Analysis</span>
+                <h2 class="mt-2 fs-1">Crop Recommendation</h2>
+                <p class="lead text-muted col-lg-6 mx-auto">Get optimal crop predictions based on local soil nutrients
+                    and climate parameters.</p>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="bg-white rounded-4 shadow-lg p-5 border border-light locked-feature-wrapper">
+                        <div class="locked-feature-overlay" id="overlay-recommendation">
+                            <div class="lock-box text-center">
+                                <div class="fs-1 text-success mb-2"><i class="bi bi-shield-lock-fill"></i></div>
+                                <h5 class="fw-bold text-dark mb-1">Authorization Required</h5>
+                                <p class="text-muted small mb-3">Please login with your mobile number to get crop
+                                    recommendations.</p>
+                                <button class="btn btn-success btn-sm px-4 rounded-pill fw-bold" data-bs-toggle="modal"
+                                    data-bs-target="#loginModal">Unlock Feature</button>
+                            </div>
+                        </div>
+                        <form id="crop-recommend-form" class="needs-validation-custom" novalidate>
+                            <div class="row g-4">
+                                <!-- Soil Nutrients Header -->
+                                <div class="col-12">
+                                    <h5 class="fw-bold text-success border-bottom pb-2 mb-0"><i
+                                            class="bi bi-droplet-half"></i> Soil Parameters (mg/kg)</h5>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label small fw-semibold text-muted">Nitrogen (N)</label>
+                                    <input type="number" id="input-n" class="form-control rounded-3" value="90" min="0"
+                                        max="150" required>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label small fw-semibold text-muted">Phosphorus (P)</label>
+                                    <input type="number" id="input-p" class="form-control rounded-3" value="42" min="0"
+                                        max="100" required>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label small fw-semibold text-muted">Potassium (K)</label>
+                                    <input type="number" id="input-k" class="form-control rounded-3" value="43" min="0"
+                                        max="100" required>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label small fw-semibold text-muted">Soil pH (0.0 - 14.0)</label>
+                                    <input type="number" id="input-ph" class="form-control rounded-3" value="6.5"
+                                        step="0.1" min="0" max="14" required>
+                                </div>
+
+                                <!-- Climate Parameters Header -->
+                                <div class="col-12 mt-5">
+                                    <h5 class="fw-bold text-success border-bottom pb-2 mb-0"><i
+                                            class="bi bi-cloud-sun"></i> Climate & Weather</h5>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label small fw-semibold text-muted">Temperature (°C)</label>
+                                    <input type="number" id="input-temp" class="form-control rounded-3" value="22"
+                                        required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label small fw-semibold text-muted">Humidity (%)</label>
+                                    <input type="number" id="input-humidity" class="form-control rounded-3" value="82"
+                                        min="0" max="100" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label small fw-semibold text-muted">Rainfall (mm)</label>
+                                    <input type="number" id="input-rainfall" class="form-control rounded-3" value="200"
+                                        required>
+                                </div>
+
+                                <div class="col-12 text-center mt-4 d-flex justify-content-center gap-3">
+                                    <button type="button" class="btn btn-outline-success px-4"
+                                        id="autofill-btn">Auto-fill Coimbatore Data</button>
+                                    <button type="submit" class="btn btn-primary-custom px-5">Get AI
+                                        Recommendation</button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <!-- Recommendation Result Display -->
+                        <div id="crop-result" class="d-none mt-5 pt-4 border-top">
+                            <div class="row align-items-center g-4">
+                                <div class="col-md-5 text-center">
+                                    <div class="bg-success-subtle p-4 rounded-4 shadow-sm">
+                                        <h6 class="text-success fw-bold text-uppercase mb-2">Optimal Crop</h6>
+                                        <h2 class="display-5 fw-bold text-success mb-2" id="recommended-crop-name">Rice
+                                        </h2>
+                                        <span class="badge bg-success px-3 py-2 rounded-5"
+                                            id="recommendation-confidence">98.2% Confidence</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-7">
+                                    <h4 class="fw-bold mb-3">Recommendation Analysis</h4>
+                                    <p class="text-muted small" id="recommendation-analysis-text">
+                                        The soil data indicates high nitrogen and moderate phosphorus and potassium
+                                        levels. Abundant rainfall (200mm) and warm climate parameters match the premium
+                                        growing profile of Basmati Rice.
+                                    </p>
+                                    <div class="d-flex gap-2 mt-4">
+                                        <a href="#marketplace" class="btn btn-success btn-sm px-4">Buy Seeds</a>
+                                        <a href="#labour-hiring" class="btn btn-outline-success btn-sm px-4">Hire
+                                            Harvesting Labour</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         DISEASE DETECTION SECTION
+         ========================================== -->
+    <section id="disease-detection" class="py-5 bg-white">
+        <div class="container py-5 reveal">
+            <div class="text-center mb-5">
+                <span class="text-success fw-bold text-uppercase">AI Leaf Scan</span>
+                <h2 class="mt-2 fs-1">Crop Disease Diagnostics</h2>
+                <p class="lead text-muted col-lg-6 mx-auto">Upload a photo of an infected leaf. Our neural network will
+                    analyze symptoms to suggest treatments.</p>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="detection-wrapper locked-feature-wrapper">
+                        <div class="locked-feature-overlay" id="overlay-disease">
+                            <div class="lock-box text-center">
+                                <div class="fs-1 text-success mb-2"><i class="bi bi-shield-lock-fill"></i></div>
+                                <h5 class="fw-bold text-dark mb-1">Authorization Required</h5>
+                                <p class="text-muted small mb-3">Please login with your mobile number to access leaf
+                                    scanner diagnostics.</p>
+                                <button class="btn btn-success btn-sm px-4 rounded-pill fw-bold" data-bs-toggle="modal"
+                                    data-bs-target="#loginModal">Unlock Feature</button>
+                            </div>
+                        </div>
+                        <div class="row g-5 align-items-center">
+                            <!-- Left: Upload column -->
+                            <div class="col-md-6 text-center">
+                                <div class="upload-zone" id="drop-zone">
+                                    <i class="bi bi-cloud-arrow-up-fill"></i>
+                                    <h4>Drag & Drop Leaf Photo</h4>
+                                    <p class="text-muted mb-4">Supports JPEG, PNG, and WEBP formats (Max 10 MB)</p>
+                                    <button class="btn btn-primary-custom">Choose File</button>
+                                    <input type="file" id="leaf-image-input" accept="image/*" class="d-none">
+                                </div>
+
+                                <div id="preview-container" class="mt-4 d-none">
+                                    <h5>Image Preview</h5>
+                                    <img id="image-preview" src="#" alt="Uploaded leaf preview"
+                                        class="img-fluid border shadow-sm my-3 d-block mx-auto">
+                                    <button class="btn btn-accent-custom w-100" id="analyze-btn" disabled>Start AI
+                                        Analysis</button>
+                                </div>
+                            </div>
+
+                            <!-- Right: Result column -->
+                            <div class="col-md-6 border-start">
+                                <div id="placeholder-text" class="text-center py-5">
+                                    <i class="bi bi-shield-fill-exclamation fs-1 text-muted"></i>
+                                    <h4 class="mt-3">Waiting for upload</h4>
+                                    <p class="text-muted">Diagnostic results, confidence rates, and recommended
+                                        treatments will display here after scanning.</p>
+                                </div>
+
+                                <div id="skeleton-loader" class="d-none">
+                                    <div class="skeleton mb-3" style="height: 30px; width: 60%; border-radius: 8px;">
+                                    </div>
+                                    <div class="skeleton mb-2" style="height: 20px; width: 40%; border-radius: 8px;">
+                                    </div>
+                                    <div class="skeleton mb-4" style="height: 150px; width: 100%; border-radius: 12px;">
+                                    </div>
+                                </div>
+
+                                <div id="result-card" class="d-none">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <h3 class="text-danger mb-0" id="res-disease">Apple Black Rot</h3>
+                                        <span class="badge bg-success fs-6" id="res-confidence">94.8% Match</span>
+                                    </div>
+                                    <hr>
+                                    <div class="mb-4">
+                                        <h5 class="text-success"><i class="bi bi-check2-circle"></i> Suggested Treatment
+                                        </h5>
+                                        <p id="res-treatment" class="text-dark small lh-base"></p>
+                                    </div>
+                                    <div>
+                                        <h5 class="text-success"><i class="bi bi-shield-check"></i> Prevention Tips</h5>
+                                        <p id="res-prevention" class="text-dark small lh-base"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         EQUIPMENT RENTAL SECTION
+         ========================================= -->
+    <section id="equipment-rental" class="py-5 bg-light">
+        <div class="container py-5 reveal locked-feature-wrapper">
+            <div class="locked-feature-overlay" id="overlay-equipment">
+                <div class="lock-box text-center">
+                    <div class="fs-1 text-success mb-2"><i class="bi bi-shield-lock-fill"></i></div>
+                    <h5 class="fw-bold text-dark mb-1">Authorization Required</h5>
+                    <p class="text-muted small mb-3">Please login with your mobile number to rent agricultural
+                        equipment.</p>
+                    <button class="btn btn-success btn-sm px-4 rounded-pill fw-bold" data-bs-toggle="modal"
+                        data-bs-target="#loginModal">Unlock Feature</button>
+                </div>
+            </div>
+            <div class="text-center mb-5">
+                <span class="text-success fw-bold text-uppercase">Machinery Rental</span>
+                <h2 class="mt-2 fs-1">Rent Farming Equipment Nearby</h2>
+            </div>
+
+            <div class="row g-4 justify-content-center">
+                <div class="col-12 text-center py-5">
+                    <div class="fs-1 text-muted mb-3"><i class="bi bi-truck-flatbed"></i></div>
+                    <h4 class="fw-bold text-success">No Equipment Available for Rent</h4>
+                    <p class="text-muted col-md-6 mx-auto">No agricultural machinery has been listed in this area yet.
+                        Register as an Owner to list your tractors or tools for rental.</p>
+                    <button class="btn btn-primary-custom mt-3" data-bs-toggle="modal" data-bs-target="#loginModal">Rent
+                        Out Equipment</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         LABOUR HIRING SECTION
+         ========================================== -->
+    <section id="labour-hiring" class="py-5 bg-white">
+        <div class="container py-5 reveal locked-feature-wrapper">
+            <div class="locked-feature-overlay" id="overlay-labour">
+                <div class="lock-box text-center">
+                    <div class="fs-1 text-success mb-2"><i class="bi bi-shield-lock-fill"></i></div>
+                    <h5 class="fw-bold text-dark mb-1">Authorization Required</h5>
+                    <p class="text-muted small mb-3">Please login with your mobile number to hire farm labourers.</p>
+                    <button class="btn btn-success btn-sm px-4 rounded-pill fw-bold" data-bs-toggle="modal"
+                        data-bs-target="#loginModal">Unlock Feature</button>
+                </div>
+            </div>
+            <div class="text-center mb-5">
+                <span class="text-success fw-bold text-uppercase">Work Force</span>
+                <h2 class="mt-2 fs-1">Hire Skilled Agriculture Labour</h2>
+            </div>
+
+            <div class="row g-4 justify-content-center">
+                <div class="col-12 text-center py-5">
+                    <div class="fs-1 text-muted mb-3"><i class="bi bi-people-fill"></i></div>
+                    <h4 class="fw-bold text-success">No Farm Workers Registered Yet</h4>
+                    <p class="text-muted col-md-6 mx-auto">There are no farm labourers registered in this district
+                        currently. Register as a Labourer to find local farm work with daily wages.</p>
+                    <button class="btn btn-primary-custom mt-3" data-bs-toggle="modal"
+                        data-bs-target="#loginModal">Register as Labourer</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         HOW IT WORKS SECTION (6-STEP ROADMAP + WHY CHOOSE)
+         ========================================== -->
+    <section id="how-it-works" class="py-5 bg-white border-top">
+        <div class="container py-lg-4 reveal">
+            <div class="text-center mb-5">
+                <span
+                    class="badge bg-success-subtle text-success fs-6 px-3 py-2 rounded-5 mb-2 border border-success-subtle">
+                    <i class="bi bi-list-ol"></i> STEP-BY-STEP PROCESS
+                </span>
+                <h2 class="display-5 fw-bold text-dark">How Agri Link Works</h2>
+                <p class="lead text-muted mx-auto col-lg-7">
+                    Get started in minutes. Follow our 6 simple steps to access diagnosis, farm workers, machinery, and
+                    fair produce markets.
+                </p>
+                <div class="bg-success mx-auto mt-2" style="width: 80px; height: 3px;"></div>
+            </div>
+
+            <!-- 6 Clear Steps Grid -->
+            <div class="row g-4 mb-5">
+                <!-- Step 1 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="step-card">
+                        <div class="step-number-badge">1</div>
+                        <div class="step-icon-wrap"><i class="bi bi-person-check-fill"></i></div>
+                        <h4 class="step-title">Register or Login</h4>
+                        <p class="step-desc">Enter your mobile phone number, select your role as Farmer, Labourer, or
+                            Buyer, and complete one-click OTP verification.</p>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="step-card">
+                        <div class="step-number-badge">2</div>
+                        <div class="step-icon-wrap"><i class="bi bi-grid-3x3-gap-fill"></i></div>
+                        <h4 class="step-title">Select Required Service</h4>
+                        <p class="step-desc">Choose from Crop Disease Scanner, Labour Hiring, Machinery Rental, Produce
+                            Marketplace, or AI Crop Recommendation.</p>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="step-card">
+                        <div class="step-number-badge">3</div>
+                        <div class="step-icon-wrap"><i class="bi bi-cloud-arrow-up-fill"></i></div>
+                        <h4 class="step-title">Enter or Upload Information</h4>
+                        <p class="step-desc">Upload an infected leaf photo, enter soil NPK levels, list your harvest
+                            with target quantity, or specify needed machinery.</p>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="step-card">
+                        <div class="step-number-badge">4</div>
+                        <div class="step-icon-wrap"><i class="bi bi-cpu-fill"></i></div>
+                        <h4 class="step-title">AI & Service Processing</h4>
+                        <p class="step-desc">Our convolutional neural networks and smart matching algorithms process
+                            your data in seconds to find the best solutions.</p>
+                    </div>
+                </div>
+
+                <!-- Step 5 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="step-card">
+                        <div class="step-number-badge">5</div>
+                        <div class="step-icon-wrap"><i class="bi bi-card-checklist"></i></div>
+                        <h4 class="step-title">View Results or Options</h4>
+                        <p class="step-desc">Review diagnosis confidence and suggested cures, browse nearby available
+                            tractors, or see matching labour profiles.</p>
+                    </div>
+                </div>
+
+                <!-- Step 6 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="step-card">
+                        <div class="step-number-badge">6</div>
+                        <div class="step-icon-wrap"><i class="bi bi-check-circle-fill"></i></div>
+                        <h4 class="step-title">Complete Required Action</h4>
+                        <p class="step-desc">Confirm rental dates, finalize buyer contracts, hire workers for field
+                            tasks, or apply recommended treatments.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Why Choose Agri Link cards -->
+            <div class="mt-5 pt-3">
+                <div class="text-center mb-4">
+                    <h3 class="fs-2 fw-bold">Why Choose Agri Link?</h3>
+                    <p class="text-muted">Built from the ground up for the Indian farming community.</p>
+                </div>
+                <div class="row g-4">
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card border-0 p-4 bg-light h-100 rounded-4 text-center">
+                            <div class="fs-2 text-success mb-3"><i class="bi bi-grid-fill"></i></div>
+                            <h5 class="fw-bold">All in One Platform</h5>
+                            <p class="small text-muted mb-0">Everything a farmer needs in one place, from diagnostics to
+                                marketplace sales.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card border-0 p-4 bg-light h-100 rounded-4 text-center">
+                            <div class="fs-2 text-success mb-3"><i class="bi bi-clock-history"></i></div>
+                            <h5 class="fw-bold">Save Time & Money</h5>
+                            <p class="small text-muted mb-0">Reduce search costs and save valuable harvesting time with
+                                instant local hiring.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card border-0 p-4 bg-light h-100 rounded-4 text-center">
+                            <div class="fs-2 text-success mb-3"><i class="bi bi-shield-check"></i></div>
+                            <h5 class="fw-bold">Trusted & Secure</h5>
+                            <p class="small text-muted mb-0">Verified user profiles and secure transaction workflows
+                                protect crop agreements.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card border-0 p-4 bg-light h-100 rounded-4 text-center">
+                            <div class="fs-2 text-success mb-3"><i class="bi bi-graph-up-arrow"></i></div>
+                            <h5 class="fw-bold">Better Productivity</h5>
+                            <p class="small text-muted mb-0">Smart data solutions and treatment tips lead to better
+                                yield and higher profits.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- ==========================================
+         MOBILE APP BANNER (LANDING PAGE DETAIL)
+         ========================================== -->
+    <section class="py-5 bg-success-subtle border-top">
+        <div class="container reveal">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-7">
+                    <h2 class="display-5 fw-bold text-success mb-3">Take Agri Link Everywhere</h2>
+                    <p class="lead text-dark mb-4">Download our mobile application to manage your farm bookings, chat
+                        with buyers, and scan crop leaves on the go.</p>
+                    <div class="d-flex gap-3">
+                        <a href="#" class="btn btn-dark btn-lg px-4 py-3 rounded-3"
+                            onclick="alert('Redirecting to Google Play Store...')">
+                            <i class="bi bi-google-play me-2"></i> Get it on Google Play
+                        </a>
+                        <a href="#" class="btn btn-dark btn-lg px-4 py-3 rounded-3"
+                            onclick="alert('Redirecting to Apple App Store...')">
+                            <i class="bi bi-apple me-2"></i> Download on App Store
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-5 text-center">
+                    <!-- Leafy decoration & mockup -->
+                    <i class="bi bi-phone text-success"
+                        style="font-size: 160px; filter: drop-shadow(0 15px 30px rgba(46,125,50,0.25));"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         CONTACT & FOOTER
+         ========================================== -->
+    <section id="contact" class="py-5 bg-white">
+        <div class="container py-5 reveal">
+            <div class="row g-5">
+                <div class="col-lg-6">
+                    <span class="text-success fw-bold text-uppercase">Get In Touch</span>
+                    <h2 class="mt-2 fs-1">Have Questions? Reach Out to Us</h2>
+                    <p class="text-muted my-4 col-lg-10">We are committed to helping the farming community. Send us a
+                        message or connect with our support helpline and innovation offices.</p>
+
+                    <div class="contact-info-box">
+                        <div class="contact-info-icon"><i class="bi bi-telephone-fill"></i></div>
+                        <div>
+                            <h5>Call Support</h5>
+                            <p class="mb-0">+91 1800 200 4545 (Toll-Free Helpline)</p>
+                        </div>
+                    </div>
+                    <div class="contact-info-box">
+                        <div class="contact-info-icon"><i class="bi bi-envelope-open-fill"></i></div>
+                        <div>
+                            <h5>Email Address</h5>
+                            <p class="mb-0">support@agrilink.in</p>
+                        </div>
+                    </div>
+                    <div class="contact-info-box">
+                        <div class="contact-info-icon"><i class="bi bi-geo-alt-fill"></i></div>
+                        <div>
+                            <h5>Innovation Office</h5>
+                            <p class="mb-0">Agri Link Innovation Hub, Agricultural University Road, Coimbatore, Tamil
+                                Nadu 641003</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="card shadow-sm p-4 border-0 rounded-4">
+                        <form class="needs-validation-custom" novalidate>
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Full Name</label>
+                                <input type="text" class="form-control rounded-3" required
+                                    placeholder="Enter your full name">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Email Address</label>
+                                <input type="email" class="form-control rounded-3" required
+                                    placeholder="Enter your email address">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Phone Number</label>
+                                <input type="tel" class="form-control rounded-3" required
+                                    placeholder="Enter 10-digit phone number">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Your Message</label>
+                                <textarea class="form-control rounded-3" rows="4" required
+                                    placeholder="Explain your farming requirement or query..."></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary-custom w-100 py-3">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer-custom">
+        <div class="container">
+            <div class="row g-4 mb-5">
+                <div class="col-lg-4 col-md-6">
+                    <h4 class="text-white fw-bold mb-4" style="display: flex; align-items: center; gap: 8px;">
+                        <img src="images/logo.png" alt="Agri Link Logo"
+                            style="height: 38px; width: auto; object-fit: contain; background: white; padding: 4px; border-radius: 8px;">
+                    </h4>
+                    <p class="small text-white-50">Connecting farmers with tools, machinery, and labour markets.
+                        Empowering agriculture through reliable software solutions.</p>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <h5>Quick Links</h5>
+                    <a href="#home" class="footer-link">Home</a>
+                    <a href="#about" class="footer-link">About Us</a>
+                    <a href="#services" class="footer-link">Services</a>
+                    <a href="#how-it-works" class="footer-link">How It Works</a>
+                    <a href="#contact" class="footer-link">Contact</a>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <h5>Our Services</h5>
+                    <a href="#marketplace" class="footer-link">Marketplace</a>
+                    <a href="#disease-detection" class="footer-link">AI Plant Scanner</a>
+                    <a href="#equipment-rental" class="footer-link">Machinery Renting</a>
+                    <a href="#labour-hiring" class="footer-link">Labour Hiring</a>
+                    <a href="#crop-recommendation" class="footer-link">Crop Recommendation</a>
+                </div>
+            </div>
+            <hr class="border-secondary">
+            <p class="small text-white-50 mb-0 text-center">© 2026 Agri Link. All rights reserved. | <a href="#"
+                    class="text-white-50">Privacy Policy</a> | <a href="#" class="text-white-50">Terms</a></p>
+        </div>
+    </footer>
+
+    <!-- ==========================================
+         AUTH MODALS (LOGIN / REGISTER)
+         ========================================== -->
+    <!-- ==========================================
+         AUTH MODALS (LOGIN / REGISTER)
+         ========================================== -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content rounded-4 border-0 p-3 p-md-4 shadow-lg">
+                <div class="modal-header border-0 pb-1 flex-column text-center position-relative">
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                    <div class="mb-2">
+                        <img src="images/logo.png" alt="Agri Link Logo" style="height: 48px;"
+                            class="shadow-sm rounded-3">
+                    </div>
+                    <h3 class="fw-bold text-dark mb-1" id="loginModalLabel">Welcome Back</h3>
+                    <p class="text-muted small mb-0" id="loginModalSubtitle">Login or register to continue</p>
+                </div>
+
+                <div class="modal-body pt-2">
+                    <!-- Modal Alert Container -->
+                    <div id="modal-auth-alert" class="alert alert-danger d-none py-2 px-3 small rounded-3 mb-3"
+                        role="alert"></div>
+
+                    <!-- VIEW 1: CLEAN 4-ROLE SELECTION INTERFACE (2x2 GRID) -->
+                    <div id="auth-role-select-view">
+                        <div class="role-grid-container">
+                            <!-- 1. Farmer Login -->
+                            <div class="role-grid-card role-select-card" data-role="farmer" role="button" tabindex="0"
+                                onclick="selectRole('farmer')">
+                                <div>
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <div class="role-icon-circle">👨‍🌾</div>
+                                        <span
+                                            class="badge bg-success-subtle text-success role-tag-badge">Producer</span>
+                                    </div>
+                                    <h6 class="fw-bold text-dark mb-1">Farmer Login</h6>
+                                    <p class="text-muted mb-0" style="font-size: 0.78rem; line-height: 1.35;">Sell crops
+                                        & book machinery</p>
+                                </div>
+                                <div class="mt-2 pt-2 border-top border-success-subtle">
+                                    <button type="button"
+                                        class="btn btn-success btn-sm w-100 py-1 fw-semibold modal-role-quick-btn"
+                                        data-role="farmer" onclick="event.stopPropagation(); selectRole('farmer')">
+                                        ⚡ Sign In as Farmer
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- 2. Labour Login -->
+                            <div class="role-grid-card role-select-card" data-role="labour" role="button" tabindex="0"
+                                onclick="selectRole('labour')">
+                                <div>
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <div class="role-icon-circle">👷</div>
+                                        <span class="badge bg-primary-subtle text-primary role-tag-badge">Field
+                                            Worker</span>
+                                    </div>
+                                    <h6 class="fw-bold text-dark mb-1">Labour Login</h6>
+                                    <p class="text-muted mb-0" style="font-size: 0.78rem; line-height: 1.35;">Find farm
+                                        jobs & daily pay</p>
+                                </div>
+                                <div class="mt-2 pt-2 border-top border-success-subtle">
+                                    <button type="button"
+                                        class="btn btn-primary btn-sm w-100 py-1 fw-semibold modal-role-quick-btn"
+                                        data-role="labour" style="background-color: #1976D2; border-color: #1976D2;"
+                                        onclick="event.stopPropagation(); selectRole('labour')">
+                                        ⚡ Sign In as Labour
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- 3. Buyer Login -->
+                            <div class="role-grid-card role-select-card" data-role="buyer" role="button" tabindex="0"
+                                onclick="selectRole('buyer')">
+                                <div>
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <div class="role-icon-circle">🛒</div>
+                                        <span
+                                            class="badge bg-warning-subtle text-warning-emphasis role-tag-badge">Trader</span>
+                                    </div>
+                                    <h6 class="fw-bold text-dark mb-1">Buyer Login</h6>
+                                    <p class="text-muted mb-0" style="font-size: 0.78rem; line-height: 1.35;">Source
+                                        direct fresh produce</p>
+                                </div>
+                                <div class="mt-2 pt-2 border-top border-success-subtle">
+                                    <button type="button"
+                                        class="btn btn-warning btn-sm w-100 py-1 fw-semibold text-white modal-role-quick-btn"
+                                        data-role="buyer" style="background-color: #F57C00; border-color: #F57C00;"
+                                        onclick="event.stopPropagation(); selectRole('buyer')">
+                                        ⚡ Sign In as Buyer
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- 4. Admin Login -->
+                            <div class="role-grid-card role-select-card" data-role="admin" role="button" tabindex="0"
+                                onclick="selectRole('admin')">
+                                <div>
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <div class="role-icon-circle">👨‍💼</div>
+                                        <span
+                                            class="badge bg-danger-subtle text-danger role-tag-badge">Operations</span>
+                                    </div>
+                                    <h6 class="fw-bold text-dark mb-1">Admin Login</h6>
+                                    <p class="text-muted mb-0" style="font-size: 0.78rem; line-height: 1.35;">Platform &
+                                        operations portal</p>
+                                </div>
+                                <div class="mt-2 pt-2 border-top border-success-subtle">
+                                    <button type="button"
+                                        class="btn btn-danger btn-sm w-100 py-1 fw-semibold modal-role-quick-btn"
+                                        data-role="admin" style="background-color: #D32F2F; border-color: #D32F2F;"
+                                        onclick="event.stopPropagation(); selectRole('admin')">
+                                        🔒 Sign In as Admin
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bottom Registration Link -->
+                        <div class="text-center pt-2">
+                            <p class="text-muted small mb-0">
+                                New to Agri Link?
+                                <a href="login.html?action=register"
+                                    class="text-success fw-bold text-decoration-none">Create an account</a>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- VIEW 2: ROLE LOGIN FORM (Shown after selecting role) -->
+                    <div id="auth-form-view" class="d-none">
+                        <!-- Active Role Header with Back Button -->
+                        <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
+                            <button type="button"
+                                class="btn btn-link text-decoration-none text-muted p-0 small fw-semibold"
+                                id="back-to-roles-btn" onclick="backToRoles()">
+                                <i class="bi bi-arrow-left"></i> Change Role
+                            </button>
+                            <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-bold"
+                                id="active-role-pill">
+                                👨‍🌾 Farmer Login
+                            </span>
+                        </div>
+
+                        <!-- Step 1: Mobile Input (Farmer & Labour) -->
+                        <form id="auth-step-1">
+                            <input type="hidden" id="auth-role" value="farmer">
+                            <p class="text-muted small mb-3" id="role-login-hint">Enter your 10-digit mobile number to
+                                receive a verification code.</p>
+
+                            <div class="mb-3">
+                                <label class="form-label small fw-semibold text-muted">Mobile Number</label>
+                                <div class="input-group">
+                                    <span
+                                        class="input-group-text bg-light border border-end-0 rounded-start-3 text-muted fw-semibold">+91</span>
+                                    <input type="tel" id="auth-mobile" class="form-control border rounded-end-3 p-2"
+                                        placeholder="Enter 10-digit number" pattern="[0-9]{10}" maxlength="10" required
+                                        value="9842199881">
+                                </div>
+                                <small class="text-muted mt-1 d-block" style="font-size: 11px;">Registered number demo:
+                                    <strong id="modal-demo-num" class="text-success"
+                                        style="cursor: pointer;">9842199881</strong></small>
+                            </div>
+
+                            <button type="submit" id="modal-send-otp-btn"
+                                class="btn btn-primary-custom w-100 py-2 mt-1 fw-semibold">
+                                Send Verification OTP <i class="bi bi-arrow-right ms-1"></i>
+                            </button>
+                        </form>
+
+                        <!-- Step 2: OTP Verification (Farmer & Labour) -->
+                        <form id="auth-step-2" class="d-none">
+                            <p class="text-muted small mb-2">A 6-digit verification code has been sent to +91 <span
+                                    id="display-otp-mobile" class="fw-bold"></span>.</p>
+                            <div id="modal-otp-info-banner"
+                                class="alert alert-success-subtle border border-success-subtle text-success small py-2 mb-3 text-center"
+                                style="background-color: #E8F5E9;">
+                                <i class="bi bi-shield-check me-1"></i> Generating secure OTP code...
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label small fw-semibold text-muted text-center d-block">Enter 6-Digit
+                                    Code</label>
+                                <input type="text" id="auth-otp"
+                                    class="form-control text-center fs-3 fw-bold tracking-widest mx-auto rounded-3"
+                                    style="letter-spacing: 8px; max-width: 240px;" maxlength="6" pattern="[0-9]{6}"
+                                    placeholder="••••••" required autocomplete="one-time-code">
+                            </div>
+
+                            <button type="submit" id="modal-verify-otp-btn"
+                                class="btn btn-primary-custom w-100 py-3 mt-1 fw-semibold">
+                                Verify & Sign In <i class="bi bi-box-arrow-in-right ms-1"></i>
+                            </button>
+                            <div class="d-flex justify-content-between align-items-center mt-3 pt-2">
+                                <a href="javascript:void(0)" id="resend-otp-btn"
+                                    class="small text-success text-decoration-none fw-semibold"><i
+                                        class="bi bi-arrow-repeat me-1"></i>Resend OTP</a>
+                                <a href="javascript:void(0)" id="modal-edit-mobile-btn"
+                                    class="small text-muted text-decoration-none"><i class="bi bi-pencil me-1"></i>Edit
+                                    Number</a>
+                            </div>
+                        </form>
+
+                        <!-- Buyer Email & Password Login Form -->
+                        <form id="auth-buyer-form" class="d-none">
+                            <div class="text-center mb-3">
+                                <h5 class="fw-bold text-warning-emphasis mb-1">Produce Buyer Portal</h5>
+                                <p class="text-muted small mb-0">Sign in with your verified email and password.</p>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label small fw-semibold text-muted">Buyer Email Address</label>
+                                <div class="input-group">
+                                    <span
+                                        class="input-group-text bg-light border border-end-0 rounded-start-3 text-muted"><i
+                                            class="bi bi-envelope"></i></span>
+                                    <input type="email" id="modal-buyer-email"
+                                        class="form-control border rounded-end-3 p-2" placeholder="buyer@agrilink.in"
+                                        required value="buyer@agrilink.in">
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label small fw-semibold text-muted">Password</label>
+                                <div class="input-group">
+                                    <span
+                                        class="input-group-text bg-light border border-end-0 rounded-start-3 text-muted"><i
+                                            class="bi bi-shield-lock"></i></span>
+                                    <input type="password" id="modal-buyer-password"
+                                        class="form-control border rounded-end-3 p-2" placeholder="••••••••••••"
+                                        required value="Buyer@2026">
+                                </div>
+                                <small class="text-muted mt-1 d-block" style="font-size: 11px;">Verified Buyer: <strong
+                                        class="text-warning-emphasis" style="cursor: pointer;"
+                                        onclick="document.getElementById('modal-buyer-password').value='Buyer@2026'">Buyer@2026</strong></small>
+                            </div>
+
+                            <button type="submit" id="modal-buyer-submit-btn"
+                                class="btn btn-warning w-100 py-3 mt-2 fw-semibold text-white"
+                                style="background-color: #F57C00; border-color: #F57C00;">
+                                Sign In as Buyer <i class="bi bi-box-arrow-in-right ms-1"></i>
+                            </button>
+                        </form>
+
+                        <!-- Admin Operations Login Form -->
+                        <form id="auth-admin-form" class="d-none">
+                            <div class="text-center mb-3">
+                                <h5 class="fw-bold text-danger mb-1">Administrator Portal</h5>
+                                <p class="text-muted small mb-0">Authorized operations personnel only.</p>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label small fw-semibold text-muted">Admin Username / Email</label>
+                                <div class="input-group">
+                                    <span
+                                        class="input-group-text bg-light border border-end-0 rounded-start-3 text-muted"><i
+                                            class="bi bi-person-badge"></i></span>
+                                    <input type="text" id="modal-admin-username"
+                                        class="form-control border rounded-end-3 p-2" placeholder="admin" required
+                                        value="admin">
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label small fw-semibold text-muted">Master Password</label>
+                                <div class="input-group">
+                                    <span
+                                        class="input-group-text bg-light border border-end-0 rounded-start-3 text-muted"><i
+                                            class="bi bi-shield-lock"></i></span>
+                                    <input type="password" id="modal-admin-password"
+                                        class="form-control border rounded-end-3 p-2" placeholder="••••••••••••"
+                                        required value="AdminMaster@2026">
+                                </div>
+                                <small class="text-muted mt-1 d-block" style="font-size: 11px;">Operations credentials
+                                    demo: <strong class="text-danger" style="cursor: pointer;"
+                                        onclick="document.getElementById('modal-admin-password').value='AdminMaster@2026'">AdminMaster@2026</strong></small>
+                            </div>
+
+                            <button type="submit" id="modal-admin-submit-btn"
+                                class="btn btn-danger w-100 py-3 mt-2 fw-semibold">
+                                Sign In to Operations Portal <i class="bi bi-shield-lock-fill ms-1"></i>
+                            </button>
+                        </form>
+
+                        <!-- Bottom Registration Link inside form view -->
+                        <div class="text-center pt-3 mt-3 border-top">
+                            <p class="text-muted small mb-0">
+                                New to Agri Link?
+                                <a href="login.html?action=register"
+                                    class="text-success fw-bold text-decoration-none">Create an account</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 Bundle with Popper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="js/main.js?v=3.0"></script>
+</body>
+
+</html>

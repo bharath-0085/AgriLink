@@ -1,0 +1,2421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Labour Dashboard — Agri Link</title>
+    <meta name="description" content="Agri Link Agricultural Labour Hiring Platform — manage farm jobs, view schedules, chat with farmers, and track earnings.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css" rel="stylesheet">
+    <!-- Dashboard Role Badge CSS -->
+    <link rel="stylesheet" href="css/role-badge.css">
+    <style>
+        :root {
+            --primary-green: #2E7D32;
+            --primary-dark: #1B5E20;
+            --dark-green: #0A2A12;
+            --light-green-accent: #E8F5E9;
+            --accent-mint: #A5D6A7;
+            --light-bg: #F8F9FA;
+            --card-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+            --card-shadow-hover: 0 8px 24px rgba(46, 125, 50, 0.12);
+        }
+        body {
+            background-color: var(--light-bg);
+            font-family: 'Inter', sans-serif;
+            color: #2D3748;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        /* SIDEBAR */
+        .sidebar {
+            width: 270px;
+            background-color: var(--dark-green);
+            height: 100vh;
+            overflow-y: auto;
+            color: white;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding: 24px 16px;
+            z-index: 100;
+            box-shadow: 4px 0 16px rgba(0,0,0,0.15);
+        }
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 28px;
+            padding-left: 8px;
+        }
+        .sidebar-brand img {
+            height: 38px;
+            background: white;
+            padding: 4px;
+            border-radius: 10px;
+        }
+        .nav-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .nav-item-db { margin-bottom: 4px; }
+        .nav-link-db {
+            color: #A5D6A7;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .nav-link-db:hover {
+            background-color: rgba(46, 125, 50, 0.25);
+            color: white;
+            transform: translateX(3px);
+        }
+        .nav-link-db.active {
+            background-color: var(--primary-green);
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(46, 125, 50, 0.35);
+        }
+        .sidebar-badge {
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+
+        /* MAIN WORKSPACE */
+        .main-content {
+            margin-left: 270px;
+            padding: 32px 36px;
+            min-height: 100vh;
+        }
+        @media (max-width: 991px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            .sidebar.mobile-open {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 20px 16px;
+            }
+        }
+
+        /* TOP BAR & WEATHER */
+        .weather-card {
+            background: white;
+            border-radius: 16px;
+            padding: 14px 22px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(0,0,0,0.04);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        /* KPI STAT CARDS */
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(0,0,0,0.03);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            height: 100%;
+        }
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--card-shadow-hover);
+        }
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        /* JOB CARDS */
+        .job-card {
+            background: white;
+            border-radius: 16px;
+            padding: 22px;
+            border: 1px solid #EAEAEA;
+            box-shadow: var(--card-shadow);
+            transition: all 0.25s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            position: relative;
+        }
+        .job-card:hover {
+            border-color: var(--primary-green);
+            transform: translateY(-4px);
+            box-shadow: var(--card-shadow-hover);
+        }
+        .job-wage-tag {
+            background: #E8F5E9;
+            color: var(--primary-green);
+            font-weight: 700;
+            font-size: 1.15rem;
+            padding: 6px 12px;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .job-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.88rem;
+            color: #4A5568;
+            margin-bottom: 6px;
+        }
+        .job-meta-item i {
+            color: var(--primary-green);
+            font-size: 1rem;
+            width: 18px;
+        }
+        .work-type-pill {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+        .invitation-ribbon {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: #FFF3E0;
+            color: #E65100;
+            border: 1px solid #FFE0B2;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* SCHEDULE TIMELINE */
+        .timeline-container {
+            position: relative;
+            padding-left: 28px;
+        }
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 12px;
+            bottom: 12px;
+            width: 3px;
+            background: #E2E8F0;
+            border-radius: 2px;
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 24px;
+        }
+        .timeline-dot {
+            position: absolute;
+            left: -28px;
+            top: 6px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: white;
+            border: 4px solid var(--primary-green);
+            box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.2);
+        }
+        .timeline-dot.completed {
+            border-color: #3B82F6;
+        }
+
+        /* CHAT UI */
+        .chat-container {
+            display: flex;
+            height: calc(100vh - 210px);
+            min-height: 520px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid #E2E8F0;
+            overflow: hidden;
+        }
+        .chat-sidebar {
+            width: 310px;
+            min-width: 310px;
+            background: #FAFAFA;
+            border-right: 1px solid #E2E8F0;
+            display: flex;
+            flex-direction: column;
+        }
+        .chat-contact-list {
+            overflow-y: auto;
+            flex: 1;
+        }
+        .chat-contact-item {
+            padding: 14px 18px;
+            cursor: pointer;
+            border-bottom: 1px solid #EDF2F7;
+            transition: all 0.15s ease;
+        }
+        .chat-contact-item:hover, .chat-contact-item.active {
+            background: #E8F5E9;
+            border-left: 4px solid var(--primary-green);
+        }
+        .chat-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: white;
+        }
+        .chat-messages-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+            background: #F8FAF9;
+        }
+        .msg-bubble-user {
+            background: var(--primary-green);
+            color: white;
+            padding: 12px 18px;
+            border-radius: 18px 18px 4px 18px;
+            max-width: 72%;
+            word-break: break-word;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+        }
+        .msg-bubble-other {
+            background: white;
+            color: #2D3748;
+            padding: 12px 18px;
+            border-radius: 18px 18px 18px 4px;
+            max-width: 72%;
+            border: 1px solid #E2E8F0;
+            word-break: break-word;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+        }
+        .msg-time {
+            font-size: 11px;
+            color: #A0AEC0;
+            margin-top: 4px;
+        }
+
+        /* TABS & FILTERS */
+        .filter-pill-btn {
+            border: 1px solid #E2E8F0;
+            background: white;
+            color: #4A5568;
+            border-radius: 20px;
+            padding: 6px 16px;
+            font-size: 0.88rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .filter-pill-btn:hover, .filter-pill-btn.active {
+            background: var(--primary-green);
+            color: white;
+            border-color: var(--primary-green);
+        }
+        .job-tab-btn {
+            border: none;
+            background: none;
+            padding: 10px 20px;
+            font-weight: 600;
+            color: #718096;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+        }
+        .job-tab-btn.active {
+            color: var(--primary-green);
+            border-bottom-color: var(--primary-green);
+        }
+
+        /* NOTIFICATIONS */
+        .notification-card {
+            border-radius: 14px;
+            padding: 16px 20px;
+            margin-bottom: 12px;
+            border: 1px solid #E2E8F0;
+            background: white;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .notification-card.unread {
+            background: #F0FDF4;
+            border-left: 4px solid var(--primary-green);
+        }
+        .notification-card:hover {
+            box-shadow: var(--card-shadow);
+            transform: translateX(2px);
+        }
+
+        /* PANELS */
+        .dashboard-panel { display: none; }
+        .dashboard-panel.active { display: block; animation: fadeIn 0.25s ease; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* TOAST CONTAINER */
+        .toast-container {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            z-index: 1080;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- MOBILE TOPBAR TOGGLE -->
+    <div class="d-lg-none bg-dark text-white p-3 d-flex justify-content-between align-items-center" style="background-color: var(--dark-green) !important;">
+        <div class="d-flex align-items-center gap-2">
+            <img src="images/logo.png" alt="Logo" height="30" class="bg-white p-1 rounded">
+            <span class="fw-bold">Agri Link Labour</span>
+        </div>
+        <button class="btn btn-outline-light btn-sm" id="sidebar-toggle-btn">
+            <i class="bi bi-list fs-5"></i>
+        </button>
+    </div>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar" id="sidebar-menu">
+        <div class="sidebar-brand">
+            <img src="images/logo.png" alt="Agri Link Logo">
+            <div>
+                <span class="fw-bold fs-5 d-block text-white lh-1">Agri Link</span>
+                <dashboard-role-badge role="labour">
+                    <span class="sidebar-role-badge sidebar-role-badge--labour" role="status" aria-label="LABOUR DASHBOARD">
+                        <span class="role-badge-icon" aria-hidden="true">👷</span>
+                        <span class="role-badge-text">LABOUR DASHBOARD</span>
+                    </span>
+                </dashboard-role-badge>
+            </div>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item-db"><a class="nav-link-db active" data-target="overview"><i class="bi bi-grid-fill"></i> Dashboard</a></li>
+            <li class="nav-item-db">
+                <a class="nav-link-db d-flex justify-content-between align-items-center" data-target="available-jobs">
+                    <span><i class="bi bi-briefcase-fill"></i> Available Jobs</span>
+                    <span class="badge bg-success sidebar-badge" id="sidebar-available-count">8</span>
+                </a>
+            </li>
+            <li class="nav-item-db">
+                <a class="nav-link-db d-flex justify-content-between align-items-center" data-target="my-jobs">
+                    <span><i class="bi bi-check-circle-fill"></i> My Jobs</span>
+                    <span class="badge bg-primary sidebar-badge" id="sidebar-myjobs-count">1</span>
+                </a>
+            </li>
+            <li class="nav-item-db"><a class="nav-link-db" data-target="schedule"><i class="bi bi-calendar-range-fill"></i> My Schedule</a></li>
+            <li class="nav-item-db"><a class="nav-link-db" data-target="earnings"><i class="bi bi-wallet2"></i> Earnings</a></li>
+            <li class="nav-item-db">
+                <a class="nav-link-db d-flex justify-content-between align-items-center" data-target="chat">
+                    <span><i class="bi bi-chat-dots-fill"></i> Chat with Farmers</span>
+                    <span class="badge bg-success sidebar-badge" id="sidebar-chat-badge" style="display:none;">1</span>
+                </a>
+            </li>
+            <li class="nav-item-db"><a class="nav-link-db" data-target="reviews"><i class="bi bi-star-fill"></i> Reviews & Ratings</a></li>
+            <li class="nav-item-db">
+                <a class="nav-link-db d-flex justify-content-between align-items-center" data-target="notifications">
+                    <span><i class="bi bi-bell-fill"></i> Notifications</span>
+                    <span class="badge bg-danger sidebar-badge" id="sidebar-notif-badge">3</span>
+                </a>
+            </li>
+            <li class="nav-item-db"><a class="nav-link-db" data-target="profile"><i class="bi bi-person-bounding-box"></i> Profile</a></li>
+            <li class="nav-item-db"><a class="nav-link-db" data-target="help"><i class="bi bi-question-circle-fill"></i> Help & Support</a></li>
+            <li class="nav-item-db"><a class="nav-link-db" data-target="settings"><i class="bi bi-gear-fill"></i> Settings</a></li>
+            <li class="nav-item-db mt-4"><a class="nav-link-db text-danger" id="labour-logout-btn" style="cursor:pointer;"><i class="bi bi-box-arrow-left"></i> Logout</a></li>
+        </ul>
+    </div>
+
+    <!-- MAIN WORKSPACE -->
+    <div class="main-content">
+        <!-- Top Row -->
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+            <div>
+                <h2 class="fw-bold mb-1" id="welcome-heading">Welcome back, Murugan 👋</h2>
+                <p class="text-muted mb-0" id="panel-welcome-subtitle">Here's your agricultural labour summary & available farm jobs.</p>
+            </div>
+            
+            <div class="d-flex align-items-center gap-3">
+                <div class="weather-card">
+                    <div class="fs-1 text-warning" id="weather-icon-el"><i class="bi bi-sun-fill"></i></div>
+                    <div>
+                        <h5 class="fw-bold mb-0" id="weather-temp-el">29°C</h5>
+                        <small class="text-muted" id="weather-loc-el">Coimbatore, Tamil Nadu</small>
+                    </div>
+                    <div class="border-start ps-3 ms-2 text-end">
+                        <p class="fw-bold mb-0 small" id="live-date-el">--</p>
+                        <small class="text-muted" id="live-time-el">--:-- --</small>
+                        <br><small class="text-success fw-semibold" style="font-size:10px;"><i class="bi bi-geo-alt-fill"></i> Coimbatore Dist.</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================
+             PANEL 1: OVERVIEW (DASHBOARD)
+             ============================================================ -->
+        <div id="panel-overview" class="dashboard-panel active">
+            <!-- 5 KPI Cards Calculated from Job Dataset -->
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-5 g-3 mb-4">
+                <div class="col">
+                    <div class="stat-card">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-muted small fw-semibold">Available Jobs</span>
+                            <div class="stat-icon bg-success-subtle text-success"><i class="bi bi-briefcase-fill"></i></div>
+                        </div>
+                        <h3 class="fw-bold mb-1 text-success" id="kpi-available-jobs">8</h3>
+                        <span class="badge bg-success-subtle text-success">In Coimbatore</span>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="stat-card">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-muted small fw-semibold">Active Jobs</span>
+                            <div class="stat-icon bg-warning-subtle text-warning"><i class="bi bi-hourglass-split"></i></div>
+                        </div>
+                        <h3 class="fw-bold mb-1 text-warning" id="kpi-active-jobs">0</h3>
+                        <span class="badge bg-warning-subtle text-warning">In Progress</span>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="stat-card">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-muted small fw-semibold">Completed Jobs</span>
+                            <div class="stat-icon bg-primary-subtle text-primary"><i class="bi bi-check2-all"></i></div>
+                        </div>
+                        <h3 class="fw-bold mb-1 text-primary" id="kpi-completed-jobs">1</h3>
+                        <span class="badge bg-primary-subtle text-primary">All Time</span>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="stat-card">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-muted small fw-semibold">Job Invitations</span>
+                            <div class="stat-icon bg-danger-subtle text-danger"><i class="bi bi-envelope-check-fill"></i></div>
+                        </div>
+                        <h3 class="fw-bold mb-1 text-danger" id="kpi-invitations">1</h3>
+                        <span class="badge bg-danger-subtle text-danger">Direct From Farmers</span>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="stat-card">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-muted small fw-semibold">Total Earnings</span>
+                            <div class="stat-icon bg-success-subtle text-success"><i class="bi bi-currency-rupee"></i></div>
+                        </div>
+                        <h3 class="fw-bold mb-1 text-success" id="kpi-total-earnings">₹650</h3>
+                        <span class="badge bg-success-subtle text-success">Deposited</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AVAILABLE FARM JOBS SECTION (REPLACES OLD EMPTY CONTAINER) -->
+            <div class="bg-white rounded-4 shadow-sm p-4 border border-light mb-4">
+                <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+                    <div>
+                        <h4 class="fw-bold mb-0 text-success d-flex align-items-center gap-2">
+                            <i class="bi bi-geo-alt-fill text-danger"></i> Available Farm Jobs
+                            <span class="badge bg-success-subtle text-success fs-6 rounded-pill" id="overview-jobs-badge">8 Jobs Near You</span>
+                        </h4>
+                        <small class="text-muted">Fresh daily wage farm opportunities prioritized for Coimbatore district.</small>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-outline-success btn-sm rounded-pill fw-semibold select-tab-trigger" data-target="available-jobs">
+                            View All Jobs & Filter <i class="bi bi-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quick Filter Tags -->
+                <div class="d-flex gap-2 flex-wrap mb-4" id="overview-filter-bar">
+                    <button class="filter-pill-btn active" data-type="all">All Jobs</button>
+                    <button class="filter-pill-btn" data-type="Harvesting">Harvesting</button>
+                    <button class="filter-pill-btn" data-type="Weeding">Weeding</button>
+                    <button class="filter-pill-btn" data-type="Planting">Planting</button>
+                    <button class="filter-pill-btn" data-type="Field Maintenance">Field Maintenance</button>
+                    <button class="filter-pill-btn" data-type="Irrigation">Irrigation</button>
+                </div>
+
+                <!-- Job Grid Container -->
+                <div class="row g-4" id="overview-jobs-grid">
+                    <!-- Populated dynamically by JS -->
+                </div>
+            </div>
+
+            <!-- RECENT COMPLETED & SCHEDULE PREVIEW BANNER -->
+            <div class="row g-4">
+                <div class="col-lg-6">
+                    <div class="bg-white rounded-4 shadow-sm p-4 border border-light h-100">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="fw-bold mb-0 text-dark"><i class="bi bi-calendar-check text-success"></i> Upcoming Work Schedule</h5>
+                            <a class="text-success small fw-semibold text-decoration-none select-tab-trigger" data-target="schedule" style="cursor:pointer;">View Schedule →</a>
+                        </div>
+                        <div id="overview-schedule-preview">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="bg-white rounded-4 shadow-sm p-4 border border-light h-100">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="fw-bold mb-0 text-dark"><i class="bi bi-wallet2 text-success"></i> Earnings Quick Summary</h5>
+                            <a class="text-success small fw-semibold text-decoration-none select-tab-trigger" data-target="earnings" style="cursor:pointer;">View Wallet →</a>
+                        </div>
+                        <div class="p-3 bg-light rounded-3 mb-3 d-flex justify-content-between align-items-center">
+                            <div>
+                                <span class="text-muted small d-block">September 2026 Earnings</span>
+                                <h4 class="fw-bold mb-0 text-success" id="overview-earnings-this-month">₹650.00</h4>
+                            </div>
+                            <span class="badge bg-success px-3 py-2 rounded-pill"><i class="bi bi-check-circle-fill"></i> Paid in Full</span>
+                        </div>
+                        <p class="text-muted small mb-0"><i class="bi bi-info-circle text-primary"></i> Daily wages are paid directly to your registered bank / UPI upon farmer job completion verification.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================
+             PANEL 2: AVAILABLE JOBS (FULL SEARCH & FILTER)
+             ============================================================ -->
+        <div id="panel-available-jobs" class="dashboard-panel">
+            <div class="bg-white rounded-4 shadow-sm p-4 border border-light mb-4">
+                <h4 class="fw-bold mb-1 text-success">Browse Farm Jobs</h4>
+                <p class="text-muted small mb-3">Filter, sort, view detailed requirements, and accept agricultural jobs instantly.</p>
+                
+                <!-- Filter Controls Row -->
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0"><i class="bi bi-search text-muted"></i></span>
+                            <input type="text" id="filter-search" class="form-control bg-light border-start-0" placeholder="Search by crop, work, or farmer...">
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-6">
+                        <select id="filter-work-type" class="form-select bg-light">
+                            <option value="all">All Work Types</option>
+                            <option value="Harvesting">Harvesting</option>
+                            <option value="Weeding">Weeding</option>
+                            <option value="Planting">Planting</option>
+                            <option value="Field Maintenance">Field Maintenance</option>
+                            <option value="Irrigation">Irrigation</option>
+                            <option value="Crop Processing">Crop Processing</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2 col-6">
+                        <select id="filter-location" class="form-select bg-light">
+                            <option value="all">All Locations (Coimbatore)</option>
+                            <option value="Chittipalayam">Chittipalayam</option>
+                            <option value="Pollachi">Pollachi</option>
+                            <option value="Annur">Annur</option>
+                            <option value="Mettupalayam">Mettupalayam</option>
+                            <option value="Sulur">Sulur</option>
+                            <option value="Kinathukadavu">Kinathukadavu</option>
+                            <option value="Thondamuthur">Thondamuthur</option>
+                            <option value="Perur">Perur</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2 col-6">
+                        <select id="filter-wage" class="form-select bg-light">
+                            <option value="0">Any Wage</option>
+                            <option value="600">₹600+/day</option>
+                            <option value="650">₹650+/day</option>
+                            <option value="700">₹700+/day</option>
+                            <option value="750">₹750+/day</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2 col-6">
+                        <select id="filter-sort" class="form-select bg-light">
+                            <option value="distance">Nearest First</option>
+                            <option value="wage-desc">Highest Wage</option>
+                            <option value="date-asc">Earliest Date</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top">
+                    <span class="text-muted small" id="available-count-status">Showing 8 available jobs</span>
+                    <button class="btn btn-link btn-sm text-success text-decoration-none p-0" id="reset-filters-btn">Reset All Filters</button>
+                </div>
+            </div>
+
+            <!-- Jobs Grid -->
+            <div class="row g-4" id="available-jobs-full-grid">
+                <!-- Injected by JS -->
+            </div>
+        </div>
+
+        <!-- ============================================================
+             PANEL 3: MY JOBS (ACTIVE, UPCOMING, COMPLETED)
+             ============================================================ -->
+        <div id="panel-my-jobs" class="dashboard-panel">
+            <div class="bg-white rounded-4 shadow-sm p-4 border border-light mb-4">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+                    <div>
+                        <h4 class="fw-bold mb-0 text-success">My Accepted Farm Jobs</h4>
+                        <small class="text-muted">Track your commitments, communicate with farm owners, and complete jobs to claim daily wages.</small>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <div class="d-flex border-bottom gap-2 mb-4">
+                    <button class="job-tab-btn active" data-tab="active">
+                        <i class="bi bi-hourglass-split"></i> Active Jobs (<span id="tab-active-count">0</span>)
+                    </button>
+                    <button class="job-tab-btn" data-tab="upcoming">
+                        <i class="bi bi-calendar-event"></i> Upcoming (<span id="tab-upcoming-count">0</span>)
+                    </button>
+                    <button class="job-tab-btn" data-tab="completed">
+                        <i class="bi bi-check-circle-fill"></i> Completed (<span id="tab-completed-count">1</span>)
+                    </button>
+                </div>
+
+                <!-- Tab Content Grid -->
+                <div class="row g-4" id="my-jobs-grid">
+                    <!-- Injected by JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================
+             PANEL 4: MY SCHEDULE
+             ============================================================ -->
+        <div id="panel-schedule" class="dashboard-panel">
+            <div class="bg-white rounded-4 shadow-sm p-4 border border-light">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+                    <div>
+                        <h4 class="fw-bold mb-0 text-success"><i class="bi bi-calendar-range text-success"></i> My Work Schedule</h4>
+                        <small class="text-muted">Your day-by-day agricultural job assignments and timings in Coimbatore.</small>
+                    </div>
+                    <div class="badge bg-success-subtle text-success p-2 px-3 rounded-pill fw-bold">
+                        September 2026 Schedule
+                    </div>
+                </div>
+
+                <div id="schedule-timeline-container" class="timeline-container">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================
+             PANEL 5: EARNINGS & WALLET
+             ============================================================ -->
+        <div id="panel-earnings" class="dashboard-panel">
+            <!-- Earnings KPIs -->
+            <div class="row g-3 mb-4">
+                <div class="col-md-3 col-6">
+                    <div class="stat-card">
+                        <span class="text-muted small">Total Earnings</span>
+                        <h3 class="fw-bold text-success mb-1" id="earnings-total-display">₹650.00</h3>
+                        <small class="text-muted">Life-time deposits</small>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-card">
+                        <span class="text-muted small">This Month (Sep 2026)</span>
+                        <h3 class="fw-bold text-primary mb-1" id="earnings-month-display">₹650.00</h3>
+                        <small class="text-muted">Direct to Bank / UPI</small>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-card">
+                        <span class="text-muted small">Completed Jobs</span>
+                        <h3 class="fw-bold text-dark mb-1" id="earnings-completed-count">1</h3>
+                        <small class="text-muted">Jobs verified</small>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-card">
+                        <span class="text-muted small">Pending Earnings</span>
+                        <h3 class="fw-bold text-warning mb-1" id="earnings-pending-display">₹0.00</h3>
+                        <small class="text-muted">From active jobs</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-4 shadow-sm p-4 border border-light">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="fw-bold mb-0">Earnings & Payout History</h5>
+                    <button class="btn btn-outline-success btn-sm rounded-pill" onclick="showToast('Payout status is automatic upon job verification!')">
+                        <i class="bi bi-bank"></i> Bank Accounts
+                    </button>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Job Title</th>
+                                <th>Date</th>
+                                <th>Farmer</th>
+                                <th>Duration</th>
+                                <th>Amount</th>
+                                <th>Payment Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="earnings-table-body">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================
+             PANEL 6: CHAT WITH FARMERS (CONNECTED AFTER JOB ACCEPTANCE)
+             ============================================================ -->
+        <div id="panel-chat" class="dashboard-panel">
+            <div class="chat-container shadow-sm">
+                <!-- Farmer Contacts Sidebar -->
+                <div class="chat-sidebar">
+                    <div class="p-3 border-bottom bg-success text-white">
+                        <h6 class="fw-bold mb-0"><i class="bi bi-chat-dots-fill"></i> Connected Farmers</h6>
+                        <small style="font-size:11px; opacity:0.85;">Chat enabled for accepted jobs</small>
+                    </div>
+                    <div class="chat-contact-list" id="chat-contact-list">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Chat Main Pane -->
+                <div class="chat-main">
+                    <!-- Header -->
+                    <div class="p-3 border-bottom d-flex align-items-center justify-content-between" id="chat-header">
+                        <div class="d-flex align-items-center gap-3">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80" class="rounded-circle border border-success" width="44" height="44" id="chat-header-avatar" alt="Avatar">
+                            <div>
+                                <h6 class="fw-bold mb-0" id="chat-recipient-name">Ravi Kumar</h6>
+                                <small class="text-success fw-semibold" id="chat-recipient-job">Paddy Harvesting • Chittipalayam</small>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <a href="#" class="btn btn-outline-success btn-sm rounded-pill" id="chat-call-btn"><i class="bi bi-telephone-fill"></i> Call Farmer</a>
+                        </div>
+                    </div>
+
+                    <!-- Messages Area -->
+                    <div class="chat-messages-area" id="chat-messages-area">
+                        <!-- Populated by JS -->
+                    </div>
+
+                    <!-- Input Area -->
+                    <div class="p-3 border-top bg-white" id="chat-input-area">
+                        <form id="chat-send-form" class="d-flex gap-2">
+                            <input type="text" id="chat-message-input" class="form-control rounded-pill border-success px-3" placeholder="Type a message to the farmer..." required>
+                            <button type="submit" class="btn btn-success rounded-circle d-flex align-items-center justify-content-center" style="width:44px;height:44px;">
+                                <i class="bi bi-send-fill"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================
+             PANEL 7: REVIEWS & RATINGS
+             ============================================================ -->
+        <div id="panel-reviews" class="dashboard-panel">
+            <div class="bg-white rounded-4 shadow-sm p-4 border border-light mb-4">
+                <div class="row align-items-center g-4">
+                    <div class="col-md-4 text-center border-end">
+                        <h1 class="display-3 fw-bold text-success mb-0">4.9</h1>
+                        <div class="text-warning mb-2 fs-5">
+                            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                        </div>
+                        <p class="text-muted mb-0 small">Based on 18 Verified Farmer Ratings</p>
+                    </div>
+                    <div class="col-md-8">
+                        <h5 class="fw-bold mb-3">Skill Competency Ratings</h5>
+                        <div class="mb-2">
+                            <div class="d-flex justify-content-between small fw-semibold mb-1">
+                                <span>Harvesting & Field Work</span>
+                                <span class="text-success">5.0 / 5.0</span>
+                            </div>
+                            <div class="progress" style="height: 8px;">
+                                <div class="progress-bar bg-success" style="width: 100%"></div>
+                            </div>
+                        </div>
+                        <div class="mb-2">
+                            <div class="d-flex justify-content-between small fw-semibold mb-1">
+                                <span>Punctuality & Discipline</span>
+                                <span class="text-success">4.9 / 5.0</span>
+                            </div>
+                            <div class="progress" style="height: 8px;">
+                                <div class="progress-bar bg-success" style="width: 98%"></div>
+                            </div>
+                        </div>
+                        <div class="mb-2">
+                            <div class="d-flex justify-content-between small fw-semibold mb-1">
+                                <span>Plowing & Equipment Handling</span>
+                                <span class="text-success">4.8 / 5.0</span>
+                            </div>
+                            <div class="progress" style="height: 8px;">
+                                <div class="progress-bar bg-success" style="width: 95%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Review Cards -->
+            <div class="bg-white rounded-4 shadow-sm p-4 border border-light">
+                <h5 class="fw-bold mb-3">Farmer Feedbacks</h5>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="p-3 border rounded-3 bg-light">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div class="d-flex align-items-center gap-2">
+                                    <i class="bi bi-person-circle fs-4 text-success"></i>
+                                    <div>
+                                        <h6 class="fw-bold mb-0">R. Subramaniam</h6>
+                                        <small class="text-muted">Madukkarai • Maize Sowing</small>
+                                    </div>
+                                </div>
+                                <span class="badge bg-warning text-dark"><i class="bi bi-star-fill"></i> 5.0</span>
+                            </div>
+                            <p class="small text-muted mb-0">"Punctual arrival with own tools. Completed the 3-acre maize sowing quickly and with great discipline. Highly recommended!"</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-3 border rounded-3 bg-light">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div class="d-flex align-items-center gap-2">
+                                    <i class="bi bi-person-circle fs-4 text-success"></i>
+                                    <div>
+                                        <h6 class="fw-bold mb-0">Ravi Kumar</h6>
+                                        <small class="text-muted">Chittipalayam • Paddy Harvest</small>
+                                    </div>
+                                </div>
+                                <span class="badge bg-warning text-dark"><i class="bi bi-star-fill"></i> 5.0</span>
+                            </div>
+                            <p class="small text-muted mb-0">"Murugan has been our trusted harvester for 3 seasons. Very experienced in wetland operations and bundle handling."</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================
+             PANEL 8: NOTIFICATIONS
+             ============================================================ -->
+        <div id="panel-notifications" class="dashboard-panel">
+            <div class="bg-white rounded-4 shadow-sm p-4 border border-light">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h4 class="fw-bold mb-0 text-success">Notifications</h4>
+                        <small class="text-muted">Job alerts, invitations, and payout receipts.</small>
+                    </div>
+                    <button class="btn btn-outline-success btn-sm rounded-pill" id="mark-all-read-btn">
+                        <i class="bi bi-check-all"></i> Mark All as Read
+                    </button>
+                </div>
+                <div id="notifications-list-container">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================
+             PANEL 9: PROFILE
+             ============================================================ -->
+        <div id="panel-profile" class="dashboard-panel">
+            <div class="bg-white rounded-4 shadow-sm p-4 border border-light">
+                <h4 class="fw-bold mb-4 text-success">Labour Profile</h4>
+                <div class="row g-4">
+                    <!-- Profile View -->
+                    <div class="col-md-4 text-center border-end" id="profile-view-section">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&auto=format&fit=crop&q=80" alt="Profile Photo" id="profile-photo-display" class="profile-avatar mb-3 rounded-circle border border-success" width="100" height="100" style="object-fit:cover;">
+                        <h5 class="fw-bold mb-1" id="profile-name-display">Murugan S</h5>
+                        <span class="badge bg-success mb-2" id="profile-role-display">Verified Farm Labour</span>
+                        <div class="mt-2 text-muted small"><i class="bi bi-geo-alt-fill text-danger"></i> <span id="profile-location-display">Sulur, Coimbatore, Tamil Nadu</span></div>
+                        
+                        <ul class="list-group list-group-flush small text-start mt-3">
+                            <li class="list-group-item d-flex justify-content-between"><span><i class="bi bi-telephone text-success"></i> Phone:</span> <strong id="profile-phone-display">+91 99999 99999</strong></li>
+                            <li class="list-group-item d-flex justify-content-between"><span><i class="bi bi-cash-stack text-success"></i> Expected Wage:</span> <strong>₹700 / day</strong></li>
+                            <li class="list-group-item d-flex justify-content-between"><span><i class="bi bi-award text-success"></i> Experience:</span> <strong>8+ Years</strong></li>
+                            <li class="list-group-item d-flex justify-content-between"><span><i class="bi bi-check-circle text-success"></i> Verification:</span> <span class="badge bg-success-subtle text-success">KYC Verified</span></li>
+                        </ul>
+                        <button class="btn btn-outline-success btn-sm mt-3 rounded-pill w-100" onclick="showProfileEdit()"><i class="bi bi-pencil"></i> Edit Profile Details</button>
+                    </div>
+
+                    <!-- Profile Edit Form -->
+                    <div class="col-md-8" id="profile-edit-section">
+                        <h5 class="fw-bold mb-3">Skills & Expertise</h5>
+                        <div class="d-flex flex-wrap gap-2 mb-4">
+                            <span class="badge bg-success p-2 px-3 rounded-pill">Paddy Harvesting</span>
+                            <span class="badge bg-success p-2 px-3 rounded-pill">Sugarcane Weeding</span>
+                            <span class="badge bg-success p-2 px-3 rounded-pill">Cotton Picking</span>
+                            <span class="badge bg-success p-2 px-3 rounded-pill">Irrigation Maintenance</span>
+                            <span class="badge bg-success p-2 px-3 rounded-pill">Tractor Operation</span>
+                        </div>
+
+                        <h5 class="fw-bold mb-3">About Worker</h5>
+                        <p class="text-muted small">Specialized in paddy, sugarcane, and turmeric harvesting with 8+ years of dedicated agricultural field work across Sulur, Pollachi, and Annur farming belts. Available for daily shifts and team contracts.</p>
+
+                        <div class="p-3 bg-light rounded-3 mt-4">
+                            <h6 class="fw-bold mb-2 text-success"><i class="bi bi-shield-check"></i> Agri Link Guarantee</h6>
+                            <p class="small text-muted mb-0">Every job booked through Agri Link is protected with guaranteed wage payments, accident helpline insurance, and direct farmer communication.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================
+             PANEL 10: HELP & SUPPORT
+             ============================================================ -->
+        <div id="panel-help" class="dashboard-panel">
+            <div class="bg-white rounded-4 shadow-sm p-4 border border-light">
+                <h4 class="fw-bold mb-3 text-success">Labour Helpline & Support</h4>
+                <p class="text-muted">Need help with accepting jobs, reaching farms, or receiving wage payouts?</p>
+                <div class="row g-3 mt-2">
+                    <div class="col-md-4">
+                        <div class="p-4 border rounded-3 bg-light text-center">
+                            <i class="bi bi-telephone-inbound-fill fs-2 text-success mb-2"></i>
+                            <h6 class="fw-bold">Toll-Free Helpline</h6>
+                            <p class="text-muted small mb-2">1800-425-AGRI (24/7)</p>
+                            <span class="badge bg-success">Tamil / English</span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-4 border rounded-3 bg-light text-center">
+                            <i class="bi bi-chat-dots-fill fs-2 text-primary mb-2"></i>
+                            <h6 class="fw-bold">WhatsApp Support</h6>
+                            <p class="text-muted small mb-2">+91 94432 99000</p>
+                            <span class="badge bg-primary">Instant Response</span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-4 border rounded-3 bg-light text-center">
+                            <i class="bi bi-geo-alt-fill fs-2 text-danger mb-2"></i>
+                            <h6 class="fw-bold">Coimbatore Hub</h6>
+                            <p class="text-muted small mb-2">TNAU Campus, Coimbatore</p>
+                            <span class="badge bg-secondary">Field Desk</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================
+             PANEL 11: SETTINGS
+             ============================================================ -->
+        <div id="panel-settings" class="dashboard-panel">
+            <div class="bg-white rounded-4 shadow-sm p-4 border border-light">
+                <h4 class="fw-bold mb-3 text-success">Platform Settings & Prototype Controls</h4>
+                <div class="card p-3 border mb-3">
+                    <h6 class="fw-bold mb-1">Demo Prototype Reset</h6>
+                    <p class="text-muted small mb-3">Reset the demo dataset back to default state (8 open farm jobs, 1 completed job, 1 direct invitation).</p>
+                    <div>
+                        <button class="btn btn-outline-danger btn-sm rounded-pill" onclick="resetDemoData()"><i class="bi bi-arrow-clockwise"></i> Reset Demo Job Data</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         JOB DETAILS MODAL
+         ============================================================ -->
+    <div class="modal fade" id="jobDetailModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 border-0 shadow-lg">
+                <div class="modal-header bg-success text-white border-0 rounded-top-4">
+                    <h5 class="modal-title fw-bold" id="modal-job-title">Job Details</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4" id="modal-job-body">
+                    <!-- Populated dynamically -->
+                </div>
+                <div class="modal-footer border-0 p-3 pt-0" id="modal-job-footer">
+                    <!-- Action buttons -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div class="toast-container">
+        <div id="actionToast" class="toast align-items-center text-white bg-success border-0 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body fs-6 fw-semibold" id="toast-message">
+                    Job accepted successfully!
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+    // === AUTH GUARD & USER SESSION ===
+    (function() {
+        const token = localStorage.getItem('token');
+        const userRole = localStorage.getItem('userRole');
+        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+
+        if (!token || !isLoggedIn) {
+            window.location.href = 'login.html?role=labour';
+            return;
+        }
+        if (userRole && userRole !== 'labour') {
+            if (userRole === 'admin') {
+                window.location.href = '/admin/';
+            } else {
+                window.location.href = userRole + '_dashboard.html';
+            }
+            return;
+        }
+    })();
+
+    // ============================================================
+    // 1. SHARED DATA ARCHITECTURE & STORE (LabourStore)
+    // ============================================================
+    const DEFAULT_DEMO_JOBS = [
+        {
+            id: "job-1",
+            title: "Paddy Harvesting",
+            farmer_name: "Ravi Kumar",
+            farmer_phone: "+91 98421 23450",
+            farmer_avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80",
+            location: "Chittipalayam, Coimbatore",
+            distance_km: 3.5,
+            work_type: "Harvesting",
+            workers_required: 5,
+            daily_wage: 700,
+            date: "10 Sep 2026",
+            duration: "1 day",
+            status: "available", // available | accepted | in_progress | completed
+            is_invitation: true,
+            description: "Manual paddy harvesting and bundle carrying in a 4-acre wetland farm. Lunch and tea provided. Direct invitation to experienced workers."
+        },
+        {
+            id: "job-2",
+            title: "Tomato Farm Weeding",
+            farmer_name: "Suresh",
+            farmer_phone: "+91 97512 88412",
+            farmer_avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=80",
+            location: "Pollachi, Coimbatore",
+            distance_km: 12.0,
+            work_type: "Weeding",
+            workers_required: 3,
+            daily_wage: 600,
+            date: "11 Sep 2026",
+            duration: "1 day",
+            status: "available",
+            is_invitation: false,
+            description: "Manual weeding between raised beds and furrow clearing for vegetable drip irrigation lines in red soil farm."
+        },
+        {
+            id: "job-3",
+            title: "Sugarcane Field Maintenance",
+            farmer_name: "Kumar",
+            farmer_phone: "+91 94431 77652",
+            farmer_avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&auto=format&fit=crop&q=80",
+            location: "Annur, Coimbatore",
+            distance_km: 8.4,
+            work_type: "Field Maintenance",
+            workers_required: 4,
+            daily_wage: 650,
+            date: "12 Sep 2026",
+            duration: "2 days",
+            status: "available",
+            is_invitation: false,
+            description: "De-trashing, earthing up, and propping sugarcane stalks to prevent lodging during wind season."
+        },
+        {
+            id: "job-4",
+            title: "Banana Farm Work",
+            farmer_name: "Arjun",
+            farmer_phone: "+91 98940 33219",
+            farmer_avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=100&auto=format&fit=crop&q=80",
+            location: "Mettupalayam, Coimbatore",
+            distance_km: 15.2,
+            work_type: "Farm Maintenance",
+            workers_required: 2,
+            daily_wage: 700,
+            date: "13 Sep 2026",
+            duration: "1 day",
+            status: "available",
+            is_invitation: false,
+            description: "Desuckering, leaf pruning, and tying supporting bamboo poles for mature grand naine banana bunches."
+        },
+        {
+            id: "job-5",
+            title: "Groundnut Harvesting",
+            farmer_name: "Mani",
+            farmer_phone: "+91 96290 65114",
+            farmer_avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&auto=format&fit=crop&q=80",
+            location: "Sulur, Coimbatore",
+            distance_km: 4.8,
+            work_type: "Harvesting",
+            workers_required: 6,
+            daily_wage: 750,
+            date: "14 Sep 2026",
+            duration: "2 days",
+            status: "available",
+            is_invitation: false,
+            description: "Groundnut pod uprooting, cleaning, sorting, and sun-drying preparation on threshing floor."
+        },
+        {
+            id: "job-6",
+            title: "Coconut Grove Irrigation",
+            farmer_name: "Palanisamy",
+            farmer_phone: "+91 98433 11980",
+            farmer_avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80",
+            location: "Kinathukadavu, Coimbatore",
+            distance_km: 9.1,
+            work_type: "Irrigation",
+            workers_required: 2,
+            daily_wage: 600,
+            date: "15 Sep 2026",
+            duration: "1 day",
+            status: "available",
+            is_invitation: false,
+            description: "Basin clearing, drip emitter inspection, and flood basin channel maintenance in 10-acre coconut grove."
+        },
+        {
+            id: "job-7",
+            title: "Cotton Picking & Processing",
+            farmer_name: "Murugesan",
+            farmer_phone: "+91 94862 44301",
+            farmer_avatar: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=100&auto=format&fit=crop&q=80",
+            location: "Thondamuthur, Coimbatore",
+            distance_km: 6.7,
+            work_type: "Crop Processing",
+            workers_required: 4,
+            daily_wage: 650,
+            date: "16 Sep 2026",
+            duration: "3 days",
+            status: "available",
+            is_invitation: false,
+            description: "Second flush cotton boll manual picking, sorting dry and stained lint, bagging for market transport."
+        },
+        {
+            id: "job-8",
+            title: "Turmeric Planting",
+            farmer_name: "Dhanapal",
+            farmer_phone: "+91 98650 99882",
+            farmer_avatar: "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=100&auto=format&fit=crop&q=80",
+            location: "Perur, Coimbatore",
+            distance_km: 5.2,
+            work_type: "Planting",
+            workers_required: 5,
+            daily_wage: 700,
+            date: "17 Sep 2026",
+            duration: "2 days",
+            status: "available",
+            is_invitation: false,
+            description: "Seed rhizome treatment, ridge furrow planting, and mulch spreading across fertile black soil."
+        },
+        {
+            id: "job-9",
+            title: "Maize Sowing & Fertilizing",
+            farmer_name: "R. Subramaniam",
+            farmer_phone: "+91 97890 12345",
+            farmer_avatar: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=100&auto=format&fit=crop&q=80",
+            location: "Madukkarai, Coimbatore",
+            distance_km: 7.0,
+            work_type: "Planting",
+            workers_required: 3,
+            daily_wage: 650,
+            date: "05 Sep 2026",
+            duration: "1 day",
+            status: "completed",
+            is_invitation: false,
+            description: "Line sowing of hybrid maize seeds and application of basal organic compost across 3 acres.",
+            completed_at: "05 Sep 2026"
+        }
+    ];
+
+    const DEFAULT_NOTIFICATIONS = [
+        {
+            id: "notif-1",
+            title: "Direct Job Invitation",
+            message: "Farmer Ravi Kumar specifically invited you for Paddy Harvesting in Chittipalayam (₹700/day).",
+            time: "10 minutes ago",
+            unread: true,
+            type: "invite"
+        },
+        {
+            id: "notif-2",
+            title: "New Farm Job Nearby",
+            message: "New Tomato Farm Weeding job available in Pollachi district.",
+            time: "1 hour ago",
+            unread: true,
+            type: "job"
+        },
+        {
+            id: "notif-3",
+            title: "Wage Credited",
+            message: "Payment of ₹650 for Maize Sowing & Fertilizing credited to your bank account.",
+            time: "Yesterday",
+            unread: true,
+            type: "payment"
+        },
+        {
+            id: "notif-4",
+            title: "Weather Advisory",
+            message: "Mild afternoon showers expected in Coimbatore western agro-zone.",
+            time: "2 days ago",
+            unread: false,
+            type: "weather"
+        }
+    ];
+
+    const LabourStore = {
+        STORAGE_KEY_JOBS: 'agrilink_labour_jobs_v2',
+        STORAGE_KEY_NOTIFS: 'agrilink_labour_notifs_v2',
+        STORAGE_KEY_CHATS: 'agrilink_labour_chats_v2',
+
+        jobs: [],
+        notifications: [],
+        chats: {},
+        activeFarmerChat: null,
+
+        init() {
+            // Load Jobs
+            const storedJobs = localStorage.getItem(this.STORAGE_KEY_JOBS);
+            if (storedJobs) {
+                try { this.jobs = JSON.parse(storedJobs); } catch(e) { this.jobs = [...DEFAULT_DEMO_JOBS]; }
+            } else {
+                this.jobs = [...DEFAULT_DEMO_JOBS];
+                this.saveJobs();
+            }
+
+            // Load Notifications
+            const storedNotifs = localStorage.getItem(this.STORAGE_KEY_NOTIFS);
+            if (storedNotifs) {
+                try { this.notifications = JSON.parse(storedNotifs); } catch(e) { this.notifications = [...DEFAULT_NOTIFICATIONS]; }
+            } else {
+                this.notifications = [...DEFAULT_NOTIFICATIONS];
+                this.saveNotifications();
+            }
+
+            // Load Chats
+            const storedChats = localStorage.getItem(this.STORAGE_KEY_CHATS);
+            if (storedChats) {
+                try { this.chats = JSON.parse(storedChats); } catch(e) { this.initDefaultChats(); }
+            } else {
+                this.initDefaultChats();
+            }
+        },
+
+        initDefaultChats() {
+            this.chats = {
+                "farmer-ravi": [
+                    { sender: "farmer", text: "Vanakkam Murugan! We have wetland paddy harvesting starting 10 Sep. Sickles and lunch provided.", time: "09:15 AM" },
+                    { sender: "labour", text: "Vanakkam ayya. I have accepted the job. I will arrive with my harvesting gear at 7:30 AM.", time: "09:20 AM" }
+                ],
+                "farmer-subramaniam": [
+                    { sender: "farmer", text: "Thank you for the quick maize sowing work! Daily wage ₹650 has been transferred to your account.", time: "Sep 05, 05:00 PM" },
+                    { sender: "labour", text: "Received with thanks sir. Looking forward to the harvest season.", time: "Sep 05, 05:12 PM" }
+                ]
+            };
+            this.saveChats();
+        },
+
+        saveJobs() {
+            localStorage.setItem(this.STORAGE_KEY_JOBS, JSON.stringify(this.jobs));
+        },
+        saveNotifications() {
+            localStorage.setItem(this.STORAGE_KEY_NOTIFS, JSON.stringify(this.notifications));
+        },
+        saveChats() {
+            localStorage.setItem(this.STORAGE_KEY_CHATS, JSON.stringify(this.chats));
+        },
+
+        getKPIs() {
+            const available = this.jobs.filter(j => j.status === 'available').length;
+            const active = this.jobs.filter(j => j.status === 'accepted' || j.status === 'in_progress').length;
+            const completedJobs = this.jobs.filter(j => j.status === 'completed');
+            const completed = completedJobs.length;
+            const invitations = this.jobs.filter(j => j.status === 'available' && j.is_invitation).length;
+            const totalEarnings = completedJobs.reduce((sum, j) => sum + (Number(j.daily_wage) || 0), 0);
+            const pendingEarnings = this.jobs.filter(j => j.status === 'accepted' || j.status === 'in_progress').reduce((sum, j) => sum + (Number(j.daily_wage) || 0), 0);
+
+            return { available, active, completed, invitations, totalEarnings, pendingEarnings };
+        },
+
+        acceptJob(jobId) {
+            const job = this.jobs.find(j => String(j.id) === String(jobId));
+            if (!job) return false;
+
+            job.status = 'accepted';
+            job.accepted_at = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+            this.saveJobs();
+
+            // Create or ensure chat connection
+            const chatKey = `farmer-${job.farmer_name.toLowerCase().replace(/[^a-z0-9]/g, '')}`;
+            if (!this.chats[chatKey]) {
+                this.chats[chatKey] = [
+                    {
+                        sender: "farmer",
+                        text: `Vanakkam! Thank you for accepting the ${job.title} job at ${job.location}. Please arrive by 7:30 AM on ${job.date}. Contact me if you need directions.`,
+                        time: new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true })
+                    }
+                ];
+                this.saveChats();
+            }
+
+            // Try backend sync if running
+            try {
+                fetch(`/api/v1/labour/jobs/${jobId}/accept/`, { method: 'POST', headers: apiHeaders() }).catch(()=>{});
+            } catch(e) {}
+
+            return true;
+        },
+
+        completeJob(jobId) {
+            const job = this.jobs.find(j => String(j.id) === String(jobId));
+            if (!job) return false;
+
+            job.status = 'completed';
+            job.completed_at = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+            this.saveJobs();
+
+            // Add notification
+            this.notifications.unshift({
+                id: `notif-${Date.now()}`,
+                title: "Job Completed & Wage Credited",
+                message: `Work on '${job.title}' marked completed. ₹${job.daily_wage} credited to your earnings.`,
+                time: "Just now",
+                unread: true,
+                type: "payment"
+            });
+            this.saveNotifications();
+
+            // Try backend sync
+            try {
+                fetch(`/api/v1/labour/jobs/${jobId}/complete/`, { method: 'POST', headers: apiHeaders() }).catch(()=>{});
+            } catch(e) {}
+
+            return true;
+        },
+
+        resetToDemo() {
+            this.jobs = JSON.parse(JSON.stringify(DEFAULT_DEMO_JOBS));
+            this.notifications = JSON.parse(JSON.stringify(DEFAULT_NOTIFICATIONS));
+            this.initDefaultChats();
+            this.saveJobs();
+            this.saveNotifications();
+        }
+    };
+
+    // Initialize Store immediately
+    LabourStore.init();
+
+    // ============================================================
+    // UTILITIES
+    // ============================================================
+    const AUTH_TOKEN = () => localStorage.getItem('token');
+
+    function apiHeaders(isJson = true) {
+        const h = {};
+        if (isJson) h['Content-Type'] = 'application/json';
+        const t = AUTH_TOKEN();
+        if (t) h['Authorization'] = `Token ${t}`;
+        return h;
+    }
+
+    function escapeHtml(text) {
+        return String(text || '')
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+    function showToast(msg, bgClass = 'bg-success') {
+        const toastEl = document.getElementById('actionToast');
+        const msgEl = document.getElementById('toast-message');
+        if (toastEl && msgEl) {
+            msgEl.textContent = msg;
+            toastEl.className = `toast align-items-center text-white ${bgClass} border-0 shadow-lg`;
+            const toast = new bootstrap.Toast(toastEl, { delay: 3500 });
+            toast.show();
+        }
+    }
+
+    // ============================================================
+    // LIVE CLOCK
+    // ============================================================
+    function startLiveClock() {
+        function updateClock() {
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+            const dayStr = now.toLocaleDateString('en-IN', { weekday: 'short' });
+            const timeStr = now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
+
+            const dateEl = document.getElementById('live-date-el');
+            const timeEl = document.getElementById('live-time-el');
+
+            if (dateEl) dateEl.textContent = `${dateStr} (${dayStr})`;
+            if (timeEl) timeEl.textContent = timeStr;
+        }
+        updateClock();
+        setInterval(updateClock, 1000);
+    }
+
+    // ============================================================
+    // WEATHER
+    // ============================================================
+    async function loadWeather() {
+        try {
+            const resp = await fetch('/api/v1/weather/current/?lat=11.0168&lng=76.9558');
+            const data = await resp.json();
+            if (resp.ok && data.success) {
+                const w = data.data;
+                const tempEl = document.getElementById('weather-temp-el');
+                const locEl = document.getElementById('weather-loc-el');
+                if (tempEl) tempEl.textContent = `${Math.round(w.temperature)}°C`;
+                if (locEl) locEl.textContent = `${w.weather}, Coimbatore`;
+            }
+        } catch(e) { /* fallback default stays */ }
+    }
+
+    // ============================================================
+    // RENDER: DASHBOARD KPI COUNTERS
+    // ============================================================
+    function updateKPICounters() {
+        const kpis = LabourStore.getKPIs();
+
+        // Main overview stats
+        const elAvail = document.getElementById('kpi-available-jobs');
+        const elActive = document.getElementById('kpi-active-jobs');
+        const elComp = document.getElementById('kpi-completed-jobs');
+        const elInv = document.getElementById('kpi-invitations');
+        const elEarn = document.getElementById('kpi-total-earnings');
+
+        if (elAvail) elAvail.textContent = kpis.available;
+        if (elActive) elActive.textContent = kpis.active;
+        if (elComp) elComp.textContent = kpis.completed;
+        if (elInv) elInv.textContent = kpis.invitations;
+        if (elEarn) elEarn.textContent = `₹${kpis.totalEarnings}`;
+
+        // Sidebar badges
+        const sAvail = document.getElementById('sidebar-available-count');
+        const sMyJobs = document.getElementById('sidebar-myjobs-count');
+        const sNotif = document.getElementById('sidebar-notif-badge');
+        const sChat = document.getElementById('sidebar-chat-badge');
+
+        if (sAvail) sAvail.textContent = kpis.available;
+        if (sMyJobs) sMyJobs.textContent = kpis.active + kpis.completed;
+
+        const unreadCount = LabourStore.notifications.filter(n => n.unread).length;
+        if (sNotif) {
+            sNotif.textContent = unreadCount;
+            sNotif.style.display = unreadCount > 0 ? 'inline-block' : 'none';
+        }
+        if (sChat) {
+            sChat.style.display = kpis.active > 0 ? 'inline-block' : 'none';
+        }
+
+        // Earnings tab values
+        const earnTot = document.getElementById('earnings-total-display');
+        const earnMo = document.getElementById('earnings-month-display');
+        const earnComp = document.getElementById('earnings-completed-count');
+        const earnPend = document.getElementById('earnings-pending-display');
+
+        if (earnTot) earnTot.textContent = `₹${kpis.totalEarnings}.00`;
+        if (earnMo) earnMo.textContent = `₹${kpis.totalEarnings}.00`;
+        if (earnComp) earnComp.textContent = kpis.completed;
+        if (earnPend) earnPend.textContent = `₹${kpis.pendingEarnings}.00`;
+
+        // Overview subtitle badge
+        const ovBadge = document.getElementById('overview-jobs-badge');
+        if (ovBadge) ovBadge.textContent = `${kpis.available} Jobs Near You`;
+    }
+
+    // ============================================================
+    // COMPONENT: RENDER A SINGLE JOB CARD
+    // ============================================================
+    function createJobCardHTML(job, isMyJobView = false) {
+        const isAvailable = job.status === 'available';
+        const isAccepted = job.status === 'accepted' || job.status === 'in_progress';
+        const isCompleted = job.status === 'completed';
+
+        let badgeBg = 'bg-success';
+        if (isAccepted) badgeBg = 'bg-warning text-dark';
+        if (isCompleted) badgeBg = 'bg-primary text-white';
+
+        let statusText = isAvailable ? 'Available' : isAccepted ? 'Active / In Progress' : 'Completed';
+
+        return `
+        <div class="col-md-6 col-lg-4" id="job-card-${job.id}">
+            <div class="job-card">
+                ${job.is_invitation && isAvailable ? `
+                    <div class="invitation-ribbon">
+                        <i class="bi bi-star-fill text-warning"></i> Direct Invitation
+                    </div>` : ''}
+                
+                <div class="d-flex justify-content-between align-items-start mb-2 ${job.is_invitation && isAvailable ? 'pe-5' : ''}">
+                    <h5 class="fw-bold mb-0 text-dark">${escapeHtml(job.title)}</h5>
+                </div>
+
+                <div class="d-flex gap-2 flex-wrap mb-3">
+                    <span class="badge bg-success-subtle text-success work-type-pill">${escapeHtml(job.work_type)}</span>
+                    <span class="badge ${badgeBg} rounded-pill">${statusText}</span>
+                </div>
+
+                <div class="mb-3">
+                    <div class="job-meta-item">
+                        <i class="bi bi-person-fill"></i>
+                        <span><strong>${escapeHtml(job.farmer_name)}</strong> (Farmer)</span>
+                    </div>
+                    <div class="job-meta-item">
+                        <i class="bi bi-geo-alt-fill text-danger"></i>
+                        <span>${escapeHtml(job.location)} <small class="text-muted">(${job.distance_km} km away)</small></span>
+                    </div>
+                    <div class="job-meta-item">
+                        <i class="bi bi-calendar-event"></i>
+                        <span>${escapeHtml(job.date)} • ⏱ ${escapeHtml(job.duration)}</span>
+                    </div>
+                    <div class="job-meta-item">
+                        <i class="bi bi-people-fill"></i>
+                        <span>Required: <strong>${job.workers_required} Workers</strong></span>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mt-auto pt-3 border-top">
+                    <div>
+                        <small class="text-muted d-block" style="font-size:11px;">DAILY WAGE</small>
+                        <span class="job-wage-tag">₹${job.daily_wage}<small class="text-muted fw-normal" style="font-size:12px;">/day</small></span>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-outline-secondary btn-sm rounded-pill px-3" onclick="openJobDetailModal('${job.id}')">
+                            Details
+                        </button>
+                        ${isAvailable ? `
+                            <button class="btn btn-success btn-sm rounded-pill px-3 fw-bold" onclick="handleAcceptJob('${job.id}')">
+                                <i class="bi bi-check-circle"></i> Accept Job
+                            </button>` : ''}
+                        ${isAccepted ? `
+                            <button class="btn btn-primary btn-sm rounded-pill px-3 fw-bold" onclick="handleCompleteJob('${job.id}')">
+                                <i class="bi bi-check2-all"></i> Complete
+                            </button>` : ''}
+                    </div>
+                </div>
+                ${isAccepted ? `
+                    <div class="mt-2 pt-2 border-top text-center">
+                        <button class="btn btn-outline-success btn-sm rounded-pill w-100" onclick="startChatWithFarmer('${job.id}')">
+                            <i class="bi bi-chat-dots-fill"></i> Chat with ${escapeHtml(job.farmer_name)}
+                        </button>
+                    </div>` : ''}
+            </div>
+        </div>`;
+    }
+
+    // ============================================================
+    // RENDER: PANEL 1 OVERVIEW JOBS
+    // ============================================================
+    let overviewSelectedType = 'all';
+
+    function renderOverviewJobs() {
+        const grid = document.getElementById('overview-jobs-grid');
+        if (!grid) return;
+
+        let availableJobs = LabourStore.jobs.filter(j => j.status === 'available');
+
+        // Prioritize Coimbatore distance & invitations
+        availableJobs.sort((a, b) => {
+            if (a.is_invitation && !b.is_invitation) return -1;
+            if (!a.is_invitation && b.is_invitation) return 1;
+            return a.distance_km - b.distance_km;
+        });
+
+        if (overviewSelectedType !== 'all') {
+            availableJobs = availableJobs.filter(j => j.work_type.toLowerCase() === overviewSelectedType.toLowerCase());
+        }
+
+        if (availableJobs.length === 0) {
+            grid.innerHTML = `
+            <div class="col-12 text-center py-5">
+                <div class="fs-1 text-muted mb-3"><i class="bi bi-check-circle text-success"></i></div>
+                <h5 class="fw-bold text-success">All Available Jobs Accepted!</h5>
+                <p class="text-muted">Check "My Jobs" to see your scheduled work, or check back soon for newly posted farm jobs.</p>
+                <button class="btn btn-outline-success btn-sm rounded-pill select-tab-trigger" data-target="my-jobs">Go to My Jobs</button>
+            </div>`;
+            return;
+        }
+
+        let html = '';
+        availableJobs.forEach(job => {
+            html += createJobCardHTML(job);
+        });
+        grid.innerHTML = html;
+
+        renderSchedulePreview();
+    }
+
+    function renderSchedulePreview() {
+        const container = document.getElementById('overview-schedule-preview');
+        if (!container) return;
+
+        const accepted = LabourStore.jobs.filter(j => j.status === 'accepted' || j.status === 'in_progress');
+        if (accepted.length === 0) {
+            container.innerHTML = `
+                <div class="text-center py-3 text-muted">
+                    <p class="small mb-2">No active jobs accepted for this week.</p>
+                    <button class="btn btn-success btn-sm rounded-pill select-tab-trigger" data-target="available-jobs">Accept Farm Job to Schedule</button>
+                </div>`;
+            return;
+        }
+
+        let html = '<div class="list-group list-group-flush">';
+        accepted.slice(0, 3).forEach(job => {
+            html += `
+            <div class="list-group-item px-0 py-2 d-flex justify-content-between align-items-center border-0 border-bottom">
+                <div>
+                    <h6 class="fw-bold mb-0 text-dark">${escapeHtml(job.title)}</h6>
+                    <small class="text-muted">${escapeHtml(job.location)} • ${escapeHtml(job.date)}</small>
+                </div>
+                <div class="text-end">
+                    <span class="badge bg-success-subtle text-success">₹${job.daily_wage}/day</span>
+                    <br><small class="text-success fw-bold" style="cursor:pointer;" onclick="startChatWithFarmer('${job.id}')">Chat →</small>
+                </div>
+            </div>`;
+        });
+        html += '</div>';
+        container.innerHTML = html;
+    }
+
+    // ============================================================
+    // RENDER: PANEL 2 AVAILABLE JOBS (FILTERABLE)
+    // ============================================================
+    function renderAvailableJobsPage() {
+        const grid = document.getElementById('available-jobs-full-grid');
+        const statusEl = document.getElementById('available-count-status');
+        if (!grid) return;
+
+        const searchVal = (document.getElementById('filter-search')?.value || '').trim().toLowerCase();
+        const workTypeVal = document.getElementById('filter-work-type')?.value || 'all';
+        const locationVal = document.getElementById('filter-location')?.value || 'all';
+        const wageVal = Number(document.getElementById('filter-wage')?.value || 0);
+        const sortVal = document.getElementById('filter-sort')?.value || 'distance';
+
+        let list = LabourStore.jobs.filter(j => j.status === 'available');
+
+        // Search
+        if (searchVal) {
+            list = list.filter(j => 
+                j.title.toLowerCase().includes(searchVal) ||
+                j.farmer_name.toLowerCase().includes(searchVal) ||
+                j.location.toLowerCase().includes(searchVal) ||
+                j.work_type.toLowerCase().includes(searchVal) ||
+                (j.description && j.description.toLowerCase().includes(searchVal))
+            );
+        }
+
+        // Work type filter
+        if (workTypeVal !== 'all') {
+            list = list.filter(j => j.work_type.toLowerCase() === workTypeVal.toLowerCase());
+        }
+
+        // Location filter
+        if (locationVal !== 'all') {
+            list = list.filter(j => j.location.toLowerCase().includes(locationVal.toLowerCase()));
+        }
+
+        // Minimum wage filter
+        if (wageVal > 0) {
+            list = list.filter(j => Number(j.daily_wage) >= wageVal);
+        }
+
+        // Sorting
+        if (sortVal === 'distance') {
+            list.sort((a, b) => a.distance_km - b.distance_km);
+        } else if (sortVal === 'wage-desc') {
+            list.sort((a, b) => b.daily_wage - a.daily_wage);
+        } else if (sortVal === 'date-asc') {
+            list.sort((a, b) => new Date(a.date) - new Date(b.date));
+        }
+
+        if (statusEl) statusEl.textContent = `Showing ${list.length} available farm jobs`;
+
+        if (list.length === 0) {
+            grid.innerHTML = `
+            <div class="col-12 text-center py-5 bg-white rounded-4 border p-5">
+                <i class="bi bi-funnel text-muted fs-1 mb-3 d-block"></i>
+                <h5 class="fw-bold text-dark">No farm jobs matched your filters.</h5>
+                <p class="text-muted">Try clearing your search keyword or changing district filters.</p>
+                <button class="btn btn-outline-success btn-sm rounded-pill" onclick="resetFilters()">Reset Filters</button>
+            </div>`;
+            return;
+        }
+
+        let html = '';
+        list.forEach(job => {
+            html += createJobCardHTML(job);
+        });
+        grid.innerHTML = html;
+    }
+
+    function resetFilters() {
+        const fSearch = document.getElementById('filter-search');
+        const fType = document.getElementById('filter-work-type');
+        const fLoc = document.getElementById('filter-location');
+        const fWage = document.getElementById('filter-wage');
+        const fSort = document.getElementById('filter-sort');
+
+        if (fSearch) fSearch.value = '';
+        if (fType) fType.value = 'all';
+        if (fLoc) fLoc.value = 'all';
+        if (fWage) fWage.value = '0';
+        if (fSort) fSort.value = 'distance';
+
+        renderAvailableJobsPage();
+    }
+
+    // ============================================================
+    // RENDER: PANEL 3 MY JOBS
+    // ============================================================
+    let myJobsActiveTab = 'active';
+
+    function renderMyJobsPage() {
+        const grid = document.getElementById('my-jobs-grid');
+        if (!grid) return;
+
+        const activeList = LabourStore.jobs.filter(j => j.status === 'accepted' || j.status === 'in_progress');
+        const upcomingList = LabourStore.jobs.filter(j => j.status === 'accepted' && new Date(j.date) > new Date('2026-09-11'));
+        const completedList = LabourStore.jobs.filter(j => j.status === 'completed');
+
+        // Counters
+        const cAct = document.getElementById('tab-active-count');
+        const cUp = document.getElementById('tab-upcoming-count');
+        const cComp = document.getElementById('tab-completed-count');
+
+        if (cAct) cAct.textContent = activeList.length;
+        if (cUp) cUp.textContent = upcomingList.length;
+        if (cComp) cComp.textContent = completedList.length;
+
+        let displayList = [];
+        if (myJobsActiveTab === 'active') displayList = activeList;
+        else if (myJobsActiveTab === 'upcoming') displayList = upcomingList;
+        else if (myJobsActiveTab === 'completed') displayList = completedList;
+
+        if (displayList.length === 0) {
+            grid.innerHTML = `
+            <div class="col-12 text-center py-5">
+                <i class="bi bi-inbox text-muted fs-1 d-block mb-3"></i>
+                <h5 class="fw-bold text-dark">No ${myJobsActiveTab} jobs found.</h5>
+                <p class="text-muted">Browse available farm jobs in your district to accept shifts.</p>
+                <button class="btn btn-success btn-sm rounded-pill select-tab-trigger" data-target="available-jobs">Browse Available Jobs</button>
+            </div>`;
+            return;
+        }
+
+        let html = '';
+        displayList.forEach(job => {
+            html += createJobCardHTML(job, true);
+        });
+        grid.innerHTML = html;
+    }
+
+    // ============================================================
+    // RENDER: PANEL 4 MY SCHEDULE
+    // ============================================================
+    function renderSchedulePage() {
+        const container = document.getElementById('schedule-timeline-container');
+        if (!container) return;
+
+        const myJobs = LabourStore.jobs.filter(j => j.status === 'accepted' || j.status === 'in_progress' || j.status === 'completed');
+        
+        if (myJobs.length === 0) {
+            container.innerHTML = `
+            <div class="text-center py-5">
+                <i class="bi bi-calendar-x text-muted fs-1 d-block mb-3"></i>
+                <h5 class="fw-bold text-dark">Your Schedule is Clear</h5>
+                <p class="text-muted">Accept farm jobs from the Available Jobs list to populate your work calendar.</p>
+                <button class="btn btn-success btn-sm rounded-pill select-tab-trigger" data-target="available-jobs">Find Jobs to Schedule</button>
+            </div>`;
+            return;
+        }
+
+        myJobs.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+        let html = '';
+        myJobs.forEach(job => {
+            const isDone = job.status === 'completed';
+            html += `
+            <div class="timeline-item">
+                <div class="timeline-dot ${isDone ? 'completed' : ''}"></div>
+                <div class="bg-light p-3 rounded-4 border">
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
+                        <div>
+                            <span class="badge bg-success-subtle text-success me-2">${escapeHtml(job.date)}</span>
+                            <span class="badge ${isDone ? 'bg-primary' : 'bg-warning text-dark'}">${isDone ? 'Completed' : 'Upcoming Shift'}</span>
+                        </div>
+                        <span class="fw-bold text-success">₹${job.daily_wage}/day</span>
+                    </div>
+
+                    <h5 class="fw-bold mb-1 text-dark">${escapeHtml(job.title)}</h5>
+                    <p class="text-muted small mb-2"><i class="bi bi-geo-alt-fill text-danger"></i> ${escapeHtml(job.location)} • Farmer: <strong>${escapeHtml(job.farmer_name)}</strong></p>
+
+                    <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                        <small class="text-muted"><i class="bi bi-clock"></i> Shift: 07:30 AM – 04:30 PM</small>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-outline-secondary btn-sm rounded-pill py-1 px-3" onclick="openJobDetailModal('${job.id}')">Details</button>
+                            <button class="btn btn-outline-success btn-sm rounded-pill py-1 px-3" onclick="startChatWithFarmer('${job.id}')"><i class="bi bi-chat-dots-fill"></i> Chat</button>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+        });
+
+        container.innerHTML = html;
+    }
+
+    // ============================================================
+    // RENDER: PANEL 5 EARNINGS TABLE
+    // ============================================================
+    function renderEarningsPage() {
+        const tbody = document.getElementById('earnings-table-body');
+        if (!tbody) return;
+
+        const completedJobs = LabourStore.jobs.filter(j => j.status === 'completed');
+
+        if (completedJobs.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="7" class="text-center py-4 text-muted">No completed jobs yet. Complete accepted jobs to claim your daily wages.</td></tr>`;
+            return;
+        }
+
+        let html = '';
+        completedJobs.forEach(job => {
+            html += `
+            <tr>
+                <td><strong>${escapeHtml(job.title)}</strong><br><small class="text-muted">${escapeHtml(job.work_type)}</small></td>
+                <td>${escapeHtml(job.completed_at || job.date)}</td>
+                <td>${escapeHtml(job.farmer_name)}</td>
+                <td>${escapeHtml(job.duration)}</td>
+                <td class="fw-bold text-success">₹${job.daily_wage}.00</td>
+                <td><span class="badge bg-success-subtle text-success"><i class="bi bi-check-circle-fill"></i> Deposited</span></td>
+                <td><button class="btn btn-link btn-sm text-success text-decoration-none" onclick="showToast('Receipt #AGRI-PAY-${job.id.toUpperCase()} generated.')"><i class="bi bi-receipt"></i> Receipt</button></td>
+            </tr>`;
+        });
+        tbody.innerHTML = html;
+    }
+
+    // ============================================================
+    // RENDER: PANEL 6 CHAT WITH FARMERS
+    // ============================================================
+    function renderChatSidebar() {
+        const contactList = document.getElementById('chat-contact-list');
+        if (!contactList) return;
+
+        // Get all farmers with accepted or completed jobs
+        const acceptedJobs = LabourStore.jobs.filter(j => j.status === 'accepted' || j.status === 'in_progress' || j.status === 'completed');
+
+        // Unique farmers
+        const farmersMap = {};
+        acceptedJobs.forEach(j => {
+            const key = `farmer-${j.farmer_name.toLowerCase().replace(/[^a-z0-9]/g, '')}`;
+            if (!farmersMap[key]) {
+                farmersMap[key] = {
+                    key: key,
+                    name: j.farmer_name,
+                    phone: j.farmer_phone,
+                    avatar: j.farmer_avatar,
+                    jobTitle: j.title,
+                    location: j.location,
+                    jobId: j.id
+                };
+            }
+        });
+
+        const farmers = Object.values(farmersMap);
+
+        if (farmers.length === 0) {
+            contactList.innerHTML = `
+            <div class="p-4 text-center text-muted small">
+                <i class="bi bi-chat-square-dots fs-3 d-block mb-2 text-success opacity-50"></i>
+                <strong>No farmer chats yet.</strong><br>
+                Accept a farm job to unlock private chat with the farmer.
+            </div>`;
+            return;
+        }
+
+        let html = '';
+        farmers.forEach((f, idx) => {
+            const msgs = LabourStore.chats[f.key] || [];
+            const lastMsg = msgs.length > 0 ? msgs[msgs.length - 1].text : 'Start chatting with farmer...';
+            const isActive = (!LabourStore.activeFarmerChat && idx === 0) || (LabourStore.activeFarmerChat === f.key);
+
+            if (isActive && !LabourStore.activeFarmerChat) {
+                LabourStore.activeFarmerChat = f.key;
+            }
+
+            html += `
+            <div class="chat-contact-item d-flex align-items-center gap-2 ${isActive ? 'active' : ''}" onclick="selectChatFarmer('${f.key}')">
+                <img src="${escapeHtml(f.avatar)}" class="rounded-circle border border-success" width="44" height="44" style="object-fit:cover;" alt="${escapeHtml(f.name)}">
+                <div class="flex-grow-1 overflow-hidden">
+                    <div class="fw-semibold small text-truncate text-dark">${escapeHtml(f.name)}</div>
+                    <div class="text-success fw-medium" style="font-size:11px;">${escapeHtml(f.jobTitle)}</div>
+                    <div class="text-muted text-truncate" style="font-size:11px;">${escapeHtml(lastMsg)}</div>
+                </div>
+            </div>`;
+        });
+
+        contactList.innerHTML = html;
+        renderActiveChatConversation();
+    }
+
+    function selectChatFarmer(farmerKey) {
+        LabourStore.activeFarmerChat = farmerKey;
+        renderChatSidebar();
+    }
+
+    function renderActiveChatConversation() {
+        const area = document.getElementById('chat-messages-area');
+        const headerName = document.getElementById('chat-recipient-name');
+        const headerJob = document.getElementById('chat-recipient-job');
+        const headerAvatar = document.getElementById('chat-header-avatar');
+        const callBtn = document.getElementById('chat-call-btn');
+
+        if (!area) return;
+
+        if (!LabourStore.activeFarmerChat) {
+            area.innerHTML = `<div class="text-center text-muted py-5 small">Select a farmer from the left to view messages.</div>`;
+            return;
+        }
+
+        // Find farmer info from jobs
+        const matchingJob = LabourStore.jobs.find(j => `farmer-${j.farmer_name.toLowerCase().replace(/[^a-z0-9]/g, '')}` === LabourStore.activeFarmerChat);
+        if (matchingJob) {
+            if (headerName) headerName.textContent = matchingJob.farmer_name;
+            if (headerJob) headerJob.textContent = `${matchingJob.title} • ${matchingJob.location}`;
+            if (headerAvatar) headerAvatar.src = matchingJob.farmer_avatar;
+            if (callBtn) callBtn.href = `tel:${matchingJob.farmer_phone}`;
+        }
+
+        const messages = LabourStore.chats[LabourStore.activeFarmerChat] || [];
+        if (messages.length === 0) {
+            area.innerHTML = `<div class="text-center text-muted py-5 small">No messages yet. Send a greeting to connect with the farmer! 👋</div>`;
+            return;
+        }
+
+        let html = '';
+        messages.forEach(m => {
+            const isMe = m.sender === 'labour';
+            html += `
+            <div class="d-flex mb-3 ${isMe ? 'justify-content-end' : 'justify-content-start'}">
+                <div>
+                    <div class="${isMe ? 'msg-bubble-user' : 'msg-bubble-other'}">${escapeHtml(m.text)}</div>
+                    <div class="msg-time ${isMe ? 'text-end' : 'text-start'}">${escapeHtml(m.time)}</div>
+                </div>
+            </div>`;
+        });
+
+        area.innerHTML = html;
+        area.scrollTop = area.scrollHeight;
+    }
+
+    // Chat form submit
+    document.addEventListener('DOMContentLoaded', () => {
+        const sendForm = document.getElementById('chat-send-form');
+        if (sendForm) {
+            sendForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const input = document.getElementById('chat-message-input');
+                const text = input.value.trim();
+                if (!text || !LabourStore.activeFarmerChat) return;
+
+                const timeStr = new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true });
+                if (!LabourStore.chats[LabourStore.activeFarmerChat]) {
+                    LabourStore.chats[LabourStore.activeFarmerChat] = [];
+                }
+                LabourStore.chats[LabourStore.activeFarmerChat].push({ sender: 'labour', text: text, time: timeStr });
+                LabourStore.saveChats();
+                input.value = '';
+                renderActiveChatConversation();
+
+                // Realistic auto-reply from farmer after 1.2s
+                setTimeout(() => {
+                    const replies = [
+                        "Received! Please be at the farm gate by 7:30 AM. Sickles and breakfast will be ready.",
+                        "Noted Murugan. If you need any assistance on the way, call my mobile.",
+                        "Thanks for confirming! We have 4 acres of field ready for work.",
+                        "Sure, looking forward to working with you tomorrow morning."
+                    ];
+                    const randomReply = replies[Math.floor(Math.random() * replies.length)];
+                    LabourStore.chats[LabourStore.activeFarmerChat].push({
+                        sender: 'farmer',
+                        text: randomReply,
+                        time: new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true })
+                    });
+                    LabourStore.saveChats();
+                    renderActiveChatConversation();
+                }, 1200);
+            });
+        }
+    });
+
+    // ============================================================
+    // RENDER: PANEL 8 NOTIFICATIONS
+    // ============================================================
+    function renderNotificationsPage() {
+        const list = document.getElementById('notifications-list-container');
+        if (!list) return;
+
+        if (LabourStore.notifications.length === 0) {
+            list.innerHTML = `<div class="text-center py-5 text-muted">No notifications in your inbox.</div>`;
+            return;
+        }
+
+        let html = '';
+        LabourStore.notifications.forEach(n => {
+            let icon = 'bi-bell-fill text-primary';
+            if (n.type === 'invite') icon = 'bi-star-fill text-warning';
+            if (n.type === 'payment') icon = 'bi-currency-rupee text-success';
+            if (n.type === 'job') icon = 'bi-briefcase-fill text-success';
+
+            html += `
+            <div class="notification-card ${n.unread ? 'unread' : ''}" onclick="markNotificationRead('${n.id}')">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div class="d-flex gap-3">
+                        <div class="fs-4"><i class="bi ${icon}"></i></div>
+                        <div>
+                            <h6 class="fw-bold mb-1 text-dark">${escapeHtml(n.title)}</h6>
+                            <p class="text-muted small mb-1">${escapeHtml(n.message)}</p>
+                            <small class="text-muted" style="font-size:11px;">${escapeHtml(n.time)}</small>
+                        </div>
+                    </div>
+                    ${n.unread ? '<span class="badge bg-success rounded-pill">New</span>' : ''}
+                </div>
+            </div>`;
+        });
+        list.innerHTML = html;
+    }
+
+    function markNotificationRead(id) {
+        const notif = LabourStore.notifications.find(n => n.id === id);
+        if (notif) {
+            notif.unread = false;
+            LabourStore.saveNotifications();
+            updateKPICounters();
+            renderNotificationsPage();
+        }
+    }
+
+    // ============================================================
+    // ACTIONS: ACCEPT JOB & COMPLETE JOB
+    // ============================================================
+    function handleAcceptJob(jobId) {
+        const success = LabourStore.acceptJob(jobId);
+        if (success) {
+            showToast("Job accepted successfully! Added to My Jobs & Schedule.", "bg-success");
+            updateKPICounters();
+            renderOverviewJobs();
+            renderAvailableJobsPage();
+            renderMyJobsPage();
+            renderSchedulePage();
+
+            // Close modal if open
+            const modalEl = document.getElementById('jobDetailModal');
+            const modal = bootstrap.Modal.getInstance(modalEl);
+            if (modal) modal.hide();
+        }
+    }
+
+    function handleCompleteJob(jobId) {
+        if (!confirm("Confirm marking this job as completed? Your daily wage will be credited to Total Earnings.")) return;
+        const success = LabourStore.completeJob(jobId);
+        if (success) {
+            showToast("Job marked as completed! Wage credited to your wallet.", "bg-success");
+            updateKPICounters();
+            renderOverviewJobs();
+            renderMyJobsPage();
+            renderSchedulePage();
+            renderEarningsPage();
+        }
+    }
+
+    function startChatWithFarmer(jobId) {
+        const job = LabourStore.jobs.find(j => String(j.id) === String(jobId));
+        if (job) {
+            LabourStore.activeFarmerChat = `farmer-${job.farmer_name.toLowerCase().replace(/[^a-z0-9]/g, '')}`;
+            switchPanel('chat');
+            renderChatSidebar();
+        }
+    }
+
+    // ============================================================
+    // JOB DETAILS MODAL
+    // ============================================================
+    function openJobDetailModal(jobId) {
+        const job = LabourStore.jobs.find(j => String(j.id) === String(jobId));
+        if (!job) return;
+
+        const isAvailable = job.status === 'available';
+
+        document.getElementById('modal-job-title').textContent = job.title;
+        document.getElementById('modal-job-body').innerHTML = `
+            <div class="mb-3">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="badge bg-success-subtle text-success p-2 px-3 rounded-pill fw-bold">${escapeHtml(job.work_type)}</span>
+                    <span class="fs-5 fw-bold text-success">₹${job.daily_wage}/day</span>
+                </div>
+                <h4 class="fw-bold text-dark">${escapeHtml(job.title)}</h4>
+                <p class="text-muted small">${escapeHtml(job.description || '')}</p>
+            </div>
+
+            <div class="p-3 bg-light rounded-3 mb-3">
+                <div class="row g-2 small">
+                    <div class="col-6"><strong>Farmer:</strong> ${escapeHtml(job.farmer_name)}</div>
+                    <div class="col-6"><strong>Contact:</strong> ${escapeHtml(job.farmer_phone)}</div>
+                    <div class="col-6"><strong>Location:</strong> ${escapeHtml(job.location)}</div>
+                    <div class="col-6"><strong>Distance:</strong> ${job.distance_km} km away</div>
+                    <div class="col-6"><strong>Work Date:</strong> ${escapeHtml(job.date)}</div>
+                    <div class="col-6"><strong>Duration:</strong> ${escapeHtml(job.duration)}</div>
+                    <div class="col-6"><strong>Workers:</strong> ${job.workers_required} required</div>
+                    <div class="col-6"><strong>Meal Provided:</strong> Lunch & Tea</div>
+                </div>
+            </div>
+
+            <div class="small text-muted">
+                <i class="bi bi-shield-check text-success"></i> <strong>Agri Link Verified:</strong> Daily wage guaranteed with digital payment receipt upon work verification.
+            </div>`;
+
+        const footer = document.getElementById('modal-job-footer');
+        if (isAvailable) {
+            footer.innerHTML = `
+                <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success rounded-pill px-4 fw-bold" onclick="handleAcceptJob('${job.id}')">
+                    <i class="bi bi-check-circle"></i> Accept Job
+                </button>`;
+        } else {
+            footer.innerHTML = `
+                <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success rounded-pill px-4" onclick="startChatWithFarmer('${job.id}')" data-bs-dismiss="modal">
+                    <i class="bi bi-chat-dots-fill"></i> Chat with Farmer
+                </button>`;
+        }
+
+        const modal = new bootstrap.Modal(document.getElementById('jobDetailModal'));
+        modal.show();
+    }
+
+    function resetDemoData() {
+        if (!confirm("Reset all jobs, schedule, and earnings back to demo starting state?")) return;
+        LabourStore.resetToDemo();
+        showToast("Demo job dataset restored!", "bg-success");
+        updateKPICounters();
+        renderOverviewJobs();
+        renderAvailableJobsPage();
+        renderMyJobsPage();
+        renderSchedulePage();
+        renderEarningsPage();
+        renderChatSidebar();
+        renderNotificationsPage();
+    }
+
+    // ============================================================
+    // PANEL SWITCHER & NAVIGATION
+    // ============================================================
+    const tabSubtitles = {
+        'overview': "Here's your agricultural labour summary & available farm jobs.",
+        'available-jobs': "Apply for fresh daily wage opportunities in Coimbatore fields.",
+        'my-jobs': "Review your active, upcoming, and completed farm jobs.",
+        'schedule': "Review calendar schedules, dates, and upcoming field shifts.",
+        'earnings': "Review wage deposits, wallet balance, and payout receipts.",
+        'chat': "Private chat with farmers — connected upon job acceptance.",
+        'reviews': "Farmer ratings and competency feedback.",
+        'notifications': "Agri Link job alerts and direct invitations inbox.",
+        'profile': "Your verified profile details and skills.",
+        'help': "Helpline and local support contact information.",
+        'settings': "Manage system preferences and demo prototype data.",
+    };
+
+    function switchPanel(target) {
+        document.querySelectorAll('.nav-link-db[data-target]').forEach(l => l.classList.remove('active'));
+        document.querySelectorAll('.dashboard-panel').forEach(p => p.classList.remove('active'));
+
+        const activeLink = document.querySelector(`.nav-link-db[data-target="${target}"]`);
+        if (activeLink) activeLink.classList.add('active');
+
+        const activePanel = document.getElementById(`panel-${target}`);
+        if (activePanel) activePanel.classList.add('active');
+
+        const subtitle = document.getElementById('panel-welcome-subtitle');
+        if (subtitle && tabSubtitles[target]) subtitle.textContent = tabSubtitles[target];
+
+        // Close mobile sidebar if open
+        const sidebar = document.getElementById('sidebar-menu');
+        if (sidebar) sidebar.classList.remove('mobile-open');
+
+        // Lazy-render active panels
+        if (target === 'overview') renderOverviewJobs();
+        if (target === 'available-jobs') renderAvailableJobsPage();
+        if (target === 'my-jobs') renderMyJobsPage();
+        if (target === 'schedule') renderSchedulePage();
+        if (target === 'earnings') renderEarningsPage();
+        if (target === 'chat') renderChatSidebar();
+        if (target === 'notifications') renderNotificationsPage();
+    }
+
+    // ============================================================
+    // DOM EVENT LISTENERS
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', () => {
+        // Display personalized labour name if stored
+        const savedLabourName = localStorage.getItem('userName');
+        if (savedLabourName) {
+            const welcomeHeading = document.getElementById('welcome-heading');
+            if (welcomeHeading) welcomeHeading.innerHTML = `Welcome back, ${savedLabourName} 👋`;
+        }
+
+        // Labour Logout Handler
+        const labourLogoutBtn = document.getElementById('labour-logout-btn');
+        if (labourLogoutBtn) {
+            labourLogoutBtn.addEventListener('click', async (e) => {
+                e.preventDefault();
+                const token = localStorage.getItem('token');
+                if (token) {
+                    try {
+                        await fetch('/api/v1/accounts/logout/', {
+                            method: 'POST',
+                            headers: { 'Authorization': `Token ${token}` }
+                        });
+                    } catch (err) {
+                        console.warn("Logout error:", err);
+                    }
+                }
+                localStorage.removeItem('token');
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('userRole');
+                localStorage.removeItem('userName');
+                localStorage.removeItem('userMobile');
+                localStorage.removeItem('userId');
+                window.location.href = 'login.html?role=labour';
+            });
+        }
+
+        // Navigation links
+        document.querySelectorAll('.nav-link-db[data-target]').forEach(link => {
+            link.addEventListener('click', () => switchPanel(link.getAttribute('data-target')));
+        });
+
+        // Trigger delegation for buttons like "Browse Available Jobs"
+        document.body.addEventListener('click', (e) => {
+            const trigger = e.target.closest('.select-tab-trigger');
+            if (trigger) {
+                const target = trigger.getAttribute('data-target');
+                if (target) switchPanel(target);
+            }
+        });
+
+        // Mobile sidebar toggle
+        const toggleBtn = document.getElementById('sidebar-toggle-btn');
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', () => {
+                document.getElementById('sidebar-menu').classList.toggle('mobile-open');
+            });
+        }
+
+        // Overview filter bar
+        const overviewFilters = document.querySelectorAll('#overview-filter-bar .filter-pill-btn');
+        overviewFilters.forEach(btn => {
+            btn.addEventListener('click', () => {
+                overviewFilters.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                overviewSelectedType = btn.getAttribute('data-type');
+                renderOverviewJobs();
+            });
+        });
+
+        // Available jobs filter inputs
+        ['filter-search', 'filter-work-type', 'filter-location', 'filter-wage', 'filter-sort'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.addEventListener('input', renderAvailableJobsPage);
+                el.addEventListener('change', renderAvailableJobsPage);
+            }
+        });
+
+        const resetFiltersBtn = document.getElementById('reset-filters-btn');
+        if (resetFiltersBtn) resetFiltersBtn.addEventListener('click', resetFilters);
+
+        // My jobs subtabs
+        const jobTabBtns = document.querySelectorAll('.job-tab-btn');
+        jobTabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                jobTabBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                myJobsActiveTab = btn.getAttribute('data-tab');
+                renderMyJobsPage();
+            });
+        });
+
+        // Mark all notifications read
+        const markAllBtn = document.getElementById('mark-all-read-btn');
+        if (markAllBtn) {
+            markAllBtn.addEventListener('click', () => {
+                LabourStore.notifications.forEach(n => n.unread = false);
+                LabourStore.saveNotifications();
+                updateKPICounters();
+                renderNotificationsPage();
+                showToast("All notifications marked as read.", "bg-success");
+            });
+        }
+
+        // Logout
+        const logoutBtn = document.getElementById('labour-logout-btn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', async () => {
+                try {
+                    await fetch('/api/v1/accounts/logout/', { method: 'POST', headers: apiHeaders() });
+                } catch(e) {}
+                localStorage.removeItem('token');
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('userRole');
+                window.location.href = 'index.html';
+            });
+        }
+
+        // INITIALIZE RENDERS
+        startLiveClock();
+        loadWeather();
+        updateKPICounters();
+        renderOverviewJobs();
+        renderAvailableJobsPage();
+        renderMyJobsPage();
+        renderSchedulePage();
+        renderEarningsPage();
+    });
+    </script>
+    <!-- Dashboard Role Badge Web Component -->
+    <script src="js/role-badge.js"></script>
+</body>
+</html>

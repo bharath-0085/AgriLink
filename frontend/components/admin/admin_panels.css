@@ -1,0 +1,411 @@
+/* ==========================================================================
+   Agri Link — Admin Dashboard Panels Styles
+   Component: /components/admin/admin_panels.css
+   Theme: Admin Dark Green (#0A2A12), Red Accents (#D32F2F), White Cards
+   ========================================================================== */
+
+/* --- Admin Toolbar & Search --- */
+.admin-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 14px 18px;
+    background: #ffffff;
+    border: 1px solid #e2ece3;
+    border-radius: 16px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+
+.admin-search-box {
+    position: relative;
+    flex: 1 1 260px;
+    min-width: 200px;
+}
+
+.admin-search-box i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    font-size: 0.95rem;
+}
+
+.admin-search-input {
+    width: 100%;
+    padding: 8px 14px 8px 36px;
+    border: 1.5px solid #dce4dd;
+    border-radius: 10px;
+    background: #f8faf8;
+    font-size: 0.86rem;
+    color: #1e293b;
+    outline: none;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+.admin-search-input:focus {
+    background: #ffffff;
+    border-color: #2e7d32;
+    box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.12);
+}
+
+.admin-filter-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.admin-filter-select {
+    padding: 8px 14px;
+    border: 1.5px solid #dce4dd;
+    border-radius: 10px;
+    background: #ffffff;
+    font-size: 0.84rem;
+    color: #334155;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.admin-filter-select:focus {
+    border-color: #2e7d32;
+}
+
+/* --- Stat Chips Bar --- */
+.admin-stat-chips {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.admin-stat-chip {
+    background: #ffffff;
+    border: 1px solid #e2ece3;
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 0.82rem;
+    color: #475569;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+}
+
+.admin-stat-chip strong {
+    color: #14532d;
+    font-weight: 700;
+}
+
+.chip-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.chip-dot-green { background: #16a34a; }
+.chip-dot-amber { background: #d97706; }
+.chip-dot-blue  { background: #0284c7; }
+.chip-dot-red   { background: #dc2626; }
+
+/* --- Admin Tables --- */
+.admin-table-card {
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+    border: 1px solid #e2ece3;
+    overflow: hidden;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.86rem;
+    margin-bottom: 0;
+}
+
+.admin-table th {
+    background: #f8faf8;
+    color: #475569;
+    font-weight: 600;
+    padding: 12px 16px;
+    border-bottom: 1.5px solid #e2ece3;
+    white-space: nowrap;
+}
+
+.admin-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid #f1f5f9;
+    color: #1e293b;
+    vertical-align: middle;
+}
+
+.admin-table tbody tr:hover {
+    background-color: #fbfdfb;
+}
+
+/* Status Badges */
+.badge-admin-active {
+    background: #dcfce7;
+    color: #16a34a;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.74rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.badge-admin-pending {
+    background: #fef3c7;
+    color: #d97706;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.74rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.badge-admin-suspended {
+    background: #fee2e2;
+    color: #dc2626;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.74rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.badge-admin-available {
+    background: #ecfdf5;
+    color: #059669;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.74rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.badge-admin-busy {
+    background: #e0f2fe;
+    color: #0284c7;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.74rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.badge-admin-verified {
+    background: #f0fdf4;
+    color: #15803d;
+    border: 1px solid #bbf7d0;
+    padding: 3px 9px;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.id-pill-admin {
+    font-family: monospace;
+    font-weight: 700;
+    color: #334155;
+    background: #f1f5f9;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-size: 0.78rem;
+    display: inline-block;
+}
+
+/* Actions in tables */
+.btn-admin-action-sm {
+    padding: 4px 10px;
+    border-radius: 14px;
+    font-size: 0.76rem;
+    font-weight: 600;
+    border: 1px solid #d1d5db;
+    background: #ffffff;
+    color: #374151;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.15s ease;
+    text-decoration: none;
+}
+
+.btn-admin-action-sm:hover {
+    background: #f8fafc;
+    border-color: #9ca3af;
+    color: #111827;
+}
+
+.btn-admin-action-sm.btn-admin-danger {
+    color: #dc2626;
+    border-color: #fca5a5;
+}
+
+.btn-admin-action-sm.btn-admin-danger:hover {
+    background: #fee2e2;
+    border-color: #ef4444;
+}
+
+.btn-admin-action-sm.btn-admin-success {
+    color: #16a34a;
+    border-color: #86efac;
+}
+
+.btn-admin-action-sm.btn-admin-success:hover {
+    background: #dcfce7;
+    border-color: #22c55e;
+}
+
+/* Category Tabs for Marketplace Panel */
+.admin-category-tabs {
+    display: inline-flex;
+    background: #f1f5f9;
+    padding: 4px;
+    border-radius: 14px;
+    gap: 4px;
+}
+
+.category-tab-btn {
+    border: none;
+    background: transparent;
+    padding: 6px 14px;
+    border-radius: 10px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.category-tab-btn.active {
+    background: #14532d;
+    color: #ffffff;
+    box-shadow: 0 2px 8px rgba(20, 83, 45, 0.25);
+}
+
+/* Empty State */
+.admin-empty-state {
+    text-align: center;
+    padding: 38px 20px;
+    color: #64748b;
+}
+
+.admin-empty-icon {
+    font-size: 2.4rem;
+    color: #cbd5e1;
+    margin-bottom: 8px;
+}
+
+/* --- Toast Notification for Admin Actions --- */
+.admin-toast {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 16px 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    border-left: 5px solid #d32f2f;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    z-index: 9999;
+    transform: translateY(120px);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    max-width: 400px;
+}
+
+.admin-toast.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.admin-toast.toast-success {
+    border-left-color: #16a34a;
+}
+
+.admin-toast-icon {
+    font-size: 1.4rem;
+    color: #d32f2f;
+    flex-shrink: 0;
+}
+
+.admin-toast.toast-success .admin-toast-icon {
+    color: #16a34a;
+}
+
+.admin-toast-body {
+    flex-grow: 1;
+}
+
+.admin-toast-title {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 2px;
+}
+
+.admin-toast-msg {
+    font-size: 0.8rem;
+    color: #64748b;
+}
+
+.admin-toast-close {
+    background: none;
+    border: none;
+    color: #94a3b8;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+}
+
+/* Responsive */
+@media (max-width: 767.98px) {
+    .admin-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .admin-filter-group {
+        width: 100%;
+    }
+    .admin-filter-select {
+        flex: 1;
+    }
+}
+
+/* Helpers & Chart Wrappers */
+.fs-7 {
+    font-size: 0.75rem !important;
+}
+
+.chart-container-admin {
+    position: relative;
+    height: 270px;
+    width: 100%;
+}
+

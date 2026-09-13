@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In & Register — Agri Link</title>
+    <meta name="description" content="Secure Login and Registration portal for Agri Link — Farmers, Labourers, Buyers, and Platform Administrators.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    <!-- Embedded High-Priority Styles: Guarantees strict max-width (NEVER enlarged) and immune to cache -->
+    <style>
+        :root {
+            --primary-green: #2E7D32;
+            --dark-green: #0A2A12;
+            --light-green: #E8F5E9;
+            --accent-green: #A5D6A7;
+        }
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        html, body {
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+        }
+        body {
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, rgba(10, 42, 18, 0.88) 0%, rgba(10, 42, 18, 0.96) 100%),
+                        url('images/login_farmer_bg.jpg') center center / cover no-repeat fixed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px 16px;
+        }
+        .auth-container {
+            width: 100% !important;
+            max-width: 480px !important;
+            margin: 0 auto !important;
+        }
+        .auth-card {
+            background: #FFFFFF !important;
+            border-radius: 22px !important;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35), 0 4px 16px rgba(0, 0, 0, 0.1) !important;
+            border: 1px solid rgba(255, 255, 255, 0.9) !important;
+            padding: 32px 26px !important;
+            width: 100% !important;
+            max-width: 480px !important;
+            box-sizing: border-box !important;
+        }
+        @media (max-width: 500px) {
+            body {
+                padding: 14px 10px;
+            }
+            .auth-card {
+                padding: 24px 18px !important;
+                border-radius: 18px !important;
+            }
+        }
+        .auth-brand-badge {
+            height: 48px;
+            width: auto;
+            object-fit: contain;
+            background: #FFFFFF;
+            border-radius: 12px;
+            padding: 4px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+        .badge-subtle-pill {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            color: #FFFFFF;
+            font-size: 0.74rem;
+            padding: 5px 14px;
+            border-radius: 30px;
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+        /* Top Tabs */
+        .auth-tab-btn {
+            border: none;
+            background: transparent;
+            color: #6c757d;
+            font-size: 0.88rem;
+            font-weight: 600;
+            padding: 8px 18px;
+            border-radius: 30px;
+            transition: all 0.2s ease;
+        }
+        .auth-tab-btn.active {
+            background-color: var(--primary-green);
+            color: #FFFFFF;
+            box-shadow: 0 3px 8px rgba(46, 125, 50, 0.3);
+        }
+        /* Role Cards Grid */
+        .role-grid-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin: 18px 0 16px 0;
+        }
+        @media (max-width: 420px) {
+            .role-grid-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        .role-grid-card {
+            background: #F8FBF8;
+            border: 1.5px solid #E1F2E0;
+            border-radius: 16px;
+            padding: 14px 12px;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 140px;
+            position: relative;
+        }
+        .role-grid-card:hover {
+            background: #FFFFFF;
+            border-color: #2E7D32;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 18px rgba(46, 125, 50, 0.12);
+        }
+        .role-icon-circle {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: #FFFFFF;
+            border: 1px solid #DDF3DC;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+        .role-tag-badge {
+            font-size: 0.68rem;
+            font-weight: 600;
+            padding: 2px 7px;
+            border-radius: 20px;
+        }
+        .btn-primary-custom {
+            background-color: var(--primary-green);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        .btn-primary-custom:hover, .btn-primary-custom:focus {
+            background-color: #256628;
+            color: white;
+            box-shadow: 0 4px 12px rgba(46, 125, 50, 0.28);
+        }
+        .btn-quick-login {
+            background-color: #2E7D32;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            padding: 6px 10px;
+            transition: all 0.18s ease;
+        }
+        .btn-quick-login:hover {
+            background-color: #1B5E20;
+            color: #ffffff;
+            transform: translateY(-1px);
+        }
+        .form-control:focus {
+            border-color: var(--primary-green);
+            box-shadow: 0 0 0 0.2rem rgba(46, 125, 50, 0.18);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="auth-container">
+        
+        <!-- Subtle Top Brand Text on Wallpaper -->
+        <div class="text-center mb-2">
+            <span class="badge-subtle-pill">
+                <i class="bi bi-shield-check text-warning"></i> Digital Agriculture Platform
+            </span>
+        </div>
+
+        <!-- ==========================================
+             MAIN CENTERED AUTH CARD (STRICT 480px MAX-WIDTH)
+             ========================================== -->
+        <div class="auth-card">
+            
+            <!-- Brand Logo & Header -->
+            <div class="text-center mb-3">
+                <a href="index.html" class="d-inline-block mb-2">
+                    <img src="images/logo.png" alt="Agri Link Logo" class="auth-brand-badge">
+                </a>
+                <h3 class="fw-bold text-dark mb-1" id="auth-main-heading">Agri Link Portal</h3>
+                <p class="text-muted small mb-0" id="auth-main-subheading">Choose your role to sign in or create an account</p>
+            </div>
+
+            <!-- Top Segmented Tab Switcher (Sign In vs Register) -->
+            <div class="d-flex justify-content-center mb-3">
+                <div class="p-1 bg-light rounded-pill border d-inline-flex">
+                    <button type="button" class="auth-tab-btn active" id="tab-login" onclick="switchToSignIn()">
+                        <i class="bi bi-box-arrow-in-right me-1"></i> Sign In
+                    </button>
+                    <button type="button" class="auth-tab-btn" id="tab-register" onclick="switchToRegister()">
+                        <i class="bi bi-person-plus me-1"></i> Register
+                    </button>
+                </div>
+            </div>
+
+            <!-- Global Alert Container -->
+            <div id="auth-alert" class="alert alert-danger d-none py-2 px-3 small rounded-3 mb-3" role="alert"></div>
+
+            <!-- ==========================================
+                 VIEW 1: 4 ROLE SELECTION CARDS (2x2 GRID)
+                 ========================================== -->
+            <div id="view-role-select">
+                <p class="text-muted small text-center mb-2" style="font-size: 0.8rem;">
+                    Click <strong>⚡ Sign In</strong> on your role for instant access:
+                </p>
+
+                <div class="role-grid-container">
+                    
+                    <!-- 1. Farmer Login -->
+                    <div class="role-grid-card" id="card-farmer" onclick="openLoginForm('farmer')" style="cursor: pointer;">
+                        <div>
+                            <div class="d-flex justify-content-between align-items-start mb-1">
+                                <div class="role-icon-circle">👨‍🌾</div>
+                                <span class="badge bg-success-subtle text-success role-tag-badge">Producer</span>
+                            </div>
+                            <h6 class="fw-bold text-dark mb-0" style="font-size: 0.9rem;">Farmer Login</h6>
+                            <p class="text-muted mb-2" style="font-size: 0.72rem; line-height: 1.3;">Sell crops & book machinery</p>
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-quick-login w-100" onclick="event.stopPropagation(); openLoginForm('farmer')">
+                                ⚡ Sign In as Farmer
+                            </button>
+                            <a href="javascript:void(0)" class="d-block text-center text-muted text-decoration-none mt-1" style="font-size: 11px;" onclick="event.stopPropagation(); openLoginForm('farmer')">
+                                Mobile OTP Login <i class="bi bi-chevron-right"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- 2. Labour Login -->
+                    <div class="role-grid-card" id="card-labour" onclick="openLoginForm('labour')" style="cursor: pointer;">
+                        <div>
+                            <div class="d-flex justify-content-between align-items-start mb-1">
+                                <div class="role-icon-circle">👷</div>
+                                <span class="badge bg-primary-subtle text-primary role-tag-badge">Field Worker</span>
+                            </div>
+                            <h6 class="fw-bold text-dark mb-0" style="font-size: 0.9rem;">Labour Login</h6>
+                            <p class="text-muted mb-2" style="font-size: 0.72rem; line-height: 1.3;">Find farm jobs & daily pay</p>
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-quick-login w-100" style="background-color: #1976D2;" onclick="event.stopPropagation(); openLoginForm('labour')">
+                                ⚡ Sign In as Labour
+                            </button>
+                            <a href="javascript:void(0)" class="d-block text-center text-muted text-decoration-none mt-1" style="font-size: 11px;" onclick="event.stopPropagation(); openLoginForm('labour')">
+                                Mobile OTP Login <i class="bi bi-chevron-right"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- 3. Buyer Login -->
+                    <div class="role-grid-card" id="card-buyer" onclick="openLoginForm('buyer')" style="cursor: pointer;">
+                        <div>
+                            <div class="d-flex justify-content-between align-items-start mb-1">
+                                <div class="role-icon-circle">🛒</div>
+                                <span class="badge bg-warning-subtle text-warning-emphasis role-tag-badge">Trader</span>
+                            </div>
+                            <h6 class="fw-bold text-dark mb-0" style="font-size: 0.9rem;">Buyer Login</h6>
+                            <p class="text-muted mb-2" style="font-size: 0.72rem; line-height: 1.3;">Source direct fresh produce</p>
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-quick-login w-100" style="background-color: #F57C00;" onclick="event.stopPropagation(); openLoginForm('buyer')">
+                                ⚡ Sign In as Buyer
+                            </button>
+                            <a href="javascript:void(0)" class="d-block text-center text-muted text-decoration-none mt-1" style="font-size: 11px;" onclick="event.stopPropagation(); openLoginForm('buyer')">
+                                Email & Password Login <i class="bi bi-chevron-right"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- 4. Admin Login -->
+                    <div class="role-grid-card" id="card-admin" onclick="openLoginForm('admin')" style="cursor: pointer;">
+                        <div>
+                            <div class="d-flex justify-content-between align-items-start mb-1">
+                                <div class="role-icon-circle">👨‍💼</div>
+                                <span class="badge bg-danger-subtle text-danger role-tag-badge">Operations</span>
+                            </div>
+                            <h6 class="fw-bold text-dark mb-0" style="font-size: 0.9rem;">Admin Login</h6>
+                            <p class="text-muted mb-2" style="font-size: 0.72rem; line-height: 1.3;">Platform management portal</p>
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-quick-login w-100" style="background-color: #D32F2F;" onclick="event.stopPropagation(); openLoginForm('admin')">
+                                🔒 Sign In as Admin
+                            </button>
+                            <a href="javascript:void(0)" class="d-block text-center text-muted text-decoration-none mt-1" style="font-size: 11px;" onclick="event.stopPropagation(); openLoginForm('admin')">
+                                Operations Portal <i class="bi bi-chevron-right"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Bottom Switch to Register -->
+                <div class="text-center pt-2 border-top">
+                    <p class="text-muted small mb-0">
+                        New user? 
+                        <a href="javascript:void(0)" onclick="switchToRegister()" class="text-success fw-bold text-decoration-none">Create a free account</a>
+                    </p>
+                </div>
+            </div>
+
+            <!-- ==========================================
+                 VIEW 2: ROLE LOGIN FORM (CUSTOM MOBILE / OTP / ADMIN)
+                 ========================================== -->
+            <div id="view-login-form" class="d-none">
+                <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
+                    <button type="button" class="btn btn-link text-decoration-none text-muted p-0 small fw-semibold" onclick="backToRoles()">
+                        <i class="bi bi-arrow-left"></i> Change Role
+                    </button>
+                    <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-bold" id="active-role-pill">
+                        👨‍🌾 Farmer Login
+                    </span>
+                </div>
+
+                <!-- Step 1: Mobile Form (Farmer, Labour) -->
+                <form id="auth-step-1">
+                    <input type="hidden" id="auth-role" value="farmer">
+                    <div class="text-center mb-3">
+                        <h6 class="fw-bold text-dark mb-1" id="role-heading">Welcome, Farmer</h6>
+                        <p class="text-muted small mb-0" id="role-desc">Enter your 10-digit mobile number to access your account.</p>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold text-muted">Mobile Number</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border border-end-0 rounded-start-3 text-muted fw-semibold">+91</span>
+                            <input type="tel" id="auth-mobile" class="form-control border rounded-end-3 p-2 fs-6" placeholder="Enter 10-digit number" pattern="[0-9]{10}" maxlength="10" required value="9842199881">
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mt-1">
+                            <small class="text-muted" style="font-size: 11px;">Registered demo: <strong id="demo-num-hint" class="text-success" role="button" onclick="useDemoNumber()">9842199881</strong></small>
+                            <small><a href="javascript:void(0)" class="text-success text-decoration-none" onclick="useDemoNumber()">Auto-fill</a></small>
+                        </div>
+                    </div>
+
+                    <button type="submit" id="btn-send-otp" class="btn btn-primary-custom w-100 py-2 mt-1 fw-semibold">
+                        Send Verification OTP <i class="bi bi-arrow-right ms-1"></i>
+                    </button>
+                </form>
+
+                <!-- Step 2: Dynamic OTP Form (Farmer, Labour) -->
+                <form id="auth-step-2" class="d-none">
+                    <div class="text-center mb-2">
+                        <h6 class="fw-bold text-dark mb-1">Enter Verification Code</h6>
+                        <p class="text-muted small mb-1">Code sent to +91 <strong id="display-mobile">9842199881</strong>.</p>
+                    </div>
+
+                    <div id="otp-info-banner" class="alert alert-success-subtle border border-success-subtle text-success small py-2 mb-3 text-center" style="background-color: #E8F5E9;">
+                        <i class="bi bi-shield-check me-1"></i> Generating secure OTP code...
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold text-muted text-center d-block">Enter 6-Digit Code</label>
+                        <input type="text" id="auth-otp" class="form-control text-center fs-4 fw-bold tracking-widest mx-auto rounded-3" style="letter-spacing: 6px; max-width: 220px;" maxlength="6" pattern="[0-9]{6}" placeholder="••••••" required autocomplete="one-time-code">
+                    </div>
+
+                    <button type="submit" id="btn-verify-otp" class="btn btn-primary-custom w-100 py-2 fw-semibold">
+                        Verify & Enter Dashboard <i class="bi bi-box-arrow-in-right ms-1"></i>
+                    </button>
+
+                    <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top">
+                        <a href="javascript:void(0)" class="small text-muted text-decoration-none" onclick="resendCurrentOTP()"><i class="bi bi-arrow-repeat me-1"></i>Resend OTP</a>
+                        <a href="javascript:void(0)" class="small text-muted text-decoration-none" onclick="editMobileNumber()"><i class="bi bi-pencil me-1"></i>Edit Number</a>
+                    </div>
+                </form>
+
+                <!-- Buyer Email & Password Login Form -->
+                <form id="auth-buyer-form" class="d-none">
+                    <div class="text-center mb-3">
+                        <h6 class="fw-bold text-warning-emphasis mb-1">Produce Buyer Portal</h6>
+                        <p class="text-muted small mb-0">Sign in with your verified email and password.</p>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold text-muted">Buyer Email Address</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border border-end-0 rounded-start-3 text-muted"><i class="bi bi-envelope"></i></span>
+                            <input type="email" id="buyer-email" class="form-control border rounded-end-3 p-2" placeholder="buyer@agrilink.in" required value="buyer@agrilink.in">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold text-muted">Password</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border border-end-0 rounded-start-3 text-muted"><i class="bi bi-shield-lock"></i></span>
+                            <input type="password" id="buyer-password" class="form-control border rounded-end-3 p-2" placeholder="••••••••••••" required value="Buyer@2026">
+                        </div>
+                        <small class="text-muted mt-1 d-block" style="font-size: 11px;">Verified Buyer demo: <strong class="text-warning-emphasis" style="cursor: pointer;" onclick="document.getElementById('buyer-password').value='Buyer@2026'">Buyer@2026</strong></small>
+                    </div>
+
+                    <button type="submit" id="btn-buyer-submit" class="btn btn-warning w-100 py-2 mt-2 fw-semibold text-white" style="background-color: #F57C00; border-color: #F57C00;">
+                        Sign In as Buyer <i class="bi bi-box-arrow-in-right ms-1"></i>
+                    </button>
+                </form>
+
+                <!-- Admin Operations Form (Username/Password) -->
+                <form id="auth-admin-form" class="d-none">
+                    <div class="text-center mb-3">
+                        <h6 class="fw-bold text-danger mb-1">Administrator Portal</h6>
+                        <p class="text-muted small mb-0">Authorized operations personnel only.</p>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold text-muted">Admin Username</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border border-end-0 rounded-start-3 text-muted"><i class="bi bi-person-badge"></i></span>
+                            <input type="text" id="admin-username" class="form-control border rounded-end-3 p-2" placeholder="admin" required value="admin">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold text-muted">Master Password</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border border-end-0 rounded-start-3 text-muted"><i class="bi bi-shield-lock"></i></span>
+                            <input type="password" id="admin-password" class="form-control border rounded-end-3 p-2" placeholder="AdminMaster@2026" required value="AdminMaster@2026">
+                        </div>
+                        <small class="text-muted mt-1 d-block" style="font-size: 11px;">Operations credentials required.</small>
+                    </div>
+
+                    <button type="submit" id="btn-admin-submit" class="btn btn-danger w-100 py-2 mt-2 fw-semibold">
+                        Sign In to Operations Portal <i class="bi bi-shield-lock-fill ms-1"></i>
+                    </button>
+                </form>
+            </div>
+
+            <!-- ==========================================
+                 VIEW 3: REGISTRATION VIEW
+                 ========================================== -->
+            <div id="view-register" class="d-none">
+                
+                <!-- Notice Banner: Already have account? -->
+                <div class="alert alert-success-subtle border border-success-subtle py-2 px-3 mb-3 rounded-3 d-flex justify-content-between align-items-center" style="background-color: #E8F5E9;">
+                    <small class="text-success fw-semibold">
+                        <i class="bi bi-info-circle me-1"></i> Already registered?
+                    </small>
+                    <button type="button" class="btn btn-sm btn-success py-0 px-2 fw-semibold" style="font-size: 11px;" onclick="switchToSignIn()">
+                        Sign In Now →
+                    </button>
+                </div>
+
+                <div class="text-center mb-3">
+                    <h6 class="fw-bold text-dark mb-1">Create an Account</h6>
+                    <p class="text-muted small mb-0">Fill in your details below to create your account.</p>
+                </div>
+
+                <form id="form-register">
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold text-muted">I want to register as</label>
+                        <div class="row g-2">
+                            <div class="col-4">
+                                <input type="radio" class="btn-check" name="reg-role" id="reg-role-farmer" value="farmer" checked>
+                                <label class="btn btn-outline-success btn-sm w-100 py-2 rounded-3 text-center fw-semibold" for="reg-role-farmer">
+                                    👨‍🌾 Farmer
+                                </label>
+                            </div>
+                            <div class="col-4">
+                                <input type="radio" class="btn-check" name="reg-role" id="reg-role-labour" value="labour">
+                                <label class="btn btn-outline-success btn-sm w-100 py-2 rounded-3 text-center fw-semibold" for="reg-role-labour">
+                                    👷 Labour
+                                </label>
+                            </div>
+                            <div class="col-4">
+                                <input type="radio" class="btn-check" name="reg-role" id="reg-role-buyer" value="buyer">
+                                <label class="btn btn-outline-success btn-sm w-100 py-2 rounded-3 text-center fw-semibold" for="reg-role-buyer">
+                                    🛒 Buyer
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold text-muted">Full Name</label>
+                        <input type="text" id="reg-name" class="form-control rounded-3 p-2" placeholder="e.g. Ramesh Patel" required value="Ramesh Patel">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold text-muted">Mobile Number</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border border-end-0 rounded-start-3 text-muted fw-semibold">+91</span>
+                            <input type="tel" id="reg-mobile" class="form-control border rounded-end-3 p-2" placeholder="Enter 10-digit number" pattern="[0-9]{10}" maxlength="10" required value="9842199001">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold text-muted">Email Address (Optional for Farmer/Labour, Required for Buyer)</label>
+                        <input type="email" id="reg-email" class="form-control rounded-3 p-2" placeholder="e.g. name@example.com">
+                    </div>
+
+                    <div class="row g-2 mb-3">
+                        <div class="col-6">
+                            <label class="form-label small fw-semibold text-muted">Password</label>
+                            <input type="password" id="reg-password" class="form-control rounded-3 p-2" placeholder="Min 6 chars" minlength="6" required value="Secret@2026">
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label small fw-semibold text-muted">Confirm Password</label>
+                            <input type="password" id="reg-confirm-password" class="form-control rounded-3 p-2" placeholder="Repeat password" minlength="6" required value="Secret@2026">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold text-muted">District / State</label>
+                        <input type="text" id="reg-location" class="form-control rounded-3 p-2" placeholder="e.g. Coimbatore, Tamil Nadu" required value="Coimbatore, Tamil Nadu">
+                    </div>
+
+                    <button type="submit" id="btn-reg-submit" class="btn btn-primary-custom w-100 py-2 mt-2 fw-semibold">
+                        Create Account & Continue <i class="bi bi-arrow-right ms-1"></i>
+                    </button>
+                </form>
+
+                <div class="text-center pt-3 mt-3 border-top">
+                    <p class="text-muted small mb-0">
+                        Already have an account? 
+                        <a href="javascript:void(0)" onclick="switchToSignIn()" class="text-success fw-bold text-decoration-none">Sign in here</a>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Back to Homepage Navigation Link -->
+            <div class="text-center mt-3 pt-2 border-top">
+                <a href="index.html" class="btn btn-link btn-sm text-muted text-decoration-none" style="font-size: 0.8rem;">
+                    <i class="bi bi-arrow-left"></i> Back to Homepage
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+    const API_BASE = (window.location.protocol === 'file:' || (window.location.port && window.location.port !== '8000')) 
+        ? 'http://127.0.0.1:8000' 
+        : '';
+
+    const roleMeta = {
+        'farmer': { emoji: '👨‍🌾', label: 'Farmer Login', heading: 'Welcome, Farmer', desc: 'Enter your 10-digit mobile number to access your farm dashboard.', demoPhone: '9842199881', badgeClass: 'bg-success-subtle text-success' },
+        'labour': { emoji: '👷', label: 'Labour Login', heading: 'Welcome, Labour Partner', desc: 'Enter your 10-digit mobile number to view farm jobs and shifts.', demoPhone: '9842199883', badgeClass: 'bg-primary-subtle text-primary' },
+        'buyer': { emoji: '🛒', label: 'Buyer Login', heading: 'Welcome, Produce Buyer', desc: 'Enter your email and password to source crops from farms.', demoPhone: '', badgeClass: 'bg-warning-subtle text-warning-emphasis' },
+        'admin': { emoji: '👨‍💼', label: 'Admin Login', heading: 'Administrator Portal', desc: 'Enter operations credentials to manage platform infrastructure.', demoPhone: '', badgeClass: 'bg-danger-subtle text-danger' }
+    };
+
+    function showAlert(msg, isError = true) {
+        const el = document.getElementById('auth-alert');
+        if (!el) return;
+        el.className = isError ? 'alert alert-danger py-2 px-3 small rounded-3 mb-3' : 'alert alert-success py-2 px-3 small rounded-3 mb-3';
+        el.innerHTML = msg;
+        el.classList.remove('d-none');
+    }
+
+    function clearAlert() {
+        const el = document.getElementById('auth-alert');
+        if (el) el.classList.add('d-none');
+    }
+
+    function switchToSignIn() {
+        clearAlert();
+        document.getElementById('tab-login').classList.add('active');
+        document.getElementById('tab-register').classList.remove('active');
+
+        document.getElementById('auth-main-heading').textContent = "Agri Link Portal";
+        document.getElementById('auth-main-subheading').textContent = "Choose your role to sign in or create an account";
+
+        document.getElementById('view-register').classList.add('d-none');
+        document.getElementById('view-login-form').classList.add('d-none');
+        document.getElementById('view-role-select').classList.remove('d-none');
+
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.pathname);
+        }
+    }
+
+    function switchToRegister() {
+        clearAlert();
+        document.getElementById('tab-register').classList.add('active');
+        document.getElementById('tab-login').classList.remove('active');
+
+        document.getElementById('auth-main-heading').textContent = "Join Agri Link";
+        document.getElementById('auth-main-subheading').textContent = "Create your digital agricultural account";
+
+        document.getElementById('view-role-select').classList.add('d-none');
+        document.getElementById('view-login-form').classList.add('d-none');
+        document.getElementById('view-register').classList.remove('d-none');
+    }
+
+    function backToRoles() {
+        switchToSignIn();
+    }
+
+    function useDemoNumber() {
+        const role = document.getElementById('auth-role').value || 'farmer';
+        const meta = roleMeta[role] || roleMeta['farmer'];
+        if (meta.demoPhone) {
+            document.getElementById('auth-mobile').value = meta.demoPhone;
+        }
+    }
+
+    // Open detailed login form
+    function openLoginForm(roleKey) {
+        clearAlert();
+        document.getElementById('auth-role').value = roleKey;
+        const meta = roleMeta[roleKey] || roleMeta['farmer'];
+
+        const pill = document.getElementById('active-role-pill');
+        pill.textContent = `${meta.emoji} ${meta.label}`;
+        pill.className = `badge ${meta.badgeClass} px-3 py-2 rounded-pill fw-bold`;
+
+        document.getElementById('view-role-select').classList.add('d-none');
+        document.getElementById('view-register').classList.add('d-none');
+        document.getElementById('view-login-form').classList.remove('d-none');
+
+        if (roleKey === 'admin') {
+            document.getElementById('auth-step-1').classList.add('d-none');
+            document.getElementById('auth-step-2').classList.add('d-none');
+            document.getElementById('auth-buyer-form').classList.add('d-none');
+            document.getElementById('auth-admin-form').classList.remove('d-none');
+            const admInput = document.getElementById('admin-username');
+            if (admInput) admInput.focus();
+        } else if (roleKey === 'buyer') {
+            document.getElementById('auth-step-1').classList.add('d-none');
+            document.getElementById('auth-step-2').classList.add('d-none');
+            document.getElementById('auth-admin-form').classList.add('d-none');
+            document.getElementById('auth-buyer-form').classList.remove('d-none');
+            const buyerInput = document.getElementById('buyer-email');
+            if (buyerInput) buyerInput.focus();
+        } else {
+            document.getElementById('auth-buyer-form').classList.add('d-none');
+            document.getElementById('auth-admin-form').classList.add('d-none');
+            document.getElementById('auth-step-1').classList.remove('d-none');
+            document.getElementById('auth-step-2').classList.add('d-none');
+            document.getElementById('role-heading').textContent = meta.heading;
+            document.getElementById('role-desc').textContent = meta.desc;
+            if (meta.demoPhone) {
+                document.getElementById('auth-mobile').value = meta.demoPhone;
+                const hint = document.getElementById('demo-num-hint');
+                if (hint) hint.textContent = meta.demoPhone;
+            }
+            document.getElementById('auth-mobile').focus();
+        }
+    }
+
+    function editMobileNumber() {
+        document.getElementById('auth-step-2').classList.add('d-none');
+        document.getElementById('auth-step-1').classList.remove('d-none');
+        document.getElementById('auth-mobile').focus();
+    }
+
+    async function resendCurrentOTP() {
+        const mobile = document.getElementById('auth-mobile').value.trim();
+        const role = document.getElementById('auth-role').value || 'farmer';
+        const banner = document.getElementById('otp-info-banner');
+        if (banner) {
+            banner.innerHTML = `<span class="spinner-border spinner-border-sm me-1"></span> Requesting new verification OTP...`;
+        }
+
+        const fullPhone = mobile.startsWith('+91') ? mobile : `+91${mobile}`;
+        try {
+                const resp = await fetch(`${API_BASE}/api/v1/accounts/otp/send/`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ phone: fullPhone, role: role, purpose: 'login' })
+                });
+                const data = await resp.json();
+                const devOtp = data.dev_otp || (data.data && data.data.dev_otp);
+                if (resp.ok && data.success) {
+                    if (devOtp) {
+                        banner.innerHTML = `<i class="bi bi-shield-check me-1"></i> New OTP generated: <strong class="fs-6">${devOtp}</strong><br><button type="button" class="btn btn-sm btn-success py-0 px-2 mt-1 fw-semibold" onclick="document.getElementById('auth-otp').value='${devOtp}'">Auto-fill ${devOtp}</button>`;
+                        document.getElementById('auth-otp').value = devOtp;
+                    } else {
+                        banner.innerHTML = `<i class="bi bi-check-circle me-1"></i> Fresh OTP sent via SMS to +91 ${mobile}`;
+                    }
+                } else {
+                    const err = data.message || data.error || data.detail || "Failed to resend OTP.";
+                    showAlert(err);
+                }
+        } catch(e) {
+            showAlert("Network error while resending OTP.");
+        }
+    }
+
+
+
+    // Step 1: Submit Mobile -> Send OTP
+    document.getElementById('auth-step-1').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        clearAlert();
+        const mobile = document.getElementById('auth-mobile').value.trim();
+        const role = document.getElementById('auth-role').value || 'farmer';
+        const sendBtn = document.getElementById('btn-send-otp');
+
+        if (!/^[0-9]{10}$/.test(mobile)) {
+            showAlert("Please enter a valid 10-digit mobile number.");
+            return;
+        }
+
+        const originalBtnText = sendBtn.innerHTML;
+        sendBtn.disabled = true;
+        sendBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2"></span>Sending Secure OTP...`;
+
+        try {
+            const fullPhone = mobile.startsWith('+91') ? mobile : `+91${mobile}`;
+            const response = await fetch(`${API_BASE}/api/v1/accounts/otp/send/`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ phone: fullPhone, role: role, purpose: 'login' })
+            });
+            const resData = await response.json();
+            const devOtp = resData.dev_otp || (resData.data && resData.data.dev_otp);
+
+            if (response.ok && resData.success) {
+                document.getElementById('display-mobile').textContent = mobile;
+                const banner = document.getElementById('otp-info-banner');
+                if (devOtp) {
+                    banner.innerHTML = `<i class="bi bi-shield-check me-1"></i> Code generated: <strong class="fs-6 text-dark">${devOtp}</strong> (Valid 5 mins)<br><button type="button" class="btn btn-success btn-sm py-0 px-3 mt-1 fw-semibold" onclick="document.getElementById('auth-otp').value='${devOtp}'">Click to Auto-fill ${devOtp}</button>`;
+                    document.getElementById('auth-otp').value = devOtp;
+                } else {
+                    banner.innerHTML = `<i class="bi bi-check-circle me-1"></i> 6-digit verification code sent via SMS to +91 ${mobile}`;
+                }
+
+                document.getElementById('auth-step-1').classList.add('d-none');
+                document.getElementById('auth-step-2').classList.remove('d-none');
+                document.getElementById('auth-otp').focus();
+            } else {
+                let err = resData.message || resData.error || resData.detail || "Unable to send verification OTP.";
+                if (resData.errors) {
+                    if (typeof resData.errors === 'string') {
+                        err = resData.errors;
+                    } else if (typeof resData.errors === 'object') {
+                        const firstErr = Object.values(resData.errors).flat()[0];
+                        if (firstErr) err = firstErr;
+                    }
+                }
+                showAlert(err);
+            }
+        } catch(err) {
+            showAlert("Network error connecting to backend: " + err.message);
+        } finally {
+            sendBtn.disabled = false;
+            sendBtn.innerHTML = originalBtnText;
+        }
+    });
+
+    // Step 2: Submit OTP Verification
+    document.getElementById('auth-step-2').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        clearAlert();
+        const otp = document.getElementById('auth-otp').value.trim();
+        const role = document.getElementById('auth-role').value || 'farmer';
+        const mobile = document.getElementById('auth-mobile').value.trim();
+        const verifyBtn = document.getElementById('btn-verify-otp');
+
+        if (!/^[0-9]{6}$/.test(otp)) {
+            showAlert("Please enter the 6-digit verification code.");
+            return;
+        }
+
+        const originalBtnText = verifyBtn.innerHTML;
+        verifyBtn.disabled = true;
+        verifyBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2"></span>Verifying Credentials...`;
+
+        try {
+            const fullPhone = mobile.startsWith('+91') ? mobile : `+91${mobile}`;
+            const response = await fetch(`${API_BASE}/api/v1/accounts/otp/verify/`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ phone: fullPhone, otp: otp, role: role })
+            });
+            const resData = await response.json();
+
+            if (response.ok && resData.success && resData.data && resData.data.token) {
+                localStorage.setItem('token', resData.data.token);
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('userRole', resData.data.role);
+                localStorage.setItem('userName', resData.data.name || '');
+                localStorage.setItem('userMobile', resData.data.phone || mobile);
+                localStorage.setItem('userId', resData.data.user_id || '');
+
+                showAlert(`<i class="bi bi-check-circle-fill me-1"></i> Verification successful! Opening ${resData.data.role} dashboard...`, false);
+                setTimeout(() => {
+                    window.location.href = resData.data.redirect_url || (role + "_dashboard.html");
+                }, 300);
+            } else {
+                showAlert(resData.error || "Verification failed. The code may be incorrect or expired.");
+            }
+        } catch(err) {
+            showAlert("Network error during verification: " + err.message);
+        } finally {
+            verifyBtn.disabled = false;
+            verifyBtn.innerHTML = originalBtnText;
+        }
+    });
+
+    // Admin Password Form Submit
+    document.getElementById('auth-admin-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        clearAlert();
+        const username = document.getElementById('admin-username').value.trim();
+        const password = document.getElementById('admin-password').value;
+        const adminBtn = document.getElementById('btn-admin-submit');
+
+        const originalBtnText = adminBtn.innerHTML;
+        adminBtn.disabled = true;
+        adminBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2"></span>Authenticating Operations Staff...`;
+
+        try {
+            const response = await fetch(`${API_BASE}/api/v1/accounts/login/`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify({ username: username, password: password, role: 'admin' })
+            });
+            const resData = await response.json();
+
+            if (response.ok && resData.success && resData.data && resData.data.token) {
+                localStorage.setItem('token', resData.data.token);
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('userRole', 'admin');
+                localStorage.setItem('userName', resData.data.name || 'Admin');
+                localStorage.setItem('userId', resData.data.user_id || '');
+
+                showAlert(`<i class="bi bi-shield-check me-1"></i> Admin authorization verified! Redirecting to Operations Portal...`, false);
+                setTimeout(() => {
+                    window.location.href = resData.data.redirect_url || "admin_dashboard.html";
+                }, 300);
+            } else {
+                showAlert(resData.error || "Access denied. Valid administrator credentials required.");
+            }
+        } catch(err) {
+            showAlert("Network error during administrative login: " + err.message);
+        } finally {
+            adminBtn.disabled = false;
+            adminBtn.innerHTML = originalBtnText;
+        }
+    });
+
+    // Buyer Email/Password Form Submit
+    const buyerForm = document.getElementById('auth-buyer-form');
+    if (buyerForm) {
+        buyerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            clearAlert();
+            const email = document.getElementById('buyer-email').value.trim();
+            const password = document.getElementById('buyer-password').value;
+            const buyerBtn = document.getElementById('btn-buyer-submit');
+
+            const originalBtnText = buyerBtn.innerHTML;
+            buyerBtn.disabled = true;
+            buyerBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2"></span>Authenticating Buyer...`;
+
+            try {
+                const response = await fetch(`${API_BASE}/api/v1/accounts/login/`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ identifier: email, email: email, password: password, role: 'buyer' })
+                });
+                const resData = await response.json();
+
+                if (response.ok && resData.success && resData.data && resData.data.token) {
+                    localStorage.setItem('token', resData.data.token);
+                    localStorage.setItem('isLoggedIn', 'true');
+                    localStorage.setItem('userRole', 'buyer');
+                    localStorage.setItem('userName', resData.data.name || 'Produce Buyer');
+                    localStorage.setItem('userMobile', resData.data.phone || '');
+                    localStorage.setItem('userId', resData.data.user_id || '');
+
+                    showAlert(`<i class="bi bi-check-circle-fill me-1"></i> Verified as Buyer! Opening dashboard...`, false);
+                    setTimeout(() => {
+                        window.location.href = resData.data.redirect_url || "buyer_dashboard.html";
+                    }, 300);
+                } else {
+                    showAlert(resData.error || "Buyer authentication failed. Please check your credentials.");
+                }
+            } catch(err) {
+                showAlert("Network error during buyer login: " + err.message);
+            } finally {
+                buyerBtn.disabled = false;
+                buyerBtn.innerHTML = originalBtnText;
+            }
+        });
+    }
+
+    // Registration Form Submit
+    document.getElementById('form-register').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        clearAlert();
+        const selectedRoleRadio = document.querySelector('input[name="reg-role"]:checked');
+        const role = selectedRoleRadio ? selectedRoleRadio.value : 'farmer';
+        const name = document.getElementById('reg-name').value.trim();
+        const mobile = document.getElementById('reg-mobile').value.trim();
+        const email = document.getElementById('reg-email') ? document.getElementById('reg-email').value.trim() : '';
+        const password = document.getElementById('reg-password').value;
+        const confirmPassword = document.getElementById('reg-confirm-password').value;
+        const location = document.getElementById('reg-location').value.trim();
+        const regBtn = document.getElementById('btn-reg-submit');
+
+        if (!/^[0-9]{10}$/.test(mobile)) {
+            showAlert("Please enter a valid 10-digit Indian mobile number.");
+            return;
+        }
+        if (role === 'buyer' && !email) {
+            showAlert("Please enter a valid email address for buyer account registration.");
+            return;
+        }
+        if (password.length < 6) {
+            showAlert("Password must be at least 6 characters long.");
+            return;
+        }
+        if (password !== confirmPassword) {
+            showAlert("Passwords do not match. Please re-enter.");
+            return;
+        }
+
+        const originalBtnText = regBtn.innerHTML;
+        regBtn.disabled = true;
+        regBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2"></span>Creating Digital Account...`;
+
+        try {
+            const response = await fetch(`${API_BASE}/api/v1/accounts/register/`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: name,
+                    phone: mobile,
+                    email: email,
+                    password: password,
+                    confirm_password: confirmPassword,
+                    role: role,
+                    district: location
+                })
+            });
+            const resData = await response.json();
+
+            if (response.ok && resData.success && resData.data && resData.data.token) {
+                localStorage.setItem('token', resData.data.token);
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('userRole', resData.data.role);
+                localStorage.setItem('userName', resData.data.name || name);
+                localStorage.setItem('userMobile', resData.data.phone || mobile);
+                localStorage.setItem('userId', resData.data.user_id || '');
+
+                showAlert(`<i class="bi bi-check-circle-fill me-1"></i> Registration successful! Welcome, ${resData.data.name}. Redirecting...`, false);
+                setTimeout(() => {
+                    window.location.href = resData.data.redirect_url || (role + "_dashboard.html");
+                }, 400);
+            } else {
+                const err = resData.error || "Registration failed.";
+                if (err.includes("already exists")) {
+                    showAlert(`${err} <br><button type="button" class="btn btn-sm btn-outline-danger py-0 px-2 mt-1" onclick="switchToSignIn()">Click to Sign In with this number</button>`);
+                } else {
+                    showAlert(err);
+                }
+            }
+        } catch(err) {
+            showAlert("Network error during registration: " + err.message);
+        } finally {
+            regBtn.disabled = false;
+            regBtn.innerHTML = originalBtnText;
+        }
+    });
+
+    // Check query params on page load
+    const params = new URLSearchParams(window.location.search);
+    const roleParam = params.get('role');
+    const actionParam = params.get('action');
+
+    if (actionParam === 'register') {
+        switchToRegister();
+    } else if (roleParam && roleMeta[roleParam]) {
+        openLoginForm(roleParam);
+    } else {
+        switchToSignIn();
+    }
+    </script>
+</body>
+</html>
