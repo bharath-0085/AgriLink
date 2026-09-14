@@ -18,13 +18,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # ============================================================
 SECRET_KEY = config("SECRET_KEY", default=config("DJANGO_SECRET_KEY", default="django-insecure-change-me-in-production"))
 DEBUG = config("DEBUG", default=config("DJANGO_DEBUG", default=False, cast=bool), cast=bool)
-ALLOWED_HOSTS = config(
-    "DJANGO_ALLOWED_HOSTS",
-    default="localhost,127.0.0.1,.onrender.com",
-    cast=Csv(),
-)
+_raw_hosts = config("DJANGO_ALLOWED_HOSTS", default=config("ALLOWED_HOSTS", default="*"))
+ALLOWED_HOSTS = [h.strip() for h in _raw_hosts.split(",") if h.strip()] if isinstance(_raw_hosts, str) else list(_raw_hosts)
+for _h in ["localhost", "127.0.0.1", ".onrender.com"]:
+    if _h not in ALLOWED_HOSTS and "*" not in ALLOWED_HOSTS:
+        ALLOWED_HOSTS.append(_h)
 RENDER_EXTERNAL_HOSTNAME = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
-if RENDER_EXTERNAL_HOSTNAME and RENDER_EXTERNAL_HOSTNAME not in ALLOWED_HOSTS:
+if RENDER_EXTERNAL_HOSTNAME and RENDER_EXTERNAL_HOSTNAME not in ALLOWED_HOSTS and "*" not in ALLOWED_HOSTS:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
 CSRF_TRUSTED_ORIGINS = config(
@@ -36,6 +36,7 @@ if RENDER_EXTERNAL_HOSTNAME:
     _render_origin = f"https://{RENDER_EXTERNAL_HOSTNAME}"
     if _render_origin not in CSRF_TRUSTED_ORIGINS:
         CSRF_TRUSTED_ORIGINS.append(_render_origin)
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 # ============================================================
 # DUAL DATABASE CONFIGURATION (SQLite / MongoDB Atlas)
@@ -217,6 +218,10 @@ CORS_ALLOWED_ORIGINS = config(
     default="http://localhost:3000,http://127.0.0.1:3000,http://localhost:5500,http://127.0.0.1:5500,http://localhost:8000,http://127.0.0.1:8000",
     cast=Csv(),
 )
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^https:\/\/.*\.onrender\.com$",
+]
+
 
 # ============================================================
 # CLOUDINARY
@@ -274,6 +279,7 @@ WEATHER_CACHE_TTL = 1800  # 30 minutes
 OTP_EXPIRY_SECONDS = 300  # 5 minutes
 OTP_RESEND_COOLDOWN_SECONDS = 30
 OTP_MAX_RETRIES = 5
+ENABLE_DEV_OTP = config("ENABLE_DEV_OTP", default=True, cast=bool)
 
 # ============================================================
 # FIREBASE INITIALIZATION

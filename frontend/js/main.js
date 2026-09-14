@@ -430,7 +430,8 @@ function initCropRecommendation() {
     });
 }
 
-const API_BASE = (window.location.protocol === 'file:' || (window.location.port && window.location.port !== '8000')) 
+const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+const API_BASE = (window.location.protocol === 'file:' || (isLocalhost && window.location.port && window.location.port !== '8000')) 
     ? 'http://127.0.0.1:8000' 
     : '';
 
@@ -716,9 +717,13 @@ function initAuthentication() {
                     const devOtp = resData.dev_otp || (resData.data && resData.data.dev_otp);
                     if (otpBanner) {
                         if (devOtp) {
-                            otpBanner.innerHTML = `<i class="bi bi-shield-check me-1"></i> SMS Dispatch: Code <strong class="fs-6">${devOtp}</strong> (Valid 5 mins)<br><button type="button" class="btn btn-sm btn-outline-success py-0 px-2 mt-1" onclick="document.getElementById('auth-otp').value='${devOtp}'">Auto-fill ${devOtp}</button>`;
+                            otpBanner.innerHTML = `<i class="bi bi-shield-check me-1"></i> SMS Dispatch: Code <strong class="fs-6">${devOtp}</strong> (Valid 5 mins)<br><button type="button" class="btn btn-sm btn-outline-success py-0 px-2 mt-1" onclick="document.getElementById('auth-otp').value='${devOtp}'; document.getElementById('auth-otp').dispatchEvent(new Event('input', {bubbles:true}));">Auto-fill ${devOtp}</button>`;
                             const authOtp = document.getElementById('auth-otp');
-                            if (authOtp) authOtp.value = devOtp;
+                            if (authOtp) {
+                                authOtp.value = devOtp;
+                                authOtp.dispatchEvent(new Event('input', { bubbles: true }));
+                                authOtp.dispatchEvent(new Event('change', { bubbles: true }));
+                            }
                         } else {
                             otpBanner.innerHTML = `<i class="bi bi-check-circle me-1"></i> 6-digit verification code sent via SMS to +91 ${mobileInput}`;
                         }
@@ -958,7 +963,13 @@ function initAuthentication() {
                 const devOtp = data.dev_otp || (data.data && data.data.dev_otp);
                 if (resp.ok && data.success) {
                     if (devOtp) {
-                        otpBanner.innerHTML = `<i class="bi bi-shield-check me-1"></i> New OTP generated: <strong class="fs-6">${devOtp}</strong><br><button type="button" class="btn btn-sm btn-outline-success py-0 px-2 mt-1" onclick="document.getElementById('auth-otp').value='${devOtp}'">Auto-fill ${devOtp}</button>`;
+                        otpBanner.innerHTML = `<i class="bi bi-shield-check me-1"></i> New OTP generated: <strong class="fs-6">${devOtp}</strong><br><button type="button" class="btn btn-sm btn-outline-success py-0 px-2 mt-1" onclick="document.getElementById('auth-otp').value='${devOtp}'; document.getElementById('auth-otp').dispatchEvent(new Event('input', {bubbles:true}));">Auto-fill ${devOtp}</button>`;
+                        const authOtp = document.getElementById('auth-otp');
+                        if (authOtp) {
+                            authOtp.value = devOtp;
+                            authOtp.dispatchEvent(new Event('input', { bubbles: true }));
+                            authOtp.dispatchEvent(new Event('change', { bubbles: true }));
+                        }
                     } else {
                         otpBanner.innerHTML = `<i class="bi bi-check-circle me-1"></i> A fresh verification OTP has been sent via SMS to +91 ${mobileInput}`;
                     }
