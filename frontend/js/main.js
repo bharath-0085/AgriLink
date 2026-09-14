@@ -869,7 +869,7 @@ function initAuthentication() {
                         window.location.href = resData.data.redirect_url || "/admin/";
                     }, 400);
                 } else {
-                    window.showModalAlert(resData.error || "Access denied: Administrator credentials required.");
+                    window.showModalAlert(resData.error || resData.message || "Access denied: Administrator credentials required.");
                 }
             } catch(err) {
                 window.showModalAlert("Network error: " + err.message);
@@ -926,7 +926,7 @@ function initAuthentication() {
                         window.location.href = resData.data.redirect_url || "buyer_dashboard.html";
                     }, 300);
                 } else {
-                    window.showModalAlert(resData.error || "Buyer authentication failed. Please check your credentials.");
+                    window.showModalAlert(resData.error || resData.message || "Buyer authentication failed. Please check your credentials.");
                 }
             } catch(err) {
                 window.showModalAlert("Network error: " + err.message);

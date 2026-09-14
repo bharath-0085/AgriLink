@@ -855,7 +855,7 @@
                     window.location.href = resData.data.redirect_url || "admin_dashboard.html";
                 }, 300);
             } else {
-                showAlert(resData.error || "Access denied. Valid administrator credentials required.");
+                showAlert(resData.error || resData.message || "Access denied. Valid administrator credentials required.");
             }
         } catch(err) {
             showAlert("Network error during administrative login: " + err.message);
@@ -901,7 +901,7 @@
                         window.location.href = resData.data.redirect_url || "buyer_dashboard.html";
                     }, 300);
                 } else {
-                    showAlert(resData.error || "Buyer authentication failed. Please check your credentials.");
+                    showAlert(resData.error || resData.message || "Buyer authentication failed. Please check your credentials.");
                 }
             } catch(err) {
                 showAlert("Network error during buyer login: " + err.message);

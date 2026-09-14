@@ -30,7 +30,7 @@ def success_response(data=None, message="Success", status_code=status.HTTP_200_O
 def error_response(message="An error occurred", errors=None, status_code=status.HTTP_400_BAD_REQUEST):
     """Return a consistent error JSON envelope."""
     return Response(
-        {"success": False, "message": message, "errors": errors},
+        {"success": False, "message": message, "error": message, "errors": errors},
         status=status_code,
     )
 
