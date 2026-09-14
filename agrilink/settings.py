@@ -18,7 +18,24 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # ============================================================
 SECRET_KEY = config("SECRET_KEY", default=config("DJANGO_SECRET_KEY", default="django-insecure-change-me-in-production"))
 DEBUG = config("DEBUG", default=config("DJANGO_DEBUG", default=False, cast=bool), cast=bool)
-ALLOWED_HOSTS = config("DJANGO_ALLOWED_HOSTS", default="localhost,127.0.0.1", cast=Csv())
+ALLOWED_HOSTS = config(
+    "DJANGO_ALLOWED_HOSTS",
+    default="localhost,127.0.0.1,.onrender.com",
+    cast=Csv(),
+)
+RENDER_EXTERNAL_HOSTNAME = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
+if RENDER_EXTERNAL_HOSTNAME and RENDER_EXTERNAL_HOSTNAME not in ALLOWED_HOSTS:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+
+CSRF_TRUSTED_ORIGINS = config(
+    "CSRF_TRUSTED_ORIGINS",
+    default="http://localhost:8000,http://127.0.0.1:8000,https://*.onrender.com",
+    cast=Csv(),
+)
+if RENDER_EXTERNAL_HOSTNAME:
+    _render_origin = f"https://{RENDER_EXTERNAL_HOSTNAME}"
+    if _render_origin not in CSRF_TRUSTED_ORIGINS:
+        CSRF_TRUSTED_ORIGINS.append(_render_origin)
 
 # ============================================================
 # DUAL DATABASE CONFIGURATION (SQLite / MongoDB Atlas)
@@ -98,6 +115,7 @@ else:
 # ============================================================
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -155,6 +173,7 @@ USE_TZ = True
 # ============================================================
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 
 # ============================================================
 # MEDIA FILES
@@ -220,7 +239,7 @@ FIREBASE_SERVICE_ACCOUNT_PATH = config(
 # ============================================================
 # OPENWEATHER API
 # ============================================================
-OPENWEATHER_API_KEY = config("OPENWEATHER_API_KEY", default="")
+OPENWEATHER_API_KEY = config("OPENWEATHER_API_KEY", default=config("WEATHER_API_KEY", default=""))
 
 # ============================================================
 # GOOGLE GEMINI API

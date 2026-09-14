@@ -15,3 +15,5 @@ Pillow
 python-decouple
 requests
 python-dateutil
+gunicorn
+whitenoise
